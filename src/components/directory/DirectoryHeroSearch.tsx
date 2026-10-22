@@ -204,15 +204,15 @@ export default function DirectoryHeroSearch({
       <div className="mx-auto max-w-6xl px-4">
         {/* Headline */}
         <h1 className="bauhaus-heading text-3xl md:text-4xl lg:text-5xl tracking-tight text-center mb-4">
-          Find trusted acting coaches, photographers,
+          Find acting coaches, photographers,
           <br className="hidden md:block" />
           and agents for your child.
         </h1>
 
         {/* Subline */}
         <p className="bauhaus-body text-center text-lg md:text-xl text-white/80 max-w-3xl mx-auto mb-8">
-          Search by category and location. Every listing is reviewed by Child
-          Actor 101.
+          Search by category and location. Look for the 101 Approved badge —
+          awarded by Child Actor 101.
         </p>
 
         {/* Search Panel */}

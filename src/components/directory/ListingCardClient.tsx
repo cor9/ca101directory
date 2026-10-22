@@ -4,6 +4,7 @@ import { CategoryPlaceholder } from "@/components/listing/CategoryPlaceholder";
 import { urlForIcon, urlForImage } from "@/lib/image";
 import { getListingImageUrl } from "@/lib/image-urls";
 import { isIndustryPro } from "@/lib/listings/listingType";
+import { dedupeLabels } from "@/lib/labels";
 import { generateSlugFromItem } from "@/lib/slug-utils";
 import type { ItemInfo } from "@/types";
 import Image from "next/image";
@@ -71,15 +72,14 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
   const isPro = (tier === "pro" || tier === "premium") && !industryPro;
 
   // 2-3 pills: specialties first, then ages, then other categories
-  const pills = Array.from(
-    new Set([
+  const pills = dedupeLabels(
+    [
       ...(item.specialties || []),
       ...ageRanges,
       ...(item.categories || []).slice(1).map((c) => c.name),
-    ]),
-  )
-    .filter(Boolean)
-    .slice(0, 3);
+    ],
+    [firstCategory],
+  ).slice(0, 3);
 
   // Photography-led layouts: portfolio strip (with avatar) > single full-bleed photo
   const strip = gallery.length >= 2 ? gallery.slice(0, 3) : null;
@@ -96,12 +96,17 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
       <Link
         href={`/listing/${slug}`}
         aria-label={`View ${item.name}`}
-        className="relative block aspect-[4/3] w-full shrink-0 overflow-hidden bg-zinc-100"
+        className="relative block aspect-[5/4] w-full shrink-0 overflow-hidden bg-zinc-100"
       >
         {strip ? (
-          <div className="grid h-full w-full grid-cols-3 gap-px bg-white">
+          <div
+            className={`grid h-full w-full gap-px bg-white ${strip.length === 2 ? "grid-cols-2" : "grid-cols-3"}`}
+          >
             {strip.map((src, i) => (
-              <div key={`${i}-${src}`} className="relative h-full overflow-hidden">
+              <div
+                key={`${i}-${src}`}
+                className="relative h-full overflow-hidden"
+              >
                 <Image
                   src={src}
                   alt={i === 0 ? `${item.name} portfolio preview` : ""}
@@ -135,17 +140,26 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
         {(isFeatured || isPro || is101Approved) && (
           <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
             {isFeatured && (
-              <span className="rounded-full bg-[#E4A72E] px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-zinc-900 shadow">
+              <span
+                title="Paid featured placement"
+                className="rounded-full bg-[#E4A72E] px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-zinc-900 shadow"
+              >
                 Featured
               </span>
             )}
             {!isFeatured && isPro && (
-              <span className="rounded-full bg-zinc-900/90 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white shadow">
+              <span
+                title="Pro subscription (a paid plan)"
+                className="rounded-full bg-zinc-900/90 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white shadow"
+              >
                 Pro
               </span>
             )}
             {is101Approved && (
-              <span className="rounded-full bg-[#CC5A47] px-2.5 py-1 text-xs font-bold text-white shadow">
+              <span
+                title="Awarded by Child Actor 101 after an application review"
+                className="rounded-full bg-[#CC5A47] px-2.5 py-1 text-xs font-bold text-white shadow"
+              >
                 101 Approved
               </span>
             )}
@@ -153,14 +167,14 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
         )}
       </Link>
 
-      <div className="flex flex-1 flex-col px-5 pb-5">
+      <div className="flex flex-1 flex-col px-6 pb-6">
         {showAvatar && (
-          <div className="relative -mt-8 mb-2 h-16 w-16 shrink-0 overflow-hidden rounded-full bg-zinc-100 ring-4 ring-white shadow-md">
+          <div className="relative -mt-10 mb-3 h-20 w-20 shrink-0 overflow-hidden rounded-full bg-zinc-100 ring-4 ring-white shadow-md">
             <Image
               src={profileSrc as string}
               alt=""
               fill
-              sizes="64px"
+              sizes="80px"
               className="object-cover object-top"
             />
           </div>
@@ -172,11 +186,11 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
               {firstCategory}
             </p>
           )}
-          <h3 className="line-clamp-2 text-lg font-bold leading-snug text-zinc-900">
+          <h3 className="line-clamp-2 text-xl font-bold leading-snug text-zinc-900">
             {item.name}
           </h3>
           {(locationLabel || online) && (
-            <p className="mt-1 text-sm text-zinc-600">
+            <p className="mt-1.5 text-[15px] text-zinc-600">
               {locationLabel}
               {locationLabel && online ? " · " : ""}
               {online ? "Online available" : ""}
@@ -189,7 +203,7 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
             {pills.map((p) => (
               <span
                 key={p}
-                className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700"
+                className="rounded-full bg-zinc-100 px-3 py-1 text-[13px] font-medium text-zinc-700"
               >
                 {p}
               </span>
@@ -201,7 +215,7 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
         <div className="mt-auto pt-5">
           <Link
             href={`/listing/${slug}`}
-            className="inline-flex w-full items-center justify-center rounded-md bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#E4572E]"
+            className="inline-flex w-full items-center justify-center rounded-md bg-zinc-900 px-4 py-3 text-[15px] font-semibold !text-white transition-colors hover:bg-[#C2441F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:ring-offset-2"
           >
             View Profile
           </Link>

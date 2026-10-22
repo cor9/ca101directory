@@ -26,9 +26,9 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata = constructMetadata({
-  title: "Child Actor 101 Directory - Find Trusted Acting Professionals",
+  title: "Child Actor 101 Vendor Directory - Find Acting Professionals for Your Child",
   description:
-    "Find 250+ trusted acting coaches, headshot photographers, talent agents, and managers for child actors in Los Angeles, New York, Atlanta & nationwide. 101 Approved professionals.",
+    "Find acting coaches, headshot photographers, talent agents, and managers for child actors in Los Angeles, New York, Atlanta & nationwide. Look for the 101 Approved badge.",
   canonicalUrl: `${siteConfig.url}/`,
 });
 
@@ -85,7 +85,7 @@ export default async function Page() {
           <section className="bg-bg-dark border-t border-border-subtle py-6">
             <div className="max-w-6xl mx-auto px-6">
               <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-12 text-sm text-text-muted">
-                <div>1,000+ vetted professionals</div>
+                <div>1,000+ listed professionals</div>
                 <div>25+ industry categories</div>
                 <div>Used by families nationwide</div>
               </div>
@@ -107,7 +107,7 @@ export default async function Page() {
                     </h3>
                     <p className="mt-1 text-sm text-text-muted">
                       List your services where families already come looking for
-                      vetted support.
+                      specialized support.
                     </p>
                   </div>
 

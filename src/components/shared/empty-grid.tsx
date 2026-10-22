@@ -6,7 +6,7 @@ export default function EmptyGrid() {
           This category is growing
         </h3>
         <p className="text-text-secondary mb-2">
-          We're actively adding vetted professionals.
+          We're actively adding professionals.
         </p>
         <p className="text-sm text-text-muted">
           New professionals are added weekly.

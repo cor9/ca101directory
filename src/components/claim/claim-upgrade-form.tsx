@@ -113,7 +113,7 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
       <div className="flex flex-col items-center mb-6 mt-2">
         <Image
           src="/logo.png"
-          alt="Child Actor 101 Directory"
+          alt="Child Actor 101 Vendor Directory"
           width={220}
           height={48}
           priority
@@ -173,7 +173,7 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
             <div className="mt-4 text-center">
               <div className="text-2xl font-semibold">
                 ${PRO_PLAN.price}
-                <span className="text-sm font-normal text-zinc-700">/year</span>
+                <span className="text-sm font-normal text-paper">/year</span>
               </div>
             </div>
           </CardHeader>

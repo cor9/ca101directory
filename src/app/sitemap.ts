@@ -5,7 +5,7 @@ import type { MetadataRoute } from "next";
 const site_url = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 /**
- * Sitemap for Child Actor 101 Directory using Supabase
+ * Sitemap for Child Actor 101 Vendor Directory using Supabase
  * Updated to use Supabase for better SEO and accurate listing data
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

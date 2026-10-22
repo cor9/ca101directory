@@ -5,7 +5,7 @@ import { AuthError, type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
 /**
- * Auth config for Child Actor 101 Directory
+ * Auth config for Child Actor 101 Vendor Directory
  * Email-only authentication using Supabase
  * OAuth providers (Google, Facebook) have been removed
  */

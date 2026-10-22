@@ -5,7 +5,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Getting Started | Help Center",
   description:
-    "Learn how to create your first listing on Child Actor 101 Directory",
+    "Learn how to create your first listing on Child Actor 101 Vendor Directory",
 };
 
 export default function GettingStartedPage() {
@@ -23,7 +23,7 @@ export default function GettingStartedPage() {
         Getting Started
       </h1>
       <p className="bauhaus-body text-xl text-paper mb-8">
-        Welcome to Child Actor 101 Directory! Follow this guide to create your
+        Welcome to Child Actor 101 Vendor Directory! Follow this guide to create your
         professional listing and start connecting with families.
       </p>
 

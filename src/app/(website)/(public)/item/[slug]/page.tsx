@@ -20,7 +20,7 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata | undefined> {
   return constructMetadata({
-    title: "Item - Child Actor 101 Directory",
+    title: "Item - Child Actor 101 Vendor Directory",
     description: "Redirecting to listing page...",
     canonicalUrl: `https://directory.childactor101.com/item/${params.slug}`,
   });

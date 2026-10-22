@@ -111,7 +111,7 @@ export async function generateMetadata({
     const title = `${listing.listing_name} | ${category}${location}`;
     const description =
       listing.what_you_offer ||
-      `Find ${listing.listing_name}${location} — a trusted ${category.toLowerCase()} for child actors on Child Actor 101 Directory.`;
+      `Find ${listing.listing_name}${location} — a trusted ${category.toLowerCase()} for child actors on Child Actor 101 Vendor Directory.`;
 
     // Prefer canonical SEO slug if this is a UUID-based visit
     const needsRedirect = (listing as unknown as { _needsRedirect?: boolean })
@@ -137,7 +137,7 @@ export async function generateMetadata({
           { url: image, width: 1200, height: 630, alt: listing.listing_name },
         ],
         type: "website",
-        siteName: "Child Actor 101 Directory",
+        siteName: "Child Actor 101 Vendor Directory",
       },
       twitter: {
         card: "summary_large_image",
@@ -152,7 +152,7 @@ export async function generateMetadata({
   } catch (error) {
     console.error("generateMetadata error:", error);
     return constructMetadata({
-      title: "Listing - Child Actor 101 Directory",
+      title: "Listing - Child Actor 101 Vendor Directory",
       description: "Professional acting services for young actors",
       canonicalUrl: `${siteConfig.url}/listing/${params.slug}`,
     });
@@ -558,7 +558,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
     return (
       <>
-        <div className="pb-20 sm:pb-0">
+        <div className="pb-20 lg:pb-0">
           {/* Schema.org Structured Data for SEO */}
           <ListingSchema listing={listing} averageRating={averageRating} />
           <VendorProfileViewTracker
@@ -701,7 +701,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
                       </div>
                     )}
 
-                    <div className="mt-6">
+                    {/* Form is built for dark surfaces: keep it on a dark inset */}
+                    <div className="mt-6 rounded-xl bg-[#0D1B2A] p-4 text-white sm:p-6">
                       <SubmitReviewForm
                         vendorId={listing.id}
                         vendorName={listing.listing_name || "this provider"}
@@ -737,23 +738,6 @@ export default async function ListingPage({ params }: ListingPageProps) {
           </ListingLayout>
         </div>
 
-        {/* Mobile sticky contact bar */}
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-800 bg-[#0C1A2B] px-4 py-2 sm:hidden">
-          <div className="mx-auto flex max-w-3xl items-center justify-between">
-            <span className="text-xs text-slate-200">Ready to contact?</span>
-
-            <ContactActions
-              listingId={listing.id}
-              website={listing.website}
-              email={listing.email}
-              listingType={listing.listing_type}
-              plan={listing.plan}
-              comped={listing.comped}
-              variant="mobile"
-              className="flex gap-2"
-            />
-          </div>
-        </div>
       </>
     );
   } catch (error) {

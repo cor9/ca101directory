@@ -91,7 +91,7 @@ export default function HomeHero() {
             <div className="relative backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-white/20">
               <img
                 src="/logo.png"
-                alt="Child Actor 101 Directory Logo"
+                alt="Child Actor 101 Vendor Directory Logo"
                 width={400}
                 height={400}
                 className="w-full h-auto max-w-md mx-auto drop-shadow-lg"

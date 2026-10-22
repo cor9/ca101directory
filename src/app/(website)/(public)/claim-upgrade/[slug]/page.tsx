@@ -7,7 +7,7 @@ import { getListingById, getPublicListings } from "@/data/listings";
 import { notFound, redirect } from "next/navigation";
 
 export const metadata = {
-  title: "Claim & Upgrade Your Listing - Child Actor 101 Directory",
+  title: "Claim & Upgrade Your Listing - Child Actor 101 Vendor Directory",
   description:
     "Claim your business listing and upgrade to a paid plan for full control",
 };

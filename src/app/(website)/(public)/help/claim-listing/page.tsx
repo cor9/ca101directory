@@ -5,7 +5,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "How to Claim Your Listing | Help Center",
   description:
-    "Step-by-step guide to claiming your existing listing on Child Actor 101 Directory",
+    "Step-by-step guide to claiming your existing listing on Child Actor 101 Vendor Directory",
 };
 
 export default function ClaimListingPage() {

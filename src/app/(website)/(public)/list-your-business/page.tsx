@@ -8,7 +8,7 @@ import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";
 
 export const metadata = constructMetadata({
-  title: "List Your Business - Child Actor 101 Directory",
+  title: "List Your Business - Child Actor 101 Vendor Directory",
   description:
     "Get discovered by thousands of families looking for acting professionals. Join the #1 directory for child actor vendors & industry pros.",
   canonicalUrl: `${siteConfig.url}/list-your-business`,

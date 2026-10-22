@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Help | Child Actor 101 Directory",
+  title: "Help | Child Actor 101 Vendor Directory",
   description:
-    "Quick answers for parents and professionals using the Child Actor 101 Directory",
+    "Quick answers for parents and professionals using the Child Actor 101 Vendor Directory",
 };
 
 export default function HelpPage() {

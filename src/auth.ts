@@ -4,7 +4,7 @@ import type { UserRole } from "@/types/user-role";
 import NextAuth from "next-auth";
 
 /**
- * Auth configuration for Child Actor 101 Directory
+ * Auth configuration for Child Actor 101 Vendor Directory
  * Email-only authentication using Supabase
  */
 export const {

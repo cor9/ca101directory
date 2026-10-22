@@ -13,7 +13,7 @@ export default function DirectoryHeader({
         Find Trusted Professionals
       </h1>
       <p className="bauhaus-body mt-4 text-[color:var(--muted)] max-w-2xl">
-        The Child Actor 101 Directory connects families with industry
+        The Child Actor 101 Vendor Directory connects families with industry
         professionals who work with young performers. From classes to career
         support, find trusted services all in one place.
       </p>

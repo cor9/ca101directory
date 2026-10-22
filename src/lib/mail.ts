@@ -432,7 +432,7 @@ export const sendDay7TrafficUpdateEmail = async (payload: {
   const subject =
     count > 0
       ? `${count} parents viewed your listing this week`
-      : "See how parents are finding you in the Child Actor 101 Directory";
+      : "See how parents are finding you in the Child Actor 101 Vendor Directory";
 
   await sendEmail({
     to: payload.vendorEmail,

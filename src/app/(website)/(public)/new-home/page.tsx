@@ -15,9 +15,9 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata = constructMetadata({
-  title: "New Homepage Preview - Child Actor 101 Directory",
+  title: "New Homepage Preview - Child Actor 101 Vendor Directory",
   description:
-    "Preview of the new Patreon-inspired homepage design for Child Actor 101 Directory.",
+    "Preview of the new Patreon-inspired homepage design for Child Actor 101 Vendor Directory.",
   canonicalUrl: `${siteConfig.url}/new-home`,
 });
 

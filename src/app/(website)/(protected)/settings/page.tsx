@@ -8,7 +8,7 @@ import { constructMetadata } from "@/lib/metadata";
 import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
-  title: "Settings - Child Actor 101 Directory",
+  title: "Settings - Child Actor 101 Vendor Directory",
   description: "Manage your account settings and preferences",
   canonicalUrl: `${siteConfig.url}/settings`,
 });

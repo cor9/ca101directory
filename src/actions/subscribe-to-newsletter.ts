@@ -46,7 +46,7 @@ export async function subscribeToNewsletter(
     try {
       const emailSentResult = await sendEmail({
         to: validatedInput.data.email,
-        subject: "Welcome to Child Actor 101 Directory Newsletter!",
+        subject: "Welcome to Child Actor 101 Vendor Directory Newsletter!",
         react: NewsletterWelcomeEmail({ email: validatedInput.data.email }),
       });
 

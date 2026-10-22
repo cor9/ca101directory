@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Clock, Shield, Users } from "lucide-react";
 
 export const metadata = {
-  title: "Claim Your Listing - Child Actor 101 Directory",
+  title: "Claim Your Listing - Child Actor 101 Vendor Directory",
   description:
     "Learn how to claim and manage your business listing in our directory",
 };

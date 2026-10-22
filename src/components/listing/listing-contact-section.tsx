@@ -133,27 +133,21 @@ export function ListingContactSection({
       </div>
 
       {showClaimCallout && (
-        <div
-          className="listing-card"
-          style={{ background: "var(--mustard-yellow)" }}
-        >
+        <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-5">
           <div className="flex items-start gap-4">
-            <div className="flex-shrink-0">
-              <ShieldIcon className="h-8 w-8 text-[var(--faded-red-orange)]" />
-            </div>
-            <div className="flex-1 text-[var(--navy)]">
-              <h2 className="text-lg font-semibold">Own This Business?</h2>
-              <p className="mt-2 text-sm opacity-80">
-                Claim your listing to manage details, unlock upgrades, and stay
-                in touch with new families.
+            <ShieldIcon className="mt-0.5 h-7 w-7 shrink-0 text-[#C2441F]" />
+            <div className="flex-1 text-zinc-900">
+              <h2 className="text-lg font-bold">Own This Business?</h2>
+              <p className="mt-1 text-sm text-zinc-700">
+                Claim your listing to manage details, add photos and video, and
+                connect with families.
               </p>
-              <div className="mt-3">
+              <div className="mt-4">
                 <ClaimButton
                   listingId={listing.id}
                   listingName={listing.listing_name || "Listing"}
                   claimed={listing.is_claimed === true}
                   ownerId={listing.owner_id}
-                  className="btn-primary"
                 />
               </div>
             </div>
@@ -169,38 +163,30 @@ export function ListingContactSection({
       */}
 
       {showUpgradePrompt && (
-        <div className="listing-card" style={{ background: "var(--cream)" }}>
-          <div className="flex items-start gap-3">
-            <span className="text-2xl" aria-hidden>
-              📈
-            </span>
-            <div className="space-y-3 text-[var(--navy)]">
-              <h3 className="font-semibold text-[var(--faded-red-orange)]">
-                Ready to add more details?
-              </h3>
-              <p className="text-sm opacity-80">
-                Upgrade to share your audience fit, unique approach, and service
-                formats directly on your profile.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                <Link
-                  href="/pricing"
-                  className="inline-flex items-center rounded-md bg-[var(--faded-red-orange)] px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-[var(--mustard-yellow)] hover:text-[var(--navy)]"
-                >
-                  View Pricing Plans
-                </Link>
-                <Link
-                  href="/plan-selection"
-                  className="inline-flex items-center rounded-md border border-[var(--faded-red-orange)] px-3 py-2 text-sm font-semibold text-[var(--faded-red-orange)] transition-colors hover:bg-[var(--faded-red-orange)] hover:text-white"
-                >
-                  Upgrade Listing
-                </Link>
-              </div>
+        <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-5">
+          <div className="space-y-3 text-zinc-900">
+            <h3 className="text-lg font-bold">Ready to add more details?</h3>
+            <p className="text-sm text-zinc-700">
+              Upgrade to Pro to add a portfolio gallery, video and social links
+              to your profile.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <Link
+                href="/pricing"
+                className="inline-flex items-center rounded-md bg-[#C2441F] px-4 py-2 text-sm font-semibold !text-white transition-colors hover:bg-[#A93A19] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:ring-offset-2"
+              >
+                View Pricing
+              </Link>
+              <Link
+                href="/plan-selection"
+                className="inline-flex items-center rounded-md border border-zinc-900 px-4 py-2 text-sm font-semibold !text-zinc-900 transition-colors hover:bg-zinc-900 hover:!text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:ring-offset-2"
+              >
+                Upgrade Listing
+              </Link>
             </div>
           </div>
         </div>
       )}
-
     </section>
   );
 }

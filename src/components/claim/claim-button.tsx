@@ -3,7 +3,11 @@
 import { trackVendorClaimClick } from "@/components/analytics/ga-events";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
+
+const CLAIM_BTN =
+  "border-zinc-900 bg-zinc-900 text-white hover:border-[#C2441F] hover:bg-[#C2441F]";
 
 interface ClaimButtonProps {
   listingId: string;
@@ -32,7 +36,7 @@ export function ClaimButton({
     const signUpUrl = `/auth/register?callbackUrl=${encodeURIComponent(`/claim/listing/${listingId}`)}`;
 
     return (
-      <Button asChild variant="outline" className={className}>
+      <Button asChild className={cn(CLAIM_BTN, className)}>
         <Link
           href={signUpUrl}
           onClick={() =>
@@ -49,7 +53,7 @@ export function ClaimButton({
   const claimUrl = `/claim/listing/${listingId}`;
 
   return (
-    <Button asChild variant="outline" className={className}>
+    <Button asChild className={cn(CLAIM_BTN, className)}>
       <Link
         href={claimUrl}
         onClick={() =>

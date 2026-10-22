@@ -20,7 +20,7 @@ function isValidOrigin(requestHeaders: Headers): boolean {
 }
 
 /**
- * Simplified email sending for Child Actor 101 Directory
+ * Simplified email sending for Child Actor 101 Vendor Directory
  * This will be extended to integrate with Airtable when needed
  */
 export async function POST(request: Request) {

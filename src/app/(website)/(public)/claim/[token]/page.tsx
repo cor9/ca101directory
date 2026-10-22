@@ -5,7 +5,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export const metadata = {
-  title: "Claim Your Listing - Child Actor 101 Directory",
+  title: "Claim Your Listing - Child Actor 101 Vendor Directory",
   description: "Securely claim your listing and manage or upgrade.",
 };
 

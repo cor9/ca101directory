@@ -23,7 +23,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
-  title: "My Submissions - Child Actor 101 Directory",
+  title: "My Submissions - Child Actor 101 Vendor Directory",
   description: "View and manage your submitted listings",
   canonicalUrl: `${siteConfig.url}/dashboard/submissions`,
   noIndex: true,

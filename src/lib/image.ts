@@ -1,5 +1,5 @@
 /**
- * Simplified image utilities for Child Actor 101 Directory
+ * Simplified image utilities for Child Actor 101 Vendor Directory
  * Since we're using Airtable, images are direct URLs
  */
 

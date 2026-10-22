@@ -16,10 +16,10 @@ export function ProfileSection({
   return (
     <section
       id={id}
-      className={cn("border-t border-zinc-200 px-6 py-8 sm:px-8", className)}
+      className={cn("border-t border-zinc-200 px-6 py-10 sm:px-10 sm:py-12", className)}
     >
       {title && (
-        <h2 className="mb-4 text-xl font-bold text-zinc-900">{title}</h2>
+        <h2 className="mb-6 text-2xl font-bold text-zinc-900">{title}</h2>
       )}
       {children}
     </section>

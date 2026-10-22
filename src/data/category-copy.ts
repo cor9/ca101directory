@@ -2,7 +2,7 @@ export const categoryCopyData = [
   {
     category_name: "Acting Classes & Coaches",
     intro_text:
-      "Entering the world of acting can feel overwhelming, but quality acting classes and coaches provide an anchor for your child. They nurture confidence through safe, supportive instruction and create space for professional growth so budding actors thrive. Explore {{count}} trusted Acting Classes & Coaches specializing in child and teen performers.",
+      "Entering the world of acting can feel overwhelming, but quality acting classes and coaches provide an anchor for your child. They nurture confidence through safe, supportive instruction and create space for professional growth so budding actors thrive. Browse {{count}} listed Acting Classes & Coaches specializing in child and teen performers.",
     why_you_need:
       "✓ Build foundational skills through structured training and personalized feedback\n✓ Foster self-confidence, empathy, and focus in a supportive environment\n✓ Encourage discipline and perseverance for a sustainable career.\n✓ Gain exposure to industry techniques and audition practices.\n✓ Provide mentorship and networking opportunities with peers and professionals.",
     what_to_look_for:
@@ -11,7 +11,7 @@ export const categoryCopyData = [
   {
     category_name: "Acting Schools",
     intro_text:
-      "A reputable acting school weaves training, mentorship, and community into a single environment. Parents seeking quality programs can feel confident that a structured curriculum builds foundational skills and offers professional growth opportunities. Explore {{count}} trusted Acting Schools specializing in child and teen performers.",
+      "A reputable acting school weaves training, mentorship, and community into a single environment. Parents seeking quality programs can feel confident that a structured curriculum builds foundational skills and offers professional growth opportunities. Browse {{count}} listed Acting Schools specializing in child and teen performers.",
     why_you_need:
       "✓ Structured programs cultivate discipline and long-term skill development.\n✓ Integrated academics and arts ensure balanced learning for young performers.\n✓ Provide industry connections and performance opportunities.\n✓ Offer exposure to various acting methods, from Meisner to on-camera work.\n✓ Create a supportive community that encourages collaboration and confidence.",
     what_to_look_for:
@@ -20,7 +20,7 @@ export const categoryCopyData = [
   {
     category_name: "Actor Websites",
     intro_text:
-      "In today’s digital landscape, a polished actor website acts as your child’s professional home base. This quality portfolio builds confidence with casting directors and grows professional opportunities by showcasing reels, headshots, and credentials. Explore {{count}} trusted Actor Websites specializing in child and teen performers.",
+      "In today’s digital landscape, a polished actor website acts as your child’s professional home base. This quality portfolio builds confidence with casting directors and grows professional opportunities by showcasing reels, headshots, and credentials. Browse {{count}} listed Actor Websites specializing in child and teen performers.",
     why_you_need:
       "✓ Serve as a centralized hub for headshots, reels, resumes, and contact info.\n✓ Provide credibility and professionalism to casting directors and agents.\n✓ Allow your child to control their narrative and showcase personal branding.\n✓ Offer a platform for updates on projects, training, and achievements.\n✓ Make it easy for industry professionals to view and share your child's work.",
     what_to_look_for:
@@ -29,7 +29,7 @@ export const categoryCopyData = [
   {
     category_name: "Audition Prep",
     intro_text:
-      "Auditions are the gateway to roles, and audition preparation services equip young performers with the tools to face them with confidence. These quality sessions sharpen cold-reading skills, reduce anxiety, and set the stage for lasting professional growth. Explore {{count}} trusted Audition Prep specializing in child and teen performers.",
+      "Auditions are the gateway to roles, and audition preparation services equip young performers with the tools to face them with confidence. These quality sessions sharpen cold-reading skills, reduce anxiety, and set the stage for lasting professional growth. Browse {{count}} listed Audition Prep specializing in child and teen performers.",
     why_you_need:
       "✓ Helps actors interpret scripts quickly and make strong choices under pressure.\n✓ Reduces performance anxiety and builds confidence in audition rooms.\n✓ Teaches etiquette and professionalism that casting directors appreciate.\n✓ Provides feedback on pacing, diction, and body language.\n✓ Prepares kids for a variety of audition formats, including self-tapes.",
     what_to_look_for:
@@ -38,7 +38,7 @@ export const categoryCopyData = [
   {
     category_name: "Background Casting",
     intro_text:
-      "Background or extra roles offer an accessible path to set experience for aspiring actors. With quality supervision, kids gain confidence on real sets and start building credits that support long-term professional growth. Explore {{count}} trusted Background Casting specializing in child and teen performers.",
+      "Background or extra roles offer an accessible path to set experience for aspiring actors. With quality supervision, kids gain confidence on real sets and start building credits that support long-term professional growth. Browse {{count}} listed Background Casting specializing in child and teen performers.",
     why_you_need:
       "✓ Introduces young actors to the rhythm and etiquette of professional sets\n✓ Builds patience, listening skills, and teamwork as part of a film crew\n✓ Provides a pathway to earn credits and start a professional résumé.\n✓ Offers a safe environment with studio teachers ensuring education\n✓ May lead to upgrades to principal roles and union eligibility",
     what_to_look_for:
@@ -47,7 +47,7 @@ export const categoryCopyData = [
   {
     category_name: "Branding Coaches",
     intro_text:
-      "A clear personal brand helps a young performer stand out in a crowded industry. Branding coaches guide families through quality messaging and visual identity choices that instill confidence and lay the groundwork for professional growth. Explore {{count}} trusted Branding Coaches specializing in child and teen performers.",
+      "A clear personal brand helps a young performer stand out in a crowded industry. Branding coaches guide families through quality messaging and visual identity choices that instill confidence and lay the groundwork for professional growth. Browse {{count}} listed Branding Coaches specializing in child and teen performers.",
     why_you_need:
       "✓ Clarify your child’s unique selling points and market positioning.\n✓ Develop consistent messaging across photos, reels, and social media.\n✓ Increase visibility and help your child stand out to casting directors.\n✓ Build confidence by aligning their personal identity with career goals.\n✓ Provide strategic guidance on wardrobe, style, and communication.",
     what_to_look_for:
@@ -56,7 +56,7 @@ export const categoryCopyData = [
   {
     category_name: "Business of Acting",
     intro_text:
-      "Show business is as much business as show. Learning the financial, legal, and practical side of acting gives parents confidence that their child’s career is built on quality decisions and long-term professional growth. Explore {{count}} trusted Business of Acting services specializing in child and teen performers.",
+      "Show business is as much business as show. Learning the financial, legal, and practical side of acting gives parents confidence that their child’s career is built on quality decisions and long-term professional growth. Browse {{count}} listed Business of Acting services specializing in child and teen performers.",
     why_you_need:
       "✓ Understand contracts, unions, and legal requirements affecting minors.\n✓ Learn how to budget for classes, headshots, travel, and trust accounts\n✓ Gain knowledge about taxes, residuals, and financial planning.\n✓ Develop professional etiquette and networking skills.\n✓ Treat your child’s career like a business for sustainability.",
     what_to_look_for:
@@ -65,7 +65,7 @@ export const categoryCopyData = [
   {
     category_name: "Career Consulting",
     intro_text:
-      "Career consultants offer experienced insight to help parents and young performers navigate complex industry pathways. Their quality advice empowers families, builds confidence in decision-making, and keeps professional growth on track. Explore {{count}} trusted Career Consulting specializing in child and teen performers.",
+      "Career consultants offer experienced insight to help parents and young performers navigate complex industry pathways. Their quality advice empowers families, builds confidence in decision-making, and keeps professional growth on track. Browse {{count}} listed Career Consulting specializing in child and teen performers.",
     why_you_need:
       "✓ Receive personalized roadmaps based on your child’s strengths and goals.\n✓ Avoid common pitfalls and scams in the acting industry.\n✓ Connect with agents, managers, and casting through referrals.\n✓ Stay motivated and focused with professional accountability.\n✓ Identify opportunities for diversification, such as voiceover or modeling.",
     what_to_look_for:
@@ -74,7 +74,7 @@ export const categoryCopyData = [
   {
     category_name: "Casting Workshops",
     intro_text:
-      "Casting workshops provide a rare glimpse into the casting process and a safe space to practice under industry professionals. These quality sessions help kids gain confidence, refine audition skills, and fuel professional growth. Explore {{count}} trusted Casting Workshops specializing in child and teen performers.",
+      "Casting workshops provide a rare glimpse into the casting process and a safe space to practice under industry professionals. These quality sessions help kids gain confidence, refine audition skills, and fuel professional growth. Browse {{count}} listed Casting Workshops specializing in child and teen performers.",
     why_you_need:
       "✓ Gain insights into how casting directors think and what they value.\n✓ Practice audition material with professional feedback.\n✓ Build relationships with industry decision-makers.\n✓ Learn about current trends and upcoming projects.\n✓ Boost confidence through real-time coaching and scene work.",
     what_to_look_for:
@@ -83,7 +83,7 @@ export const categoryCopyData = [
   {
     category_name: "Child Advocacy",
     intro_text:
-      "Ensuring the well-being of child performers is paramount. Child advocates champion safety, education, and legal protections so families can pursue opportunities with confidence, quality support, and a focus on healthy professional growth. Explore {{count}} trusted Child Advocacy services specializing in child and teen performers.",
+      "Ensuring the well-being of child performers is paramount. Child advocates champion safety, education, and legal protections so families can pursue opportunities with confidence, quality support, and a focus on healthy professional growth. Browse {{count}} listed Child Advocacy services specializing in child and teen performers.",
     why_you_need:
       "✓ Protects your child’s rights, safety, and education on set.\n✓ Ensures compliance with child labor laws and union rules.\n✓ Provides resources and community for parents navigating the industry.\n✓ Promotes mental health and well-being alongside career ambitions.\n✓ Advocates for fair compensation and equitable treatment.",
     what_to_look_for:
@@ -92,7 +92,7 @@ export const categoryCopyData = [
   {
     category_name: "Comedy Coaches",
     intro_text:
-      "Comedy coaches nurture a young actor’s timing, wit, and unique sense of humor. Through quality instruction, they foster confidence on stage and screen and encourage professional growth with bold comedic choices. Explore {{count}} trusted Comedy Coaches specializing in child and teen performers.",
+      "Comedy coaches nurture a young actor’s timing, wit, and unique sense of humor. Through quality instruction, they foster confidence on stage and screen and encourage professional growth with bold comedic choices. Browse {{count}} listed Comedy Coaches specializing in child and teen performers.",
     why_you_need:
       "✓ Develop timing, rhythm, and storytelling unique to comedic performance.\n✓ Encourage risk-taking and discovery of your child’s comedic voice.\n✓ Teach techniques for stand-up, sitcoms, and improv.\n✓ Provide constructive feedback to refine jokes and characters.\n✓ Help transition comedic skills to auditions and other mediums.",
     what_to_look_for:
@@ -101,7 +101,7 @@ export const categoryCopyData = [
   {
     category_name: "Content Creators",
     intro_text:
-      "Capturing your child’s talent through professional content is more important than ever. Content creators design quality reels and short-form projects that build confidence and momentum toward professional growth. Explore {{count}} trusted Content Creators specializing in child and teen performers.",
+      "Capturing your child’s talent through professional content is more important than ever. Content creators design quality reels and short-form projects that build confidence and momentum toward professional growth. Browse {{count}} listed Content Creators specializing in child and teen performers.",
     why_you_need:
       "✓ Produce professional footage for demo reels, social media, and auditions.\n✓ Highlight your child’s unique look, personality, and range.\n✓ Offer creative direction that aligns with your child’s brand.\n✓ Ensure technical quality in lighting, sound, and editing.\n✓ Deliver content quickly so you can seize opportunities.",
     what_to_look_for:
@@ -110,7 +110,7 @@ export const categoryCopyData = [
   {
     category_name: "Cosmetic Dentistry",
     intro_text:
-      "A healthy, camera-ready smile can boost a young performer’s confidence. Cosmetic dentistry for actors focuses on quality care and subtle improvements that support professional growth without compromising authenticity. Explore {{count}} trusted Cosmetic Dentistry specializing in child and teen performers.",
+      "A healthy, camera-ready smile can boost a young performer’s confidence. Cosmetic dentistry for actors focuses on quality care and subtle improvements that support professional growth without compromising authenticity. Browse {{count}} listed Cosmetic Dentistry specializing in child and teen performers.",
     why_you_need:
       "✓ Address dental issues that might affect casting, like misalignment or staining.\n✓ Enhance your child’s natural smile without changing their character.\n✓ Boost self-esteem and camera confidence.\n✓ Prevent future dental problems that could disrupt shoots.\n✓ Ensure good oral health, which supports overall well-being.",
     what_to_look_for:
@@ -119,7 +119,7 @@ export const categoryCopyData = [
   {
     category_name: "Dance Classes",
     intro_text:
-      "Dance classes develop body awareness, rhythm, and stage presence in young actors. Quality instruction fosters confidence and complements professional growth across acting and musical theater. Explore {{count}} trusted Dance Classes specializing in child and teen performers.",
+      "Dance classes develop body awareness, rhythm, and stage presence in young actors. Quality instruction fosters confidence and complements professional growth across acting and musical theater. Browse {{count}} listed Dance Classes specializing in child and teen performers.",
     why_you_need:
       "✓ Develop coordination, rhythm, and body awareness essential for stage and screen.\n✓ Enhance musicality and timing for auditions and musical theatre roles.\n✓ Build discipline, stamina, and focus through regular practice.\n✓ Encourage creative expression and storytelling through movement.\n✓ Foster teamwork and respect in group dance settings.",
     what_to_look_for:
@@ -128,7 +128,7 @@ export const categoryCopyData = [
   {
     category_name: "Demo Reel Creators",
     intro_text:
-      "A polished demo reel is a calling card for your child’s talent. Professional editors compile quality footage to showcase range and instill confidence in casting directors, accelerating professional growth Explore {{count}} trusted Demo Reel Creators specializing in child and teen performers.",
+      "A polished demo reel is a calling card for your child’s talent. Professional editors compile quality footage to showcase range and instill confidence in casting directors, accelerating professional growth Browse {{count}} listed Demo Reel Creators specializing in child and teen performers.",
     why_you_need:
       "✓ Consolidate your child’s best performances into a concise reel\n✓ Ensure professional-quality sound and visuals that meet industry standards\n✓ Highlight range with well-chosen scenes and strong pacing\n✓ Provide expert advice on scene selection and order.\n✓ Deliver a polished product that casting directors can’t ignore.",
     what_to_look_for:
@@ -137,7 +137,7 @@ export const categoryCopyData = [
   {
     category_name: "Dialect Coach",
     intro_text:
-      "A dialect coach helps young actors master accents, pronunciation, and speech patterns, enhancing authenticity. Their quality guidance boosts confidence and opens doors to diverse roles, fostering professional growth. Explore {{count}} trusted Dialect Coaches specializing in child and teen performers.",
+      "A dialect coach helps young actors master accents, pronunciation, and speech patterns, enhancing authenticity. Their quality guidance boosts confidence and opens doors to diverse roles, fostering professional growth. Browse {{count}} listed Dialect Coaches specializing in child and teen performers.",
     why_you_need:
       "✓ Master accents and dialects for roles requiring specific regional or period speech.\n✓ Improve articulation and diction for clearer performances\n✓ Increase your child’s marketability by expanding their casting range.\n✓ Avoid offensive stereotypes by learning authentic pronunciation.\n✓ Build confidence by practicing challenging speech patterns.",
     what_to_look_for:
@@ -146,7 +146,7 @@ export const categoryCopyData = [
   {
     category_name: "Entertainment Lawyers",
     intro_text:
-      "Entertainment lawyers safeguard your child’s creative work and negotiate on their behalf. With deep knowledge of the industry, they ensure quality contracts, inspire confidence, and support professional growth Explore {{count}} trusted Entertainment Lawyers specializing in child and teen performers.",
+      "Entertainment lawyers safeguard your child’s creative work and negotiate on their behalf. With deep knowledge of the industry, they ensure quality contracts, inspire confidence, and support professional growth Browse {{count}} listed Entertainment Lawyers specializing in child and teen performers.",
     why_you_need:
       "✓ Review and negotiate contracts to protect rights and fair compensation\n✓ Advise on intellectual property and copyright issues\n✓ Handle complex deals like exclusivity, series options, and merchandising\n✓ Ensure compliance with labor laws and union regulations.\n✓ Provide a trusted ally when legal issues arise.",
     what_to_look_for:
@@ -155,7 +155,7 @@ export const categoryCopyData = [
   {
     category_name: "Event Calendars",
     intro_text:
-      "Keeping track of auditions, classes, and showcases is daunting. Event calendars curate quality opportunities, allowing parents to plan with confidence and prioritize activities that support professional growth. Explore {{count}} trusted Event Calendars specializing in child and teen performers.",
+      "Keeping track of auditions, classes, and showcases is daunting. Event calendars curate quality opportunities, allowing parents to plan with confidence and prioritize activities that support professional growth. Browse {{count}} listed Event Calendars specializing in child and teen performers.",
     why_you_need:
       "✓ Streamline scheduling by tracking auditions, workshops, and deadlines.\n✓ Avoid missing casting calls or important networking events.\n✓ Plan training and rest to prevent burnout.\n✓ Discover new opportunities you might otherwise overlook.\n✓ Keep the whole family organized and informed.",
     what_to_look_for:
@@ -164,7 +164,7 @@ export const categoryCopyData = [
   {
     category_name: "Financial Advisors",
     intro_text:
-      "Managing unpredictable income is a challenge for any performer. Financial advisors help families make quality decisions about savings, investments, and tax planning, building confidence and supporting long-term professional growth Explore {{count}} trusted Financial Advisors specializing in child and teen performers.",
+      "Managing unpredictable income is a challenge for any performer. Financial advisors help families make quality decisions about savings, investments, and tax planning, building confidence and supporting long-term professional growth Browse {{count}} listed Financial Advisors specializing in child and teen performers.",
     why_you_need:
       "✓ Navigate irregular income and plan for taxes and trust accounts\n✓ Allocate earnings toward college, retirement, or other long-term goals\n✓ Teach kids budgeting and financial responsibility\n✓ Ensure compliance with state laws regarding minor earnings\n✓ Protect your family’s financial security during lean periods.",
     what_to_look_for:
@@ -173,7 +173,7 @@ export const categoryCopyData = [
   {
     category_name: "Hair/Makeup Artists",
     intro_text:
-      "Professional hair and makeup artists transform young actors for auditions, shoots, and performances. Their quality artistry enhances confidence and ensures your child presents a polished image, aiding professional growth. Explore {{count}} trusted Hair/Makeup Artists specializing in child and teen performers.",
+      "Professional hair and makeup artists transform young actors for auditions, shoots, and performances. Their quality artistry enhances confidence and ensures your child presents a polished image, aiding professional growth. Browse {{count}} listed Hair/Makeup Artists specializing in child and teen performers.",
     why_you_need:
       "✓ Create camera-ready looks for auditions, shoots, and live performances.\n✓ Help young actors feel confident and express characters authentically.\n✓ Ensure hygiene and skin/hair health under varying conditions.\n✓ Adapt styles to fit period pieces, commercials, or fantasy roles.\n✓ Provide quick touch-ups to keep performers fresh on set.",
     what_to_look_for:
@@ -182,7 +182,7 @@ export const categoryCopyData = [
   {
     category_name: "Headshot Photographers",
     intro_text:
-      "Your child’s headshot is often their first impression. A skilled photographer captures quality, natural images that stand out and boost confidence in casting rooms Professional headshots are a cornerstone of professional growth. Explore {{count}} trusted Headshot Photographers specializing in child and teen performers.",
+      "Your child’s headshot is often their first impression. A skilled photographer captures quality, natural images that stand out and boost confidence in casting rooms Professional headshots are a cornerstone of professional growth. Browse {{count}} listed Headshot Photographers specializing in child and teen performers.",
     why_you_need:
       "✓ Professional headshots are the first step to getting auditions\n✓ A great headshot catches casting directors’ eyes and showcases personality\n✓ Regular updates keep your child’s look current as they grow.\n✓ Quality photos demonstrate commitment and professionalism.\n✓ Strong images can lead to more bookings and representation.",
     what_to_look_for:
@@ -191,7 +191,7 @@ export const categoryCopyData = [
   {
     category_name: "Improv Classes",
     intro_text:
-      "Improv classes encourage spontaneity and fearless creativity, traits that enrich any acting style. These quality workshops build confidence, teach listening, and accelerate professional growth Explore {{count}} trusted Improv Classes specializing in child and teen performers.",
+      "Improv classes encourage spontaneity and fearless creativity, traits that enrich any acting style. These quality workshops build confidence, teach listening, and accelerate professional growth Browse {{count}} listed Improv Classes specializing in child and teen performers.",
     why_you_need:
       "✓ Encourages spontaneity, creativity, and trust in instincts\n✓ Improves listening, collaboration, and honest reactions\n✓ Speeds up overall acting development when combined with formal training\n✓ Strengthens audition skills and adaptability for cold reads\n✓ Increases opportunities as casting directors value improv experience",
     what_to_look_for:
@@ -200,7 +200,7 @@ export const categoryCopyData = [
   {
     category_name: "Influencer Agents",
     intro_text:
-      "Influencer agents connect young talent with brand opportunities and manage collaborations. By maintaining quality partnerships and safeguarding your child’s image, they instill confidence and drive professional growth in the digital space. Explore {{count}} trusted Influencer Agents specializing in child and teen performers.",
+      "Influencer agents connect young talent with brand opportunities and manage collaborations. By maintaining quality partnerships and safeguarding your child’s image, they instill confidence and drive professional growth in the digital space. Browse {{count}} listed Influencer Agents specializing in child and teen performers.",
     why_you_need:
       "✓ Negotiate brand deals and sponsored content fairly.\n✓ Protect your child’s image and ensure age-appropriate partnerships.\n✓ Expand your child’s reach by connecting with aligned brands.\n✓ Help manage platform algorithms and posting schedules.\n✓ Provide guidance on online behavior and compliance with advertising rules.",
     what_to_look_for:
@@ -209,7 +209,7 @@ export const categoryCopyData = [
   {
     category_name: "Lifestyle Photographers",
     intro_text:
-      "Lifestyle photographers capture candid, story-driven images that complement headshots and reels. Their quality shoots boost confidence and enrich your child’s portfolio for professional growth. Explore {{count}} trusted Lifestyle Photographers specializing in child and teen performers.",
+      "Lifestyle photographers capture candid, story-driven images that complement headshots and reels. Their quality shoots boost confidence and enrich your child’s portfolio for professional growth. Browse {{count}} listed Lifestyle Photographers specializing in child and teen performers.",
     why_you_need:
       "✓ Showcase your child’s personality in natural settings.\n✓ Provide variety to complement headshots and reels.\n✓ Capture behind-the-scenes moments for social media and press.\n✓ Create content that feels authentic and relatable.\n✓ Build a visual narrative that supports casting and branding.",
     what_to_look_for:
@@ -218,7 +218,7 @@ export const categoryCopyData = [
   {
     category_name: "Mental Health for Performers",
     intro_text:
-      "Performing arts can be exhilarating and stressful. Mental health professionals who understand performers offer quality support to help young actors navigate unique stressors and maintain confidence and professional growth. Explore {{count}} trusted Mental Health for Performers specializing in child and teen performers.",
+      "Performing arts can be exhilarating and stressful. Mental health professionals who understand performers offer quality support to help young actors navigate unique stressors and maintain confidence and professional growth. Browse {{count}} listed Mental Health for Performers specializing in child and teen performers.",
     why_you_need:
       "✓ Address unique psychological and social stressors of performing\n✓ Provide coping strategies for rejection, competition, and irregular work\n✓ Support emotional development and identity beyond performance roles\n✓ Educate parents and children about healthy boundaries and expectations\n✓ Offer a confidential space to discuss concerns and celebrate successes.",
     what_to_look_for:
@@ -227,7 +227,7 @@ export const categoryCopyData = [
   {
     category_name: "Modeling Portfolios",
     intro_text:
-      "A comprehensive modeling portfolio showcases versatility and range. Quality images curated by experts build confidence and lay the foundation for professional growth in print and runway work. Explore {{count}} trusted Modeling Portfolios specializing in child and teen performers.",
+      "A comprehensive modeling portfolio showcases versatility and range. Quality images curated by experts build confidence and lay the foundation for professional growth in print and runway work. Browse {{count}} listed Modeling Portfolios specializing in child and teen performers.",
     why_you_need:
       "✓ Present a variety of looks to potential clients and agencies.\n✓ Demonstrate versatility and the ability to embody different styles.\n✓ Keep visuals current as your child grows and trends change.\n✓ Provide a professional presentation for print and digital submissions.\n✓ Build confidence by seeing themselves represented professionally.",
     what_to_look_for:
@@ -236,7 +236,7 @@ export const categoryCopyData = [
   {
     category_name: "Modeling/Print Agents",
     intro_text:
-      "Print and modeling agents connect young talent with campaigns and ensure fair contracts. Their quality representation builds confidence and paves the way for sustained professional growth. Explore {{count}} trusted Modeling/Print Agents specializing in child and teen performers.",
+      "Print and modeling agents connect young talent with campaigns and ensure fair contracts. Their quality representation builds confidence and paves the way for sustained professional growth. Browse {{count}} listed Modeling/Print Agents specializing in child and teen performers.",
     why_you_need:
       "✓ Secure bookings for commercial, catalog, and print campaigns.\n✓ Negotiate fair contracts and protect your child’s earnings.\n✓ Advise on portfolio updates and industry trends.\n✓ Manage auditions and go-sees to streamline scheduling.\n✓ Provide insight into which markets and brands fit your child’s look.",
     what_to_look_for:
@@ -245,7 +245,7 @@ export const categoryCopyData = [
   {
     category_name: "Publicists",
     intro_text:
-      "Publicists shape how the world sees your child. Strategic public relations and media coaching offer quality exposure, protect privacy, and nurture confidence, supporting professional growth. Explore {{count}} trusted Publicists specializing in child and teen performers.",
+      "Publicists shape how the world sees your child. Strategic public relations and media coaching offer quality exposure, protect privacy, and nurture confidence, supporting professional growth. Browse {{count}} listed Publicists specializing in child and teen performers.",
     why_you_need:
       "✓ Shape public perception through strategic media outreach.\n✓ Manage press releases, interviews, and red carpet appearances.\n✓ Address negative publicity or misinformation swiftly.\n✓ Coordinate with agents and managers to align messaging.\n✓ Build long-term visibility beyond single projects.",
     what_to_look_for:
@@ -254,7 +254,7 @@ export const categoryCopyData = [
   {
     category_name: "Reel Editors",
     intro_text:
-      "Even the strongest footage needs a storyteller. Reel editors refine scenes into compelling narratives, ensuring quality pacing and technical polish that inspire confidence and support professional growth. Explore {{count}} trusted Reel Editors specializing in child and teen performers.",
+      "Even the strongest footage needs a storyteller. Reel editors refine scenes into compelling narratives, ensuring quality pacing and technical polish that inspire confidence and support professional growth. Browse {{count}} listed Reel Editors specializing in child and teen performers.",
     why_you_need:
       "✓ Transform raw footage into a compelling, cohesive story.\n✓ Ensure technical excellence in sound, color, and pacing\n✓ Highlight the best moments while keeping the reel concise\n✓ Tailor edits to specific casting targets or genres.\n✓ Save time by handling the technical aspects of post-production.",
     what_to_look_for:
@@ -263,7 +263,7 @@ export const categoryCopyData = [
   {
     category_name: "Self-Tape Support",
     intro_text:
-      "Self‑tape auditions are now standard. Support services provide quality lighting, sound, and reader assistance so young actors can record with confidence and pursue professional growth from anywhere. Explore {{count}} trusted Self-Tape Support specializing in child and teen performers.",
+      "Self‑tape auditions are now standard. Support services provide quality lighting, sound, and reader assistance so young actors can record with confidence and pursue professional growth from anywhere. Browse {{count}} listed Self-Tape Support specializing in child and teen performers.",
     why_you_need:
       "✓ Provide proper lighting, sound, and framing for remote auditions.\n✓ Supply readers to enhance performance and reaction timing.\n✓ Offer guidance on editing and file submission.\n✓ Reduce technical stress so performers can focus on acting.\n✓ Increase the likelihood of standing out in a crowded virtual field.",
     what_to_look_for:
@@ -272,7 +272,7 @@ export const categoryCopyData = [
   {
     category_name: "Set Sitters",
     intro_text:
-      "When parents can’t accompany their child on set, set sitters step in. These quality caregivers supervise minors, ensure safety, and help maintain confidence and routines, enabling professional growth. Explore {{count}} trusted Set Sitters specializing in child and teen performers.",
+      "When parents can’t accompany their child on set, set sitters step in. These quality caregivers supervise minors, ensure safety, and help maintain confidence and routines, enabling professional growth. Browse {{count}} listed Set Sitters specializing in child and teen performers.",
     why_you_need:
       "✓ Provide trusted supervision when a parent cannot stay on set.\n✓ Ensure your child follows safety and labor regulations.\n✓ Help manage schedules, snacks, and downtime.\n✓ Serve as a liaison between your child, set teachers, and crew.\n✓ Offer emotional support and comfort during long hours.",
     what_to_look_for:
@@ -281,7 +281,7 @@ export const categoryCopyData = [
   {
     category_name: "Set Teachers",
     intro_text:
-      "Set teachers, also called studio teachers, combine education and advocacy. They provide quality schooling and ensure minors’ welfare and legal compliance giving parents confidence and supporting professional growth. Explore {{count}} trusted Set Teachers specializing in child and teen performers.",
+      "Set teachers, also called studio teachers, combine education and advocacy. They provide quality schooling and ensure minors’ welfare and legal compliance giving parents confidence and supporting professional growth. Browse {{count}} listed Set Teachers specializing in child and teen performers.",
     why_you_need:
       "✓ Provide mandated education during workdays\n✓ Advocate for minors’ welfare, ensuring safe schedules\n✓ Maintain academic progress despite irregular work hours\n✓ Assist with coordination of rehearsals, wardrobe, and meals\n✓ Foster a love of learning alongside acting passion.",
     what_to_look_for:
@@ -290,7 +290,7 @@ export const categoryCopyData = [
   {
     category_name: "Social Media Consultants",
     intro_text:
-      "A thoughtfully curated online presence can open doors. Social media consultants help create quality content and engagement strategies while keeping safety and confidence top of mind These efforts contribute to professional growth. Explore {{count}} trusted Social Media Consultants specializing in child and teen performers.",
+      "A thoughtfully curated online presence can open doors. Social media consultants help create quality content and engagement strategies while keeping safety and confidence top of mind These efforts contribute to professional growth. Browse {{count}} listed Social Media Consultants specializing in child and teen performers.",
     why_you_need:
       "✓ Craft a cohesive online brand that resonates with casting professionals.\n✓ Grow an engaged following on platforms like Instagram and TikTok\n✓ Teach safe online practices and parental oversight\n✓ Manage posting schedules, analytics, and content strategy.\n✓ Leverage social media to attract auditions and collaborations.",
     what_to_look_for:
@@ -299,7 +299,7 @@ export const categoryCopyData = [
   {
     category_name: "Speech Therapy",
     intro_text:
-      "Speech therapists work with young actors to overcome speech challenges and improve articulation and diction. Their quality guidance leads to clear communication and boosts confidence enhancing professional growth. Explore {{count}} trusted Speech Therapy specializing in child and teen performers.",
+      "Speech therapists work with young actors to overcome speech challenges and improve articulation and diction. Their quality guidance leads to clear communication and boosts confidence enhancing professional growth. Browse {{count}} listed Speech Therapy specializing in child and teen performers.",
     why_you_need:
       "✓ Address articulation issues that may hinder clear performance\n✓ Improve resonance, breath control, and vocal healthfile:///home/oai/redirect.html#:~:text=An%20actor%E2%80%99s%20voice%20is%20a,convey%20characters%20with%20incredible%20depth.\n✓ Assist with dialect modification and accent reduction.\n✓ Boost confidence in social and audition settings.\n✓ Support neurodivergent or speech‑impaired performers with specialized techniques.",
     what_to_look_for:
@@ -308,7 +308,7 @@ export const categoryCopyData = [
   {
     category_name: "Stunt Training",
     intro_text:
-      "From stage falls to fight choreography, stunt training teaches safety and physical skills. Quality instruction builds confidence, prevents injuries, and expands professional growth opportunities for action roles. Explore {{count}} trusted Stunt Training specializing in child and teen performers.",
+      "From stage falls to fight choreography, stunt training teaches safety and physical skills. Quality instruction builds confidence, prevents injuries, and expands professional growth opportunities for action roles. Browse {{count}} listed Stunt Training specializing in child and teen performers.",
     why_you_need:
       "✓ Teach safety protocols for stage combat, falls, and physical gags.\n✓ Build strength, agility, and coordination necessary for action roles.\n✓ Instill discipline and respect for risks and boundaries.\n✓ Expand casting possibilities to include action-driven projects.\n✓ Provide supervised practice to prevent injuries on set.",
     what_to_look_for:
@@ -317,7 +317,7 @@ export const categoryCopyData = [
   {
     category_name: "Stylists",
     intro_text:
-      "Stylists help young actors craft looks that align with roles and personal brand. Their quality eye boosts confidence and ensures professional growth by presenting the right image at auditions and events. Explore {{count}} trusted Stylists specializing in child and teen performers.",
+      "Stylists help young actors craft looks that align with roles and personal brand. Their quality eye boosts confidence and ensures professional growth by presenting the right image at auditions and events. Browse {{count}} listed Stylists specializing in child and teen performers.",
     why_you_need:
       "✓ Curate audition outfits that highlight your child’s casting type.\n✓ Build capsule wardrobes for press, events, and headshot sessions.\n✓ Teach your child how to dress appropriately and comfortably.\n✓ Align clothing choices with personal brand and roles.\n✓ Help navigate trends while keeping looks timeless.",
     what_to_look_for:
@@ -326,7 +326,7 @@ export const categoryCopyData = [
   {
     category_name: "Talent Agents",
     intro_text:
-      "A licensed talent agent advocates for your child, submits them for roles, and negotiates deals. Look for quality representation that believes in your child and has the connections to secure auditions The right agent inspires confidence and fuels professional growth. Explore {{count}} trusted Talent Agents specializing in child and teen performers.",
+      "A licensed talent agent advocates for your child, submits them for roles, and negotiates deals. Look for quality representation that believes in your child and has the connections to secure auditions The right agent inspires confidence and fuels professional growth. Browse {{count}} listed Talent Agents specializing in child and teen performers.",
     why_you_need:
       "✓ Legitimate agents secure auditions and negotiate contracts\n✓ Provide insights into appropriate roles and career direction\n✓ Advocate for your child’s best interests in the marketplace\n✓ Offer access to breakdowns and casting calls otherwise unavailable.\n✓ Guide families on industry trends, unions, and best practices.",
     what_to_look_for:
@@ -335,7 +335,7 @@ export const categoryCopyData = [
   {
     category_name: "Talent Managers",
     intro_text:
-      "Talent managers provide long-term career guidance, coordinating lessons, auditions, and brand development. Their quality mentorship fosters confidence and steady professional growth. Explore {{count}} trusted Talent Managers specializing in child and teen performers.",
+      "Talent managers provide long-term career guidance, coordinating lessons, auditions, and brand development. Their quality mentorship fosters confidence and steady professional growth. Browse {{count}} listed Talent Managers specializing in child and teen performers.",
     why_you_need:
       "✓ Provide long-term career planning and branding advice.\n✓ Coordinate lessons, auditions, and marketing efforts.\n✓ Serve as a sounding board for parents and kids.\n✓ Help navigate transitions between representation and projects.\n✓ Offer holistic support beyond booking jobs.",
     what_to_look_for:
@@ -344,7 +344,7 @@ export const categoryCopyData = [
   {
     category_name: "Talent Showcases",
     intro_text:
-      "Showcases put young actors in front of agents, managers, and casting directors. These quality events build performance confidence and accelerate professional growth through live feedback and connections. Explore {{count}} trusted Talent Showcases specializing in child and teen performers.",
+      "Showcases put young actors in front of agents, managers, and casting directors. These quality events build performance confidence and accelerate professional growth through live feedback and connections. Browse {{count}} listed Talent Showcases specializing in child and teen performers.",
     why_you_need:
       "✓ Offer opportunities to perform for agents, managers, and casting directors.\n✓ Provide immediate feedback to hone performance skills.\n✓ Build confidence through live audience experience.\n✓ Encourage networking with peers and industry professionals.\n✓ Serve as a milestone to gauge readiness for larger markets.",
     what_to_look_for:
@@ -353,7 +353,7 @@ export const categoryCopyData = [
   {
     category_name: "Theatre Training",
     intro_text:
-      "Theatre training grounds young actors in discipline, ensemble work, and live performance skills. Quality stage education cultivates confidence and sustains professional growth across mediums. Explore {{count}} trusted Theatre Training specializing in child and teen performers.",
+      "Theatre training grounds young actors in discipline, ensemble work, and live performance skills. Quality stage education cultivates confidence and sustains professional growth across mediums. Browse {{count}} listed Theatre Training specializing in child and teen performers.",
     why_you_need:
       "✓ Teach vocal projection, physicality, and stage presence.\n✓ Cultivate collaboration and ensemble awareness.\n✓ Expose young actors to classical and contemporary works.\n✓ Provide live performance experience under pressure.\n✓ Enhance discipline and adaptability for other mediums.",
     what_to_look_for:
@@ -362,7 +362,7 @@ export const categoryCopyData = [
   {
     category_name: "Videographers",
     intro_text:
-      "High-quality video captures auditions, scenes, and behind-the-scenes content. Skilled videographers deliver professional cinematography that builds confidence and supports professional growth. Explore {{count}} trusted Videographers specializing in child and teen performers.",
+      "High-quality video captures auditions, scenes, and behind-the-scenes content. Skilled videographers deliver professional cinematography that builds confidence and supports professional growth. Browse {{count}} listed Videographers specializing in child and teen performers.",
     why_you_need:
       "✓ Capture auditions, performances, and behind‑the‑scenes footage in high definition.\n✓ Provide polished editing for submissions and reels.\n✓ Offer creative storytelling to showcase personality and range.\n✓ Supply professional lighting and sound equipment.\n✓ Turn around projects quickly to meet tight deadlines.",
     what_to_look_for:
@@ -371,7 +371,7 @@ export const categoryCopyData = [
   {
     category_name: "Vocal Coaches",
     intro_text:
-      "Vocal coaches refine pitch, tone, and breath control for singers and actors. Their quality instruction preserves vocal health and expands range, building confidencefile:///home/oai/redirect.html#:~:text=An%20actor%E2%80%99s%20voice%20is%20a,convey%20characters%20with%20incredible%20depth and enhancing professional growth. Explore {{count}} trusted Vocal Coaches specializing in child and teen performers.",
+      "Vocal coaches refine pitch, tone, and breath control for singers and actors. Their quality instruction preserves vocal health and expands range, building confidencefile:///home/oai/redirect.html#:~:text=An%20actor%E2%80%99s%20voice%20is%20a,convey%20characters%20with%20incredible%20depth and enhancing professional growth. Browse {{count}} listed Vocal Coaches specializing in child and teen performers.",
     why_you_need:
       "✓ Develop proper breathing, pitch control, and resonancefile:///home/oai/redirect.html#:~:text=An%20actor%E2%80%99s%20voice%20is%20a,convey%20characters%20with%20incredible%20depth.\n✓ Expand vocal range and flexibility for versatile rolesfile:///home/oai/redirect.html#:~:text=Enhanced%20Vocal%20Range%20%26%20Flexibility.\n✓ Improve articulation and clarity for dialogue and singingfile:///home/oai/redirect.html#:~:text=Clear%20and%20articulate%20speech%20is,actor%20sidelined%20and%20audiences%20disengaged.\n✓ Maintain vocal health and prevent strain or injuryfile:///home/oai/redirect.html#:~:text=Sustained%20Vocal%20Health.\n✓ Build confidence by mastering challenging material.",
     what_to_look_for:
@@ -380,7 +380,7 @@ export const categoryCopyData = [
   {
     category_name: "Voiceover Support",
     intro_text:
-      "Voiceover support services teach mic technique, script interpretation, and studio etiquette. Quality guidance strengthens clarity and performance, instilling confidence for professional growth in voice work. Explore {{count}} trusted Voiceover Support specializing in child and teen performers.",
+      "Voiceover support services teach mic technique, script interpretation, and studio etiquette. Quality guidance strengthens clarity and performance, instilling confidence for professional growth in voice work. Browse {{count}} listed Voiceover Support specializing in child and teen performers.",
     why_you_need:
       "✓ Teach mic technique, script analysis, and studio etiquette.\n✓ Build versatile voices for animation, commercials, and narration.\n✓ Provide coaching on pacing, tone, and character choices.\n✓ Ensure technical quality in recordings for auditions.\n✓ Support remote work setups for home studios.",
     what_to_look_for:
@@ -389,7 +389,7 @@ export const categoryCopyData = [
   {
     category_name: "Wardrobe Consultant",
     intro_text:
-      "A wardrobe consultant curates clothing for auditions, photos, and public appearances. Their quality selections highlight individuality, boost confidence, and contribute to professional growth through polished presentation. Explore {{count}} trusted Wardrobe Consultant specializing in child and teen performers.",
+      "A wardrobe consultant curates clothing for auditions, photos, and public appearances. Their quality selections highlight individuality, boost confidence, and contribute to professional growth through polished presentation. Browse {{count}} listed Wardrobe Consultant specializing in child and teen performers.",
     why_you_need:
       "✓ Create cohesive looks that reflect character types and personal brand.\n✓ Prepare outfits for auditions, shoots, and press events.\n✓ Save time and stress by planning wardrobe in advance.\n✓ Teach your child to dress confidently and comfortably.\n✓ Ensure clothing fits properly and photographs well.",
     what_to_look_for:

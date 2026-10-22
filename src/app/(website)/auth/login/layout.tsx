@@ -3,7 +3,7 @@ import { constructMetadata } from "@/lib/metadata";
 
 export const metadata = constructMetadata({
   title: "Login",
-  description: "Login to your Child Actor 101 Directory account",
+  description: "Login to your Child Actor 101 Vendor Directory account",
   canonicalUrl: `${siteConfig.url}/auth/login`,
   noIndex: true,
 });

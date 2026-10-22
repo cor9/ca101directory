@@ -23,9 +23,9 @@ export function CollectionsSection() {
       id: "101-approved",
       name: "101 Approved",
       description:
-        "Professionals personally vetted by the Child Actor 101 team for safety, credentials, and proven results.",
+        "Professionals awarded the 101 Approved badge by Child Actor 101 after an application review.",
       icon: <CheckCircleIcon className="h-6 w-6 text-green-600" />,
-      badge: "Vetted",
+      badge: "Endorsed",
       count: 45,
       href: "/directory?approved101=true",
       featured: true,
@@ -65,7 +65,7 @@ export function CollectionsSection() {
       id: "new-listings",
       name: "New This Month",
       description:
-        "Fresh additions to our directory, recently verified and ready to help your child's acting journey.",
+        "Fresh additions to our directory, ready to help your child's acting journey.",
       icon: <StarIcon className="h-6 w-6 text-orange-600" />,
       badge: "New",
       count: 23,

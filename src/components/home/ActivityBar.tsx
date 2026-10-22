@@ -1,23 +1,29 @@
 /**
- * Proof of Life strip — social proof bar showing recent directory activity.
+ * Trust legend: what each badge on a listing actually means.
  * Used on homepage and category pages.
  */
 export function ActivityBar() {
   return (
     <div className="activity-bar">
-      <span>🔥 Parents are actively searching for vendors right now</span>
+      <span>
+        <strong>Verified</strong> = profile claimed by the business
+      </span>
       <span className="activity-bar__dot" aria-hidden="true">·</span>
-      <span>⭐ New listings added weekly</span>
+      <span>
+        <strong>101 Approved</strong> = awarded by Child Actor 101 after review
+      </span>
       <span className="activity-bar__dot" aria-hidden="true">·</span>
-      <span>✅ Verified professionals only</span>
+      <span>
+        <strong>Pro</strong> and <strong>Featured</strong> = paid plans
+      </span>
 
       <style>{`
         .activity-bar {
           background: rgba(237, 209, 125, 0.08);
           border-top: 1px solid rgba(237, 209, 125, 0.2);
           border-bottom: 1px solid rgba(237, 209, 125, 0.2);
-          color: #94a3b8;
-          font-size: 12.5px;
+          color: #cbd5e1;
+          font-size: 13px;
           padding: 9px 20px;
           display: flex;
           align-items: center;

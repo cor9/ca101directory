@@ -120,3 +120,23 @@ export function formatPhoneDisplay(phone: string): string {
   // Just return as-is - phones are already harder to scrape than emails
   return phone;
 }
+
+/**
+ * True when ContactActions will render a primary action for this listing
+ * (mirrors its tier logic) — used to decide whether to show sticky CTAs.
+ */
+export function hasPrimaryContactAction(listing: {
+  plan?: string | null;
+  comped?: boolean | null;
+  listing_type?: string | null;
+  website?: string | null;
+  email?: string | null;
+}): boolean {
+  const tier = normalizeListingTier(listing.plan ?? null, listing.comped);
+  const hasWebsite = Boolean(listing.website?.trim());
+  const hasEmail = Boolean(listing.email?.trim());
+  if (listing.listing_type === "INDUSTRY_PRO") return hasWebsite || hasEmail;
+  if (tier === "pro" || tier === "premium") return hasEmail || hasWebsite;
+  if (tier === "standard") return hasWebsite;
+  return false;
+}

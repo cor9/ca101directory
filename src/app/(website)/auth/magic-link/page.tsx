@@ -8,7 +8,7 @@ type MagicLinkPageProps = {
 };
 
 export const metadata: Metadata = constructMetadata({
-  title: "Secure Login - Child Actor 101 Directory",
+  title: "Secure Login - Child Actor 101 Vendor Directory",
   description: "Complete your secure passwordless login.",
   canonicalUrl: `${siteConfig.url}/auth/magic-link`,
   noIndex: true,

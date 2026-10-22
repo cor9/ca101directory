@@ -18,7 +18,7 @@ export default function WhyParentsTrust({
           Why Parents Trust Us
         </h2>
         <p className="bauhaus-body text-center text-white/70 max-w-2xl mx-auto mb-12">
-          The Child Actor 101 Directory connects families with industry
+          The Child Actor 101 Vendor Directory connects families with industry
           professionals who work with young performers. From classes to career
           support, find trusted services all in one place.
         </p>
@@ -61,9 +61,9 @@ export default function WhyParentsTrust({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {[
             {
-              title: "Vetted Professionals",
+              title: "Clear Trust Signals",
               description:
-                "Every listing is reviewed by our team to ensure quality and legitimacy.",
+                "Claimed profiles are marked. The 101 Approved badge is awarded by Child Actor 101 after an application review.",
             },
             {
               title: "Parent-First Approach",

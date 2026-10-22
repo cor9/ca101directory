@@ -9,13 +9,13 @@ export default function HomeHero() {
         </h1>
 
         <p className="mt-3 text-base text-text-secondary">
-          A trusted directory built by working industry professionals — not
+          A directory built by working industry professionals — not
           advertisers.
         </p>
 
         <p className="mt-4 max-w-xl text-lg text-text-secondary">
           Acting coaches, headshot photographers, agents, and industry pros —
-          vetted for families.
+          all in one place for families.
         </p>
 
         <div className="mt-6 flex items-center">

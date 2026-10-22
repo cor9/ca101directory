@@ -21,7 +21,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
-  title: "Vendor Dashboard - Child Actor 101 Directory",
+  title: "Vendor Dashboard - Child Actor 101 Vendor Directory",
   description: "Manage your business listings and profile.",
   canonicalUrl: `${siteConfig.url}/dashboard/vendor`,
   noIndex: true,

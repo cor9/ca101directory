@@ -9,12 +9,12 @@ const yourListingUrl = "https://directory.childactor101.com/your-listing-slug";
 const badgeImageUrl = "https://directory.childactor101.com/badge.png"; // Placeholder
 
 const htmlSnippet = `<a href="${yourListingUrl}" target="_blank" rel="noopener noreferrer">
-  <img src="${badgeImageUrl}" alt="Find us on Child Actor 101 Directory" style="width: 200px; height: auto;" />
+  <img src="${badgeImageUrl}" alt="Find us on Child Actor 101 Vendor Directory" style="width: 200px; height: auto;" />
 </a>`;
 
-const socialCaption = `Find us on the Child Actor 101 Directory! We're proud to be a trusted resource for families in the entertainment industry. Visit our profile here: ${yourListingUrl}`;
+const socialCaption = `Find us on the Child Actor 101 Vendor Directory! We're proud to serve families in the entertainment industry. Visit our profile here: ${yourListingUrl}`;
 
-const pressBlurb = `We are proud to be a featured vendor on the Child Actor 101 Directory, a curated platform of vetted coaches, photographers, and industry professionals specializing in youth acting. This recognition highlights our commitment to providing safe, high-quality services for young performers and their families.`;
+const pressBlurb = `We are proud to be a featured vendor on the Child Actor 101 Vendor Directory, a directory of coaches, photographers, and industry professionals who work with young actors.`;
 
 export const BacklinkResourceKitClient = () => {
   const [copied, setCopied] = useState<string | null>(null);

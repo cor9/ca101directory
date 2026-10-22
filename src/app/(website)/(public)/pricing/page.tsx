@@ -6,9 +6,9 @@ import { constructMetadata } from "@/lib/metadata";
 import Link from "next/link";
 
 export const metadata = constructMetadata({
-  title: "Pricing Plans - List Your Business | Child Actor 101 Directory",
+  title: "Pricing Plans - List Your Business | Child Actor 101 Vendor Directory",
   description:
-    "Choose between a Free Listing or a Pro Listing for $399/year. Get real visibility in the Child Actor 101 Directory with simple annual pricing.",
+    "Choose between a Free Listing or a Pro Listing for $399/year. Get real visibility in the Child Actor 101 Vendor Directory with simple annual pricing.",
   canonicalUrl: `${siteConfig.url}/pricing`,
 });
 

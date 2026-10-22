@@ -15,6 +15,8 @@ interface ProfileHeaderProps {
   location: string;
   hasVirtualOption: boolean;
   averageRating?: { average: number; count: number };
+  /** Already de-duplicated by the caller */
+  specialties?: string[];
 }
 
 function initials(name: string): string {
@@ -34,6 +36,7 @@ export function ProfileHeader({
   location,
   hasVirtualOption,
   averageRating,
+  specialties = [],
 }: ProfileHeaderProps) {
   const tier = normalizeListingTier(listing.plan, listing.comped);
   const caps = getListingCapabilities(tier, {}, listing.listing_type);
@@ -57,21 +60,43 @@ export function ProfileHeader({
   // Socials/website are only clickable on Standard+ (see listingCapabilities)
   const socials = caps.canClickSocials
     ? [
-        { label: "Website", href: safeExternalUrl(listing.website), Icon: Globe },
-        { label: "Instagram", href: safeExternalUrl(listing.instagram_url), Icon: Instagram },
-        { label: "Facebook", href: safeExternalUrl(listing.facebook_url), Icon: Facebook },
-        { label: "YouTube", href: safeExternalUrl(listing.youtube_url), Icon: Youtube },
-        { label: "LinkedIn", href: safeExternalUrl(listing.linkedin_url), Icon: Linkedin },
+        {
+          label: "Website",
+          href: safeExternalUrl(listing.website),
+          Icon: Globe,
+        },
+        {
+          label: "Instagram",
+          href: safeExternalUrl(listing.instagram_url),
+          Icon: Instagram,
+        },
+        {
+          label: "Facebook",
+          href: safeExternalUrl(listing.facebook_url),
+          Icon: Facebook,
+        },
+        {
+          label: "YouTube",
+          href: safeExternalUrl(listing.youtube_url),
+          Icon: Youtube,
+        },
+        {
+          label: "LinkedIn",
+          href: safeExternalUrl(listing.linkedin_url),
+          Icon: Linkedin,
+        },
       ].filter((s) => s.href)
     : [];
-  const tiktok = caps.canClickSocials ? safeExternalUrl(listing.tiktok_url) : null;
+  const tiktok = caps.canClickSocials
+    ? safeExternalUrl(listing.tiktok_url)
+    : null;
   const bookingUrl =
-    caps.canClickWebsite && isPro ? safeExternalUrl(listing.custom_link_url) : null;
-
-  const specialties = (listing.specialties || []).filter(Boolean).slice(0, 5);
+    caps.canClickWebsite && isPro
+      ? safeExternalUrl(listing.custom_link_url)
+      : null;
 
   return (
-    <header className="flex flex-col gap-6 p-6 sm:p-8 md:flex-row md:items-start">
+    <header id="profile-header" className="flex flex-col gap-6 p-6 sm:p-8 md:flex-row md:items-start">
       {/* Portrait + badges */}
       <div className="flex shrink-0 flex-col items-center gap-2 md:items-start">
         <div className="relative h-28 w-28 overflow-hidden rounded-full bg-zinc-100 shadow-md ring-4 ring-white">
@@ -119,22 +144,34 @@ export function ProfileHeader({
         )}
         <div className="mt-3 flex flex-wrap justify-center gap-1.5 md:justify-start">
           {listing.featured && !isIndustryPro && (
-            <span className="rounded-full bg-[#E4A72E] px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-zinc-900">
+            <span
+              title="Paid featured placement"
+              className="rounded-full bg-[#E4A72E] px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-zinc-900"
+            >
               Featured
             </span>
           )}
           {isPro && !isIndustryPro && (
-            <span className="rounded-full bg-zinc-900 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white">
+            <span
+              title="Pro subscription (a paid plan)"
+              className="rounded-full bg-zinc-900 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white"
+            >
               Pro
             </span>
           )}
           {approved101 && (
-            <span className="rounded-full bg-[#CC5A47] px-2.5 py-1 text-xs font-bold text-white">
+            <span
+              title="Awarded by Child Actor 101 after an application review"
+              className="rounded-full bg-[#CC5A47] px-2.5 py-1 text-xs font-bold text-white"
+            >
               101 Approved
             </span>
           )}
           {verified && (
-            <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-800">
+            <span
+              title="Profile claimed by the business and reviewed by Child Actor 101. Not a background check."
+              className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-800"
+            >
               Verified
             </span>
           )}

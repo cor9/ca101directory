@@ -1,5 +1,5 @@
 /**
- * Universal image handling for Child Actor 101 Directory
+ * Universal image handling for Child Actor 101 Vendor Directory
  * Provides consistent image fallback logic across all components
  */
 

@@ -11,6 +11,7 @@ import EmptyGrid from "@/components/shared/empty-grid";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
 import { getItems } from "@/data/item-service";
+import { stateNames, statesList } from "@/data/regions";
 import { DIRECTORY_ITEMS_PER_PAGE } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
@@ -64,7 +65,7 @@ export async function generateMetadata({
 
     if (!category) {
       return constructMetadata({
-        title: "Category Not Found - Child Actor 101 Directory",
+        title: "Category Not Found - Child Actor 101 Vendor Directory",
         description: "The requested category could not be found",
         canonicalUrl: `${siteConfig.url}/category/${params.slug}`,
       });
@@ -86,7 +87,7 @@ export async function generateMetadata({
   } catch (error) {
     console.error("generateMetadata error:", error);
     return constructMetadata({
-      title: "Category - Child Actor 101 Directory",
+      title: "Category - Child Actor 101 Vendor Directory",
       description: "Find acting professionals for your child",
       canonicalUrl: `${siteConfig.url}/category/${params.slug}`,
     });
@@ -121,8 +122,16 @@ export default async function CategoryPage({
       1,
       Number.parseInt(Array.isArray(rawPage) ? rawPage[0] : rawPage || "1", 10) || 1,
     );
+    const rawState = searchParams?.state;
+    const rawCity = searchParams?.city;
+    const stateFilter =
+      (Array.isArray(rawState) ? rawState[0] : rawState)?.trim() || undefined;
+    const cityFilter =
+      (Array.isArray(rawCity) ? rawCity[0] : rawCity)?.trim() || undefined;
     const { items, totalCount, itemsPerPage } = await getItems({
       category: categoryName,
+      state: stateFilter && stateFilter !== "all" ? stateFilter : undefined,
+      city: cityFilter,
       currentPage,
       itemsPerPage: DIRECTORY_ITEMS_PER_PAGE,
       excludeFeatured: false, // Show featured listings on category pages
@@ -156,51 +165,89 @@ export default async function CategoryPage({
       return "Professionals experienced with young performers in TV, film, and commercial work.";
     };
 
+    const filtersActive = Boolean(
+      (stateFilter && stateFilter !== "all") || cityFilter,
+    );
+
     return (
-      <div className="flex flex-col bg-bg-dark min-h-screen">
-        {/* Category Header - Only context above the grid */}
-        <Container className="py-8">
-          <div className="mb-6">
-            <h1 className="text-4xl md:text-5xl font-semibold text-text-primary mb-3">
-              {categoryName} for Kids & Teens
-            </h1>
-            <p className="text-lg text-text-secondary max-w-2xl">
-              {getCategorySubtext(categoryName)}
-            </p>
-            <p className="text-sm text-text-muted mt-2">
-              {totalCount} verified {categoryName.toLowerCase()} serving young
-              actors
-            </p>
+      <div className="flex min-h-screen flex-col bg-bg-dark">
+        {/* Heading + essential filters, then straight to the results */}
+        <section className="mx-auto w-full max-w-[1480px] px-5 pb-2 pt-10 sm:px-8 lg:px-12">
+          <nav className="mb-3 text-sm text-slate-400">
+            <Link href="/category" className="hover:text-white hover:underline">
+              All categories
+            </Link>
+            <span className="mx-2">/</span>
+            <span className="text-slate-200">{categoryName}</span>
+          </nav>
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-3xl">
+              <h1 className="text-4xl font-bold tracking-tight text-white md:text-5xl">
+                {categoryName} for Kids &amp; Teens
+              </h1>
+              <p className="mt-3 text-lg text-slate-300">
+                {getCategorySubtext(categoryName)}{" "}
+                <span className="text-slate-400">
+                  {totalCount} listed
+                  {filtersActive ? " for this search" : ""}.
+                </span>
+              </p>
+            </div>
+
+            <form
+              action={`/category/${params.slug}`}
+              method="get"
+              className="flex flex-wrap items-end gap-3"
+            >
+              <label className="flex flex-col text-xs font-semibold uppercase tracking-wide text-slate-300">
+                State
+                <select
+                  name="state"
+                  defaultValue={stateFilter || "all"}
+                  className="mt-1 h-11 min-w-[11rem] rounded-md border border-zinc-400 bg-white px-3 text-sm font-medium normal-case text-zinc-900"
+                >
+                  <option value="all">All states</option>
+                  {statesList.map((st) => (
+                    <option key={st} value={st}>
+                      {stateNames[st]} ({st})
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="flex flex-col text-xs font-semibold uppercase tracking-wide text-slate-300">
+                City
+                <input
+                  name="city"
+                  defaultValue={cityFilter || ""}
+                  placeholder="e.g. Dallas, LA"
+                  className="mt-1 h-11 w-44 rounded-md border border-zinc-400 bg-white px-3 text-sm font-medium normal-case text-zinc-900 placeholder:text-zinc-500"
+                />
+              </label>
+              <button
+                type="submit"
+                className="h-11 rounded-md bg-[#C2441F] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#A93A19] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
+                Search
+              </button>
+              {filtersActive && (
+                <Link
+                  href={`/category/${params.slug}`}
+                  className="flex h-11 items-center px-2 text-sm font-semibold text-slate-200 underline hover:text-white"
+                >
+                  Clear
+                </Link>
+              )}
+            </form>
           </div>
-        </Container>
+        </section>
 
-        {/* Proof of Life Strip */}
-        <ActivityBar />
-
-        {/* Listings Grid - EXACT SAME as directory page */}
-        <section id="category-results" className="max-w-7xl mx-auto px-4 py-8">
-          {/* Category Educational Content - Why You Need / What to Look For */}
-          <CategoryContent
-            categoryName={categoryName}
-            listingCount={totalCount}
-          />
-
-          {/* Education Tip Card */}
-          <CategoryEducationTip categorySlug={params.slug} />
-
-          <div className="mb-6">
-            <h2 className="bauhaus-heading text-2xl text-white mb-4">
-              All {categoryName}
-              <span className="text-white/50 text-lg font-normal ml-2">
-                ({totalCount} results)
-              </span>
-            </h2>
-          </div>
-
-          {/* when no items are found */}
+        {/* RESULTS FIRST */}
+        <section
+          id="category-results"
+          className="mx-auto w-full max-w-[1480px] px-5 py-8 sm:px-8 lg:px-12"
+        >
           {items?.length === 0 && <EmptyGrid />}
 
-          {/* when items are found - use client component for Load More (EXACT SAME as directory) */}
           {items && items.length > 0 && (
             <CategoryClient
               initialItems={items}
@@ -217,6 +264,34 @@ export default async function CategoryPage({
             searchParams={searchParams}
             anchor="category-results"
           />
+        </section>
+
+        <ActivityBar />
+
+        {/* Educational / SEO content: below the results, collapsed by default
+            (still in the page HTML). */}
+        <section className="mx-auto w-full max-w-[1480px] px-5 py-10 sm:px-8 lg:px-12">
+          <details className="group rounded-2xl border border-white/10 bg-white/[0.03]">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-lg font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E4572E]">
+              <span>
+                Guide: why you need {categoryName.toLowerCase()} and what to look
+                for
+              </span>
+              <span
+                aria-hidden="true"
+                className="text-2xl text-slate-300 transition-transform group-open:rotate-45"
+              >
+                +
+              </span>
+            </summary>
+            <div className="px-6 pb-6">
+              <CategoryContent
+                categoryName={categoryName}
+                listingCount={totalCount}
+              />
+              <CategoryEducationTip categorySlug={params.slug} />
+            </div>
+          </details>
         </section>
       </div>
     );

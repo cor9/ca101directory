@@ -36,10 +36,10 @@ export default function HomepageClient({
               {/* Hero Section - Simplified */}
               <section className="space-y-4">
                 <h1 className="text-4xl font-bold text-text-primary">
-                  Find Trusted Acting Professionals
+                  Find Acting Professionals for Your Child
                 </h1>
                 <p className="text-lg text-text-secondary max-w-2xl">
-                  Connect with vetted coaches, photographers, agents, and more
+                  Browse coaches, photographers, agents, and more
                   for your child's acting journey.
                 </p>
                 <div className="max-w-md">

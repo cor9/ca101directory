@@ -16,7 +16,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export const metadata = {
-  title: "Claim Submitted - Child Actor 101 Directory",
+  title: "Claim Submitted - Child Actor 101 Vendor Directory",
   description: "Your claim has been submitted and is pending review",
 };
 

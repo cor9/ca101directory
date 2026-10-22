@@ -4,10 +4,10 @@ const SITE_URL =
   process.env.NEXT_PUBLIC_APP_URL || "https://directory.childactor101.com";
 
 export const siteConfig: SiteConfig = {
-  name: "Child Actor 101 Directory",
-  tagline: "Find Trusted Acting Professionals for Your Child",
+  name: "Child Actor 101 Vendor Directory",
+  tagline: "Find Acting Professionals for Your Child",
   description:
-    "A curated directory of vetted coaches, photographers, editors, and industry professionals specializing in youth acting. Every listing is hand-picked for quality and safety.",
+    "A directory of coaches, photographers, editors, agents, and industry professionals who work with young actors. Claimed profiles are marked, and the 101 Approved badge is awarded by Child Actor 101.",
   keywords: [
     "Child Actor",
     "Acting Coach",

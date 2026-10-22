@@ -5,9 +5,13 @@ import {
   ListingPortfolio,
   ListingVideo,
 } from "@/components/listing/ListingMedia";
+import { ContactActions } from "@/components/listing/contact-actions";
+import { StickyContactBar } from "@/components/listing/StickyContactBar";
 import { ProfileHeader } from "@/components/listing/ProfileHeader";
 import { ProfileSection } from "@/components/listing/ProfileSection";
 import type { Listing } from "@/data/listings";
+import { dedupeLabels } from "@/lib/labels";
+import { hasPrimaryContactAction } from "@/lib/listingCapabilities";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -54,6 +58,10 @@ export default function ListingLayout({
   mainFooter,
   children,
 }: ListingLayoutProps) {
+  // Show each tag once: header specialties, then remaining services, never the category itself
+  const headerSpecialties = dedupeLabels(listing.specialties, [category]).slice(0, 5);
+  const detailServices = dedupeLabels(services, [category, ...headerSpecialties]);
+  const hasCta = hasPrimaryContactAction(listing);
   const isPhotographer = /photograph|headshot/i.test(category);
   const hasAbout = Boolean(listing.what_you_offer || listing.description);
 
@@ -67,6 +75,7 @@ export default function ListingLayout({
             location={location}
             hasVirtualOption={hasVirtualOption}
             averageRating={averageRating}
+            specialties={headerSpecialties}
           />
 
           <ListingPortfolio listing={listing} />
@@ -88,18 +97,37 @@ export default function ListingLayout({
             </ProfileSection>
           )}
 
-          <ProfileSection id="contact">
-            <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
-              <ListingDetails
-                listing={listing}
-                category={category}
-                location={location}
-                ageRanges={ageRanges}
-                services={services}
-                regions={regions}
-                hasVirtualOption={hasVirtualOption}
-              />
-              <div>{sidebar}</div>
+          {/* Session details + contact: two balanced cards on a tinted band */}
+          <ProfileSection id="contact" className="bg-zinc-50">
+            <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2">
+              <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
+                <ListingDetails
+                  listing={listing}
+                  category={category}
+                  location={location}
+                  ageRanges={ageRanges}
+                  services={detailServices}
+                  regions={regions}
+                  hasVirtualOption={hasVirtualOption}
+                />
+              </div>
+              <div className="flex flex-col rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
+                <div className="flex-1">{sidebar}</div>
+                {hasCta && (
+                  <div className="mt-8 border-t border-zinc-200 pt-6">
+                    <ContactActions
+                      listingId={listing.id}
+                      website={listing.website}
+                      email={listing.email}
+                      listingType={listing.listing_type}
+                      plan={listing.plan}
+                      comped={listing.comped}
+                      variant="profile"
+                      className="flex-col items-stretch [&>a]:justify-center"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </ProfileSection>
 
@@ -107,6 +135,20 @@ export default function ListingLayout({
         </article>
 
         {children}
+
+        {hasCta && (
+          <StickyContactBar name={listing.listing_name || "Listing"}>
+            <ContactActions
+              listingId={listing.id}
+              website={listing.website}
+              email={listing.email}
+              listingType={listing.listing_type}
+              plan={listing.plan}
+              comped={listing.comped}
+              variant="profile"
+            />
+          </StickyContactBar>
+        )}
 
         <div className="mt-12 border-t border-white/10 pt-8">
           <Link

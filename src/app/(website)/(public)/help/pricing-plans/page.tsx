@@ -5,7 +5,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Pricing & Plans | Help Center",
   description:
-    "Compare Child Actor 101 Directory pricing plans and choose the right one for your business",
+    "Compare Child Actor 101 Vendor Directory pricing plans and choose the right one for your business",
 };
 
 export default function PricingPlansPage() {

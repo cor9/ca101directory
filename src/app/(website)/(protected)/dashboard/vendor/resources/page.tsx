@@ -22,7 +22,7 @@ export default function BacklinkKitPage() {
               Backlink Resource Kit
             </h1>
             <p className="text-foreground">
-              Link to your Child Actor 101 Directory profile from your website
+              Link to your Child Actor 101 Vendor Directory profile from your website
               and social media to build trust and improve your SEO.
             </p>
           </div>

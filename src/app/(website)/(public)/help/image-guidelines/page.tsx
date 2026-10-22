@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Image Guidelines | Child Actor 101 Directory",
+  title: "Image Guidelines | Child Actor 101 Vendor Directory",
   description:
-    "Professional image upload guidelines for your Pro listing on Child Actor 101 Directory",
+    "Professional image upload guidelines for your Pro listing on Child Actor 101 Vendor Directory",
 };
 
 export default function ImageGuidelinesPage() {

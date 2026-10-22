@@ -14,7 +14,7 @@ export default function HomeParentCta() {
           </h2>
           <p className="bauhaus-body text-xl text-paper/90 max-w-3xl mx-auto leading-relaxed">
             Join thousands of parents who use Child Actor 101 to discover, save,
-            and review trusted professionals for their young performers. Your
+            and review professionals for their young performers. Your
             free account unlocks powerful features to help you make the best
             decisions for your child's career.
           </p>
@@ -31,7 +31,7 @@ export default function HomeParentCta() {
             <CardContent>
               <p className="text-surface leading-relaxed">
                 Bookmark acting coaches, photographers, agents, and managers you
-                love. Build your personalized network of trusted professionals
+                love. Build your personalized network of professionals
                 all in one place, accessible anytime from your dashboard.
               </p>
             </CardContent>

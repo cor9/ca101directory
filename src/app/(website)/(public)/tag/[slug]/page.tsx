@@ -72,7 +72,7 @@ export async function generateMetadata({
 
     if (matchingListings.length === 0) {
       return constructMetadata({
-        title: "Tag Not Found - Child Actor 101 Directory",
+        title: "Tag Not Found - Child Actor 101 Vendor Directory",
         description: "The requested tag could not be found",
         canonicalUrl: `${siteConfig.url}/tag/${params.slug}`,
       });
@@ -91,14 +91,14 @@ export async function generateMetadata({
       ?.trim();
 
     return constructMetadata({
-      title: `${ageRangeName} - Child Actor 101 Directory`,
+      title: `${ageRangeName} - Child Actor 101 Vendor Directory`,
       description: `Find acting professionals for ${ageRangeName} age range`,
       canonicalUrl: `${siteConfig.url}/tag/${params.slug}`,
     });
   } catch (error) {
     console.error("generateMetadata error:", error);
     return constructMetadata({
-      title: "Tag - Child Actor 101 Directory",
+      title: "Tag - Child Actor 101 Vendor Directory",
       description: "Find acting professionals by age range",
       canonicalUrl: `${siteConfig.url}/tag/${params.slug}`,
     });

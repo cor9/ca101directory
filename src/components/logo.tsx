@@ -50,8 +50,8 @@ export function Logo({
     return (
       <img
         src={logo}
-        alt="Child Actor 101 Directory"
-        title="Child Actor 101 Directory"
+        alt="Child Actor 101 Vendor Directory"
+        title="Child Actor 101 Vendor Directory"
         className={cn(sizeClasses[size], "rounded-md", className)}
       />
     );
@@ -65,8 +65,8 @@ export function Logo({
           <div className="absolute inset-0 bg-gradient-to-r from-tomato-red/20 via-retro-blue/20 to-mustard-gold/20 rounded-lg blur-sm scale-110" />
           <img
             src={logo}
-            alt="Child Actor 101 Directory"
-            title="Child Actor 101 Directory"
+            alt="Child Actor 101 Vendor Directory"
+            title="Child Actor 101 Vendor Directory"
             className={cn(
               sizeClasses[size],
               "relative rounded-lg drop-shadow-lg",
@@ -92,8 +92,8 @@ export function Logo({
     <div className={cn("flex items-center gap-2", className)}>
       <img
         src={logo}
-        alt="Child Actor 101 Directory"
-        title="Child Actor 101 Directory"
+        alt="Child Actor 101 Vendor Directory"
+        title="Child Actor 101 Vendor Directory"
         className={cn(sizeClasses[size], "rounded-md", className)}
       />
       {showText && (

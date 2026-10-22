@@ -83,7 +83,7 @@ export default function RegistrationSuccessPage() {
                 </p>
                 <ol className="list-decimal list-inside space-y-3 text-paper">
                   <li className="font-medium">Open your email inbox RIGHT NOW</li>
-                  <li className="font-medium">Look for email from "Child Actor 101 Directory"</li>
+                  <li className="font-medium">Look for email from "Child Actor 101 Vendor Directory"</li>
                   <li className="font-medium">Click the big blue confirmation button</li>
                   <li className="font-medium">Come back here and login</li>
                 </ol>

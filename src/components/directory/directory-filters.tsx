@@ -184,7 +184,7 @@ export function DirectoryFilters({
                 variant="secondary"
                 className="flex items-center gap-1 bg-sky-100 text-sky-800 border-sky-200"
               >
-                Verified Only
+                Verified Profiles Only
                 <button
                   type="button"
                   onClick={() => updateFilters({ verified: false })}

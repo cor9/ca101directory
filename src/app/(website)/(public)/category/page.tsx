@@ -5,10 +5,10 @@ import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
 import { getPublicListings } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
-import Link from "next/link";
+import { CategoryIndexView } from "@/components/directory/CategoryIndexView";
 
 export const metadata = constructMetadata({
-  title: "Categories - Child Actor 101 Directory",
+  title: "Categories - Child Actor 101 Vendor Directory",
   description:
     "Browse acting professionals by category to find the perfect match for your child's needs",
   canonicalUrl: `${siteConfig.url}/category`,
@@ -226,92 +226,5 @@ export default async function CategoryPage() {
   }
   const groups = grouped.filter((g) => g.items.length > 0);
 
-  return (
-    <div className="min-h-screen bg-bg-dark">
-      <section className="mx-auto max-w-7xl px-4 py-10">
-        <div className="mb-10 text-center">
-          <h1 className="mb-4 text-4xl font-semibold text-white">
-            Browse by Category
-          </h1>
-          <p className="mx-auto max-w-3xl text-lg text-slate-300">
-            Find trusted professionals for young performers, organized by what
-            you need.
-          </p>
-        </div>
-
-        {/* Priority categories */}
-        <div className="mb-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {priority.map((category) => (
-            <Link
-              key={category.slug}
-              href={`/category/${category.slug}`}
-              className="group flex flex-col rounded-xl border border-white/10 bg-white/[0.04] p-6 transition hover:-translate-y-0.5 hover:border-[#E4572E] hover:bg-white/[0.07]"
-            >
-              <h2 className="text-xl font-bold text-white">{category.name}</h2>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-300">
-                {category.blurb}
-              </p>
-              <p className="mt-4 text-sm font-semibold text-[#F28A63] group-hover:text-white">
-                {category.count > 0
-                  ? `${category.count} providers →`
-                  : "Browse →"}
-              </p>
-            </Link>
-          ))}
-        </div>
-
-        {/* Everything else, grouped */}
-        <div className="space-y-10">
-          {groups.map((group) => (
-            <div key={group.title}>
-              <h2 className="mb-4 border-b border-white/10 pb-2 text-lg font-semibold text-white">
-                {group.title}
-              </h2>
-              <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {group.items.map((category) => (
-                  <li key={category.slug}>
-                    <Link
-                      href={`/category/${category.slug}`}
-                      className="flex items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3 text-sm font-medium text-slate-100 transition hover:border-[#E4572E] hover:text-white"
-                    >
-                      <span>{category.name}</span>
-                      {category.count > 0 && (
-                        <span className="shrink-0 text-xs text-slate-400">
-                          {category.count}
-                        </span>
-                      )}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-14 rounded-xl border border-white/10 bg-white/[0.04] p-8 text-center">
-          <h2 className="mb-3 text-2xl font-semibold text-white">
-            Don’t see what you need?
-          </h2>
-          <p className="mx-auto mb-6 max-w-2xl text-slate-300">
-            Search every professional in the directory, or suggest a vendor we
-            should add.
-          </p>
-          <div className="flex flex-col justify-center gap-4 sm:flex-row">
-            <Link
-              href="/directory"
-              className="inline-flex items-center justify-center rounded-md bg-[#E4572E] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#CC4E2A]"
-            >
-              Search the Directory
-            </Link>
-            <Link
-              href="/suggest-vendor"
-              className="inline-flex items-center justify-center rounded-md border border-white/25 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/10"
-            >
-              Suggest a Vendor
-            </Link>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
+  return <CategoryIndexView priority={priority} groups={groups} />;
 }

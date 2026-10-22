@@ -9,7 +9,7 @@ import { createServerClient } from "@/lib/supabase";
 import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
-  title: "Admin Dashboard - Child Actor 101 Directory",
+  title: "Admin Dashboard - Child Actor 101 Vendor Directory",
   description: "Administrative dashboard for platform management",
   canonicalUrl: `${siteConfig.url}/dashboard/admin`,
   noIndex: true,

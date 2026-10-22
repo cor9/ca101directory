@@ -23,9 +23,9 @@ import { createServerClient } from "@/lib/supabase";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = constructMetadata({
-  title: "Directory - Child Actor 101 Directory",
+  title: "Directory - Child Actor 101 Vendor Directory",
   description:
-    "Browse our complete directory of vetted child actor professionals",
+    "Browse the complete directory of professionals who work with young actors",
   canonicalUrl: `${siteConfig.url}/directory`,
 });
 
@@ -160,7 +160,7 @@ export default async function DirectoryPage({
       )}
 
       {/* Listings Grid */}
-      <section id="search-results" className="max-w-7xl mx-auto px-4 py-8">
+      <section id="search-results" className="mx-auto w-full max-w-[1480px] px-5 py-8 sm:px-8 lg:px-12">
         {/* Category Tip Card - Micro-learning */}
         {categoryName && <CategoryTipCard category={categoryName} />}
 

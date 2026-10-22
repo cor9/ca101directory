@@ -11,9 +11,9 @@ import { constructMetadata } from "@/lib/metadata";
 import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
-  title: "Dashboard - Child Actor 101 Directory",
+  title: "Dashboard - Child Actor 101 Vendor Directory",
   description:
-    "Your dashboard for managing your Child Actor 101 Directory account",
+    "Your dashboard for managing your Child Actor 101 Vendor Directory account",
   canonicalUrl: `${siteConfig.url}/dashboard`,
   noIndex: true,
 });

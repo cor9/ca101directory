@@ -126,7 +126,7 @@ export function OrganizationSchema() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Child Actor 101",
-    alternateName: "Child Actor 101 Directory",
+    alternateName: "Child Actor 101 Vendor Directory",
     url: siteConfig.url,
     logo: `${siteConfig.url}/logo.png`,
     description: siteConfig.description,

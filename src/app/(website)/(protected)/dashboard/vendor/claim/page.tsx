@@ -6,7 +6,7 @@ import { getUnclaimedListings } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
 
 export const metadata = constructMetadata({
-  title: "Claim Your Listing - Child Actor 101 Directory",
+  title: "Claim Your Listing - Child Actor 101 Vendor Directory",
   description: "Find and claim your business listing on our directory.",
   canonicalUrl: `${siteConfig.url}/dashboard/vendor/claim`,
   noIndex: true,

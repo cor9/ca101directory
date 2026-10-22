@@ -28,7 +28,7 @@ export const revalidate = 0;
 export const metadata = constructMetadata({
   title: "Child Actor 101 Vendor Directory - Find Acting Professionals for Your Child",
   description:
-    "Find acting coaches, headshot photographers, talent agents, and managers for child actors in Los Angeles, New York, Atlanta & nationwide. Look for the 101 Approved badge.",
+    "Find acting coaches, headshot photographers, talent agents, and managers for child actors in Los Angeles, New York, Atlanta & nationwide.",
   canonicalUrl: `${siteConfig.url}/`,
 });
 

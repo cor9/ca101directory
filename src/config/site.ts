@@ -7,7 +7,7 @@ export const siteConfig: SiteConfig = {
   name: "Child Actor 101 Vendor Directory",
   tagline: "Find Acting Professionals for Your Child",
   description:
-    "A directory of coaches, photographers, editors, agents, and industry professionals who work with young actors. Claimed profiles are marked, and the 101 Approved badge is awarded by Child Actor 101.",
+    "A directory of coaches, photographers, editors, agents, and industry professionals who work with young actors. Profiles show a Verified Business badge when the owner has completed ownership verification.",
   keywords: [
     "Child Actor",
     "Acting Coach",

@@ -95,32 +95,14 @@ export function ListingCardView({
             />
           )}
 
-          {(card.featured || card.pro || card.approved101) && (
-            <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
-              {card.featured && (
-                <span
-                  title="Paid featured placement"
-                  className={cn(badge, "bg-[#E4A72E] text-zinc-900")}
-                >
-                  Featured
-                </span>
-              )}
-              {!card.featured && card.pro && (
-                <span
-                  title="Pro subscription (a paid plan)"
-                  className={cn(badge, "bg-zinc-900 text-white")}
-                >
-                  Pro
-                </span>
-              )}
-              {card.approved101 && (
-                <span
-                  title="Awarded by Child Actor 101 after an application review"
-                  className={cn(badge, "bg-[#B8431F] text-white")}
-                >
-                  101 Approved
-                </span>
-              )}
+          {card.featured && (
+            <div className="absolute left-3 top-3">
+              <span
+                title="Paid promotional placement"
+                className={cn(badge, "bg-[#E4A72E] text-zinc-900")}
+              >
+                Featured
+              </span>
             </div>
           )}
         </div>
@@ -182,15 +164,11 @@ export default function ListingCardClient({ item }: { item: ItemInfo }) {
     .filter((t) => t?.name && /^\d+-\d+|^\d+\+|^under|^over/i.test(t.name))
     .map((t) => t.name);
 
-  // Real flag from the listing (not inferred from tags, which are age ranges)
-  const approved101 = item.approved101 === true;
-
   const iconRef = item.icon?.asset?._ref;
   const card = itemToCardData(
     item,
     slug,
     ageRanges,
-    approved101,
     iconRef ? getListingImageUrl(iconRef) : null,
   );
   return <ListingCardView card={card} />;

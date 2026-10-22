@@ -69,11 +69,6 @@ export function ListingSchema({ listing, averageRating }: ListingSchemaProps) {
           },
         }
       : {}),
-    ...(listing.is_approved_101
-      ? {
-          award: "101 Approved Professional",
-        }
-      : {}),
   };
 
   // Remove undefined values

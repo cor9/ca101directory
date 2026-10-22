@@ -27,9 +27,8 @@ export type CardData = {
   /** Category suggests photography (photographers, headshots, ...) */
   photoLed: boolean;
   pills: string[];
+  /** Paid promotional placement. The only public badge on cards. */
   featured: boolean;
-  pro: boolean;
-  approved101: boolean;
 };
 
 const PHOTO_CATEGORY = /photograph|headshot|portrait|video|reel/i;
@@ -152,9 +151,6 @@ export function listingToCardData(
       cats.slice(1),
     ),
     featured: Boolean(listing.featured) && !industryPro,
-    pro: pro && !industryPro,
-    approved101:
-      listing.badge_approved === true || listing.is_approved_101 === true,
   };
 }
 
@@ -163,7 +159,6 @@ export function itemToCardData(
   item: ItemInfo,
   slug: string,
   ageRanges: string[],
-  approved101: boolean,
   iconRefUrl?: string | null,
 ): CardData {
   const plan = (item.pricePlan || "free").toLowerCase();
@@ -194,7 +189,5 @@ export function itemToCardData(
       (item.categories || []).slice(1).map((c) => c.name),
     ),
     featured: Boolean(item.featured) && !industryPro,
-    pro: pro && !industryPro,
-    approved101,
   };
 }

@@ -26,7 +26,7 @@ export const revalidate = 0;
 export const metadata = constructMetadata({
   title: "Child Actor 101 Vendor Directory - Find Trusted Acting Professionals (Old)",
   description:
-    "Find 250+ trusted acting coaches, headshot photographers, talent agents, and managers for child actors in Los Angeles, New York, Atlanta & nationwide. 101 Approved professionals.",
+    "Find 250+ trusted acting coaches, headshot photographers, talent agents, and managers for child actors in Los Angeles, New York, Atlanta & nationwide.",
   canonicalUrl: `${siteConfig.url}/old-home`,
 });
 

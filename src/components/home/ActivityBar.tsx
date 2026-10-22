@@ -1,20 +1,17 @@
 /**
- * Trust legend: what each badge on a listing actually means.
+ * Badge legend: what the public badges on a listing mean.
  * Used on homepage and category pages.
  */
 export function ActivityBar() {
   return (
     <div className="activity-bar">
       <span>
-        <strong>Verified</strong> = profile claimed by the business
+        <strong>Verified Business</strong> = owner completed ownership
+        verification (not an endorsement)
       </span>
       <span className="activity-bar__dot" aria-hidden="true">·</span>
       <span>
-        <strong>101 Approved</strong> = awarded by Child Actor 101 after review
-      </span>
-      <span className="activity-bar__dot" aria-hidden="true">·</span>
-      <span>
-        <strong>Pro</strong> and <strong>Featured</strong> = paid plans
+        <strong>Featured</strong> = paid promotional placement
       </span>
 
       <style>{`

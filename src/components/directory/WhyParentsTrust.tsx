@@ -63,7 +63,7 @@ export default function WhyParentsTrust({
             {
               title: "Clear Trust Signals",
               description:
-                "Claimed profiles are marked. The 101 Approved badge is awarded by Child Actor 101 after an application review.",
+                "Verified Business means the owner completed ownership verification. Featured means paid placement. Neither is an endorsement.",
             },
             {
               title: "Parent-First Approach",

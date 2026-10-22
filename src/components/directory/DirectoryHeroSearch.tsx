@@ -211,8 +211,8 @@ export default function DirectoryHeroSearch({
 
         {/* Subline */}
         <p className="bauhaus-body text-center text-lg md:text-xl text-white/80 max-w-3xl mx-auto mb-8">
-          Search by category and location. Look for the 101 Approved badge —
-          awarded by Child Actor 101.
+          Search by category and location to find professionals who work
+          with young performers.
         </p>
 
         {/* Search Panel */}

@@ -6,7 +6,6 @@ import {
   HelpCircle,
   Home,
   List,
-  ShieldCheck,
   User,
 } from "lucide-react";
 import Link from "next/link";
@@ -16,11 +15,6 @@ const navItems = [
   { icon: Home, label: "Home", href: "/" },
   { icon: Compass, label: "Explore", href: "/directory" },
   { icon: List, label: "Categories", href: "/category" },
-  {
-    icon: ShieldCheck,
-    label: "Verified Providers",
-    href: "/collection/101-approved",
-  },
   { icon: Heart, label: "Favorites", href: "/dashboard/parent" },
   { icon: HelpCircle, label: "Help", href: "/help" },
   { icon: User, label: "Account", href: "/settings" },

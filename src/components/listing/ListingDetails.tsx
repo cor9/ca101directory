@@ -1,7 +1,7 @@
 import type { Listing } from "@/data/listings";
 import { isIndustryPro as checkIndustryPro } from "@/lib/listings/listingType";
 import { ListingPricing } from "./ListingPricing";
-import { CheckCircle, Clock, Globe, MapPin, Shield, Users } from "lucide-react";
+import { Clock, Globe, MapPin, Shield, Users } from "lucide-react";
 
 interface ListingDetailsProps {
   listing: Listing;
@@ -44,16 +44,11 @@ export function ListingDetails({
   const responseTime = (listing as any).response_time_label;
   const lastActive = formatLastActive((listing as any).last_active_at);
 
-  const isVerified =
-    trustLevel === "verified" ||
-    trustLevel === "background_checked" ||
-    trustLevel === "verified_safe";
   const isBackgroundChecked =
     trustLevel === "background_checked" || trustLevel === "verified_safe";
 
   // Trust signals to show
   const showTrustSignals =
-    isVerified ||
     isBackgroundChecked ||
     repeatFamilies > 0 ||
     responseTime ||
@@ -69,12 +64,6 @@ export function ListingDetails({
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">
               <Shield className="h-3 w-3" />
               Background Checked
-            </span>
-          )}
-          {isVerified && !isBackgroundChecked && (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold text-sky-800">
-              <CheckCircle className="h-3 w-3" />
-              Verified
             </span>
           )}
           {repeatFamilies > 0 && (

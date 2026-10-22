@@ -2,87 +2,113 @@
 
 import { cn } from "@/lib/utils";
 import { CheckCircle, Info } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 
 interface ProfileVerifiedBadgeProps {
   profileVerifiedAt?: string | null;
   className?: string;
 }
 
-const TOOLTIP_TEXT =
-  "Profile Verified means the provider has claimed this listing and it's been reviewed by Child Actor 101 for basic legitimacy and completeness. It is not a criminal background check.";
+export const VERIFIED_BUSINESS_TOOLTIP =
+  "Verified Business means the owner of this business has completed ownership verification with Child Actor 101. It confirms who manages this listing. It is not an endorsement and says nothing about the quality of their services.";
 
-function formatVerifiedDate(dateString: string): string {
+function formatVerifiedDate(dateString: string): string | null {
   const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return null;
   return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
 }
 
+/**
+ * Public "Verified Business" badge. Render it only when the business owner has
+ * completed ownership verification (listing.profile_verified). Works with
+ * hover, keyboard focus and tap; Escape or an outside tap closes the tooltip.
+ */
 export function ProfileVerifiedBadge({
   profileVerifiedAt,
   className,
 }: ProfileVerifiedBadgeProps) {
-  const [showTooltip, setShowTooltip] = useState(false);
-  const tooltipRef = useRef<HTMLDivElement>(null);
-  const badgeRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const wrapRef = useRef<HTMLSpanElement>(null);
+  const tipRef = useRef<HTMLSpanElement>(null);
+  const tipId = useId();
+  // Horizontal nudge so the tooltip never runs off a narrow screen
+  const [shift, setShift] = useState(0);
 
-  // Close tooltip when clicking outside (for mobile)
+  useLayoutEffect(() => {
+    if (!open || !tipRef.current) return;
+    const el = tipRef.current;
+    el.style.transform = "translateX(0px)";
+    const r = el.getBoundingClientRect();
+    const margin = 12;
+    let dx = 0;
+    if (r.right > window.innerWidth - margin)
+      dx = window.innerWidth - margin - r.right;
+    if (r.left + dx < margin) dx = margin - r.left;
+    setShift(dx);
+  }, [open]);
+
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        tooltipRef.current &&
-        !tooltipRef.current.contains(event.target as Node) &&
-        badgeRef.current &&
-        !badgeRef.current.contains(event.target as Node)
-      ) {
-        setShowTooltip(false);
+    if (!open) return;
+    const onDown = (e: MouseEvent | TouchEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
+        setOpen(false);
       }
-    }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("touchstart", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("touchstart", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
 
-    if (showTooltip) {
-      document.addEventListener("mousedown", handleClickOutside);
-      return () =>
-        document.removeEventListener("mousedown", handleClickOutside);
-    }
-  }, [showTooltip]);
-
-  const dateLabel = profileVerifiedAt
-    ? `Verified: ${formatVerifiedDate(profileVerifiedAt)}`
-    : null;
+  const date = profileVerifiedAt ? formatVerifiedDate(profileVerifiedAt) : null;
 
   return (
-    <div className="relative inline-flex" ref={badgeRef}>
-      <div
+    <span
+      ref={wrapRef}
+      className="relative inline-flex"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      <button
+        type="button"
+        aria-describedby={open ? tipId : undefined}
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+        onFocus={() => setOpen(true)}
+        onBlur={() => setOpen(false)}
         className={cn(
-          "flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium text-white border cursor-default",
+          "inline-flex items-center gap-1.5 rounded-full border border-emerald-700 bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:ring-offset-2",
           className,
         )}
-        style={{
-          backgroundColor: "#0F141B",
-          borderColor: "#2DD4BF",
-        }}
-        onMouseEnter={() => setShowTooltip(true)}
-        onMouseLeave={() => setShowTooltip(false)}
-        onClick={() => setShowTooltip((prev) => !prev)}
       >
-        <CheckCircle className="h-3 w-3" style={{ color: "#2DD4BF" }} />
-        <span>Profile Verified</span>
-        <Info className="h-3 w-3 text-gray-400" />
-      </div>
+        <CheckCircle className="h-3.5 w-3.5" aria-hidden="true" />
+        Verified Business
+        <Info className="h-3.5 w-3.5 opacity-70" aria-hidden="true" />
+      </button>
 
-      {/* Tooltip */}
-      {showTooltip && (
-        <div
-          ref={tooltipRef}
-          className="absolute z-50 top-full left-0 mt-2 w-64 p-3 rounded-lg bg-[#1A1F2B] border border-white/10 shadow-lg text-xs text-gray-300 leading-relaxed"
+      {open && (
+        <span
+          id={tipId}
+          ref={tipRef}
+          role="tooltip"
+          style={{ transform: `translateX(${shift}px)` }}
+          className="absolute left-0 top-full z-50 mt-2 w-72 max-w-[calc(100vw-1.5rem)] rounded-lg border border-zinc-700 bg-zinc-900 p-3 text-left text-xs font-normal leading-relaxed text-zinc-100 shadow-lg"
         >
-          {TOOLTIP_TEXT}
-          {dateLabel && (
-            <div className="mt-2 pt-2 border-t border-white/10 text-white font-medium">
-              {dateLabel}
-            </div>
+          {VERIFIED_BUSINESS_TOOLTIP}
+          {date && (
+            <span className="mt-2 block border-t border-white/15 pt-2 font-semibold text-white">
+              Verified: {date}
+            </span>
           )}
-        </div>
+        </span>
       )}
-    </div>
+    </span>
   );
 }

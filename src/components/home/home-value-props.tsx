@@ -31,7 +31,7 @@ export default function HomeValueProps() {
           </h2>
           <p className="text-base" style={{ color: "#EAEAEA" }}>
             We do the legwork so you can focus on supporting your child. Explore
-            listings with clear badges for claimed, Pro and 101 Approved profiles.
+            listings with clear badges: Verified Business for ownership, Featured for paid placement.
           </p>
         </div>
 

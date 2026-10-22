@@ -115,10 +115,12 @@ export default function HelpPage() {
                 How do I know who's legit?
               </h4>
               <p className="mt-2 text-text-secondary text-sm max-w-3xl">
-                Listings are reviewed before going live. Some providers go
-                through additional verification, which is clearly marked on
-                their profile. Look for the "101 Approved" badge for extra peace
-                of mind.
+                A "Verified Business" badge on a profile means the owner
+                completed ownership verification with us. It confirms who
+                manages the listing, not the quality of their services. A
+                "Featured" badge means the provider paid for promotional
+                placement. Neither is an endorsement, so always do your own
+                due diligence.
               </p>
             </div>
 
@@ -190,13 +192,13 @@ export default function HelpPage() {
 
             <div>
               <h4 className="font-medium text-text-primary">
-                What does "101 Approved" mean?
+                What do "Verified Business" and "Featured" mean?
               </h4>
               <p className="mt-2 text-text-secondary text-sm max-w-3xl">
-                The 101 Approved badge means a professional has met our highest
-                standards: proper certifications, background checks, experience
-                with children, and positive references. We personally vet each
-                application.
+                "Verified Business" means the owner of the business has
+                completed ownership verification with Child Actor 101. It
+                confirms who manages the listing; it is not an endorsement.
+                "Featured" means the provider paid for promotional placement.
               </p>
             </div>
 
@@ -205,9 +207,9 @@ export default function HelpPage() {
                 Are background checks required?
               </h4>
               <p className="mt-2 text-text-secondary text-sm max-w-3xl">
-                Background checks are required for 101 Approved professionals.
-                For other listings, we review credentials and references. Always
-                do your own due diligence when choosing a provider.
+                Unless a profile specifically shows a background check, assume
+                none has been done. Always do your own due diligence when
+                choosing a provider.
               </p>
             </div>
           </div>

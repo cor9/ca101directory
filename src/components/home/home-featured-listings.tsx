@@ -136,8 +136,6 @@ export default async function HomeFeaturedListings() {
       photoLed: isPhotoCategory(l.category),
       pills: l.tags.slice(0, 2),
       featured: Boolean(l.featured),
-      pro: false,
-      approved101: false,
     }));
   }
   return <FeaturedListingsClient listings={cards} />;

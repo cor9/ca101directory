@@ -1,3 +1,4 @@
+import { ProfileVerifiedBadge } from "@/components/badges/ProfileVerifiedBadge";
 import { ContactActions } from "@/components/listing/contact-actions";
 import type { Listing } from "@/data/listings";
 import { getListingImageUrl } from "@/lib/image-urls";
@@ -50,14 +51,6 @@ export function ProfileHeader({
       ? getListingImageUrl(listing.logo_url)
       : null;
 
-  const trust = listing.trust_level;
-  const verified =
-    trust === "verified" ||
-    trust === "background_checked" ||
-    trust === "verified_safe";
-  const approved101 =
-    listing.badge_approved === true || listing.is_approved_101 === true;
-
   // Genuine social links only (the website has its own button in this header);
   // clickable on Standard+ (see listingCapabilities)
   const socials = caps.canClickSocials
@@ -93,7 +86,10 @@ export function ProfileHeader({
       : null;
 
   return (
-    <header id="profile-header" className="flex flex-col gap-6 p-6 sm:p-8 md:flex-row md:items-start">
+    <header
+      id="profile-header"
+      className="flex flex-col gap-6 p-6 sm:p-8 md:flex-row md:items-start"
+    >
       {/* Portrait + badges */}
       <div className="flex shrink-0 flex-col items-center gap-2 md:items-start">
         <div className="relative h-28 w-28 overflow-hidden rounded-full bg-zinc-100 shadow-md ring-4 ring-white">
@@ -139,38 +135,19 @@ export function ProfileHeader({
             {averageRating.count === 1 ? "" : "s"})
           </a>
         )}
-        <div className="mt-3 flex flex-wrap justify-center gap-1.5 md:justify-start">
+        <div className="mt-3 flex flex-wrap items-center justify-center gap-1.5 md:justify-start">
           {listing.featured && !isIndustryPro && (
             <span
-              title="Paid featured placement"
+              title="Paid promotional placement"
               className="rounded-full bg-[#E4A72E] px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-zinc-900"
             >
               Featured
             </span>
           )}
-          {isPro && !isIndustryPro && (
-            <span
-              title="Pro subscription (a paid plan)"
-              className="rounded-full bg-zinc-900 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white"
-            >
-              Pro
-            </span>
-          )}
-          {approved101 && (
-            <span
-              title="Awarded by Child Actor 101 after an application review"
-              className="rounded-full bg-[#CC5A47] px-2.5 py-1 text-xs font-bold text-white"
-            >
-              101 Approved
-            </span>
-          )}
-          {verified && (
-            <span
-              title="Profile claimed by the business and reviewed by Child Actor 101. Not a background check."
-              className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-800"
-            >
-              Verified
-            </span>
+          {listing.profile_verified === true && (
+            <ProfileVerifiedBadge
+              profileVerifiedAt={listing.profile_verified_at}
+            />
           )}
         </div>
         {specialties.length > 0 && (

@@ -1,64 +1,45 @@
-import { auth } from "@/auth";
-import { createServerClient } from "@/lib/supabase";
+import { claimListing } from "@/actions/claim-listing";
 import { type NextRequest, NextResponse } from "next/server";
+
+/**
+ * Free claim used by the claim-upgrade form.
+ *
+ * Delegates to the same audited claim path as the rest of the site
+ * (actions/claim-listing.ts -> performListingClaim) so this route gets the
+ * atomic `is_claimed = false` write, vendor-role promotion, claim record and
+ * admin notification. It previously wrote owner_id directly and set the
+ * listing to "Pending", which pulled a live listing out of the directory and
+ * left parent-role claimers without vendor access.
+ */
+const STATUS_BY_ERROR: Record<string, number> = {
+  AUTH_REQUIRED: 401,
+  LISTING_NOT_FOUND: 404,
+  ALREADY_CLAIMED: 409,
+  ALREADY_OWN: 409,
+  DUPLICATE_CLAIM: 409,
+  UPDATE_FAILED: 409,
+};
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { listingId } = (await req.json()) as { listingId?: string };
-    if (!listingId) {
+    if (!listingId || typeof listingId !== "string") {
       return NextResponse.json(
         { error: "listingId required" },
         { status: 400 },
       );
     }
 
-    const supabase = createServerClient();
-
-    // Ensure listing exists
-    const { data: listing, error: fetchErr } = await supabase
-      .from("listings")
-      .select("id, is_claimed, owner_id, status, plan")
-      .eq("id", listingId)
-      .single();
-
-    if (fetchErr || !listing) {
-      return NextResponse.json({ error: "Listing not found" }, { status: 404 });
+    const result = await claimListing(listingId);
+    if (!("error" in result)) {
+      return NextResponse.json({ success: true, data: result.listing });
     }
-
-    if (listing.is_claimed) {
-      return NextResponse.json({ error: "Already claimed" }, { status: 409 });
-    }
-
-    const { data, error } = await supabase
-      .from("listings")
-      .update({
-        is_claimed: true,
-        owner_id: session.user.id,
-        status: "Pending", // queue for admin review
-        plan: listing.plan || "Free",
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", listingId)
-      .select()
-      .single();
-
-    if (error) {
-      return NextResponse.json(
-        { error: `Failed to claim: ${error.message}` },
-        { status: 500 },
-      );
-    }
-
-    return NextResponse.json({ success: true, data });
-  } catch (e) {
     return NextResponse.json(
-      { error: e instanceof Error ? e.message : "Unexpected error" },
-      { status: 500 },
+      { error: result.message || result.title },
+      { status: STATUS_BY_ERROR[result.error] ?? 500 },
     );
+  } catch (e) {
+    console.error("claim-free error:", e);
+    return NextResponse.json({ error: "Unexpected error" }, { status: 500 });
   }
 }

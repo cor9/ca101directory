@@ -5,6 +5,7 @@ import { EventCard } from "@/components/events/event-card";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { ClaimBanner } from "@/components/listing/ClaimBanner";
 import ListingLayout from "@/components/listing/ListingLayout";
+import { ProfileSection } from "@/components/listing/ProfileSection";
 import { ContactActions } from "@/components/listing/contact-actions";
 import { ListingCarousel } from "@/components/listing/listing-carousel";
 import { ListingContactSection } from "@/components/listing/listing-contact-section";
@@ -446,7 +447,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
     const showFavorite = isFavoritesEnabled() && !isOwner;
     const hasPremiumAccess = (listing.plan || "").toLowerCase() !== "free";
     const isIndustryPro = listing.listing_type === "INDUSTRY_PRO";
-    const showUpgradePrompt = !hasPremiumAccess && !isIndustryPro;
+    // Vendor-facing upsell: only the owner ever sees it, never parents
+    const showUpgradePrompt = isOwner && !hasPremiumAccess && !isIndustryPro;
     const showClaimCallout =
       !listing.is_claimed && !isOwner && !listing.owner_id;
     const displayPrimaryCategory =
@@ -636,11 +638,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
             mainFooter={
               <>
                 {upcomingEvents.length > 0 && (
-                  <section className="rounded-xl border border-white/10 bg-[#142B3B] p-6">
-                    <h2 className="mb-4 text-xl font-bold text-white">
-                      Upcoming Events from {listing.listing_name}
-                    </h2>
-                    <div className="space-y-4">
+                  <ProfileSection title={`Upcoming Events from ${listing.listing_name}`}>
+                    <div className="space-y-4 rounded-xl bg-[#0D1B2A] p-4">
                       {upcomingEvents.map((event) => (
                         <EventCard
                           key={event.id}
@@ -658,52 +657,39 @@ export default async function ListingPage({ params }: ListingPageProps) {
                         />
                       ))}
                     </div>
-                  </section>
+                  </ProfileSection>
                 )}
 
                 {reviewsEnabled && (
-                  <section
-                    id="reviews"
-                    className="rounded-xl border border-white/10 bg-[#142B3B] p-6"
-                  >
-                    <h2 className="mb-4 text-xl font-bold text-white">
-                      Reviews from Parents
-                    </h2>
-
-                    {/* 17F: Review Gating Message */}
+                  <ProfileSection id="reviews" title="Reviews from Parents">
                     {averageRating.count === 0 && reviews.length === 0 && (
-                      <div className="mb-4 rounded-lg border border-white/10 bg-[#0D1B2A] p-4">
-                        <p className="mb-2 text-sm text-slate-100">
-                          This provider does not have reviews yet.
-                        </p>
-                        <p className="text-xs italic text-slate-300">
-                          Profiles with reviews get 4× more contact requests.
-                        </p>
-                      </div>
+                      <p className="mb-4 rounded-lg bg-zinc-50 p-4 text-sm text-zinc-700">
+                        This provider doesn’t have reviews yet. Be the first to
+                        share your experience.
+                      </p>
                     )}
 
                     {reviews.length > 0 && (
-                      <div className="space-y-6">
-                        <div className="mb-3 flex items-center gap-2">
-                          <span className="text-2xl text-amber-300">★</span>
-                          <span className="text-xl font-semibold text-white">
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                          <span className="text-2xl text-amber-500">★</span>
+                          <span className="text-xl font-semibold text-zinc-900">
                             {averageRating.average.toFixed(1)}
                           </span>
-                          <span className="text-sm text-slate-300">
+                          <span className="text-sm text-zinc-600">
                             based on {averageRating.count} review
                             {averageRating.count === 1 ? "" : "s"}
                           </span>
                         </div>
-
                         {reviews.map((review) => (
                           <div
                             key={review.id}
-                            className="rounded-lg border border-white/10 bg-[#0D1B2A] p-4"
+                            className="rounded-lg border border-zinc-200 bg-zinc-50 p-4"
                           >
-                            <p className="text-sm leading-relaxed text-slate-100">
+                            <p className="text-sm leading-relaxed text-zinc-800">
                               {review.text}
                             </p>
-                            <p className="mt-2 text-xs text-slate-300">
+                            <p className="mt-2 text-xs text-zinc-600">
                               —{" "}
                               {review.user?.name ||
                                 review.user?.email ||
@@ -721,15 +707,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                         vendorName={listing.listing_name || "this provider"}
                       />
                     </div>
-
-                    <RelatedLinks
-                      categoryNames={Array.from(
-                        new Set(
-                          displayCategories.map((c) => c.displayName.trim()),
-                        ),
-                      )}
-                    />
-                  </section>
+                  </ProfileSection>
                 )}
               </>
             }
@@ -751,6 +729,11 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 <ListingCarousel listings={recommendedItems} />
               </section>
             )}
+            <RelatedLinks
+              categoryNames={Array.from(
+                new Set(displayCategories.map((c) => c.displayName.trim())),
+              )}
+            />
           </ListingLayout>
         </div>
 

@@ -96,6 +96,10 @@ export type ItemInfo = {
   city?: string | null;
   state?: string | null;
   logoUrl?: string | null;
+  /** Portfolio image URLs (first few used for card previews) */
+  galleryUrls?: string[];
+  specialties?: string[];
+  profileImageUrl?: string | null;
   serviceModality?: "virtual" | "in_person" | "hybrid" | "unknown";
   listingType?: "SERVICE_VENDOR" | "INDUSTRY_PRO" | "REGULATED_PRO" | null;
   email?: string | null;

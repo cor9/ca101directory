@@ -5,6 +5,8 @@ import {
   getPublicListings,
 } from "@/data/listings";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
+import { parseGalleryItems } from "@/lib/gallery";
+import { getListingImageUrl } from "@/lib/image-urls";
 import {
   buildCategoryMatcher,
   listingHasPhoto,
@@ -167,6 +169,15 @@ export async function listingToItem(
     city: listing.city || null,
     state: listing.state || null,
     logoUrl: (listing as any).logo_url || null,
+    profileImageUrl: listing.profile_image
+      ? getListingImageUrl(listing.profile_image)
+      : null,
+    galleryUrls: parseGalleryItems(listing.gallery)
+      .slice(0, 4)
+      .map((g) => g.url),
+    specialties: Array.isArray(listing.specialties)
+      ? listing.specialties.filter(Boolean).slice(0, 6)
+      : [],
     serviceModality: listing.service_modality || "unknown",
   } as ItemInfo;
 }

@@ -1,75 +1,46 @@
 import type { Listing } from "@/data/listings";
-import { DollarSign } from "lucide-react";
-
-interface ListingPricingProps {
-  listing: Listing;
-}
 
 /**
- * Displays pricing information on listing detail page
- * Shows: Starting at, Typical range, Free consult badge
- * Returns null if no real pricing data exists
+ * Pricing from real data only; renders nothing when no pricing exists.
  */
-export function ListingPricing({ listing }: ListingPricingProps) {
+export function ListingPricing({ listing }: { listing: Listing }) {
   const hasStartingAt = listing.price_starting_at != null;
   const hasRange =
     listing.price_range_min != null && listing.price_range_max != null;
   const hasFreeConsult = listing.free_consult === true;
-  const hasPricingInfo = hasStartingAt || hasRange || hasFreeConsult;
+  if (!hasStartingAt && !hasRange && !hasFreeConsult) return null;
 
-  // Only render if we have actual pricing data
-  if (!hasPricingInfo) {
-    return null;
-  }
-
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("en-US", {
+  const fmt = (n: number) =>
+    new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
-      minimumFractionDigits: 0,
       maximumFractionDigits: 0,
-    }).format(price);
-  };
+    }).format(n);
 
   return (
-    <div className="border border-white/10 bg-[#142B3B] rounded-xl p-6">
-      <div className="flex items-center gap-2 mb-4">
-        <DollarSign className="w-5 h-5 text-emerald-400" />
-        <h3 className="text-lg font-semibold text-white">Pricing</h3>
-      </div>
-
-      <div className="space-y-3">
-        {hasStartingAt && (
-          <div className="flex items-baseline gap-2">
-            <span className="text-sm text-slate-300">Starting at</span>
-            <span className="text-xl font-bold text-emerald-400">
-              {formatPrice(listing.price_starting_at!)}
-            </span>
-          </div>
-        )}
-
-        {hasRange && (
-          <div className="flex items-baseline gap-2">
-            <span className="text-sm text-slate-300">Typical range</span>
-            <span className="text-lg font-semibold text-white">
-              {formatPrice(listing.price_range_min!)}–
-              {formatPrice(listing.price_range_max!)}
-            </span>
-          </div>
-        )}
-
-        {hasFreeConsult && (
-          <div className="mt-4 pt-3 border-t border-white/10">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-medium">
-              ✓ Free Consultation
-            </span>
-          </div>
-        )}
-
-        <p className="text-xs text-slate-300 pt-2">
-          Pricing is self-reported and may vary
-        </p>
-      </div>
-    </div>
+    <dl className="space-y-2 text-sm">
+      {hasStartingAt && (
+        <div className="flex items-baseline justify-between gap-3">
+          <dt className="text-zinc-600">Starting at</dt>
+          <dd className="text-lg font-bold text-zinc-900">
+            {fmt(listing.price_starting_at as number)}
+          </dd>
+        </div>
+      )}
+      {hasRange && (
+        <div className="flex items-baseline justify-between gap-3">
+          <dt className="text-zinc-600">Typical range</dt>
+          <dd className="font-semibold text-zinc-900">
+            {fmt(listing.price_range_min as number)}–
+            {fmt(listing.price_range_max as number)}
+          </dd>
+        </div>
+      )}
+      {hasFreeConsult && (
+        <div className="inline-block rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800">
+          Free consultation
+        </div>
+      )}
+    </dl>
   );
 }

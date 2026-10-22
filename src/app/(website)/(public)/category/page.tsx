@@ -14,54 +14,59 @@ export const metadata = constructMetadata({
   canonicalUrl: `${siteConfig.url}/category`,
 });
 
-// Featured Categories (homepage + top of category page) - ONLY these get color
-// Locked list - must render all 8, regardless of count or existence in DB
-const FEATURED_CATEGORIES = [
-  "Acting Classes & Coaches",
-  "Audition Prep",
-  "Career Consultation",
-  "Demo Reel Creators",
-  "Headshot Photographers",
-  "Self Tape Support",
-  "Talent Agents",
-  "Talent Managers",
+// Priority categories shown first, as large cards.
+const PRIORITY_CATEGORIES = [
+  {
+    name: "Headshot Photographers",
+    slug: "headshot-photographers",
+    blurb: "Portfolio-led photographers who specialize in kids and teens.",
+  },
+  {
+    name: "Acting Classes & Coaches",
+    slug: "acting-classes-coaches",
+    blurb: "Classes, private coaching and training for young actors.",
+  },
+  {
+    name: "Talent Agents",
+    slug: "talent-agents",
+    blurb: "Agencies that represent young talent for TV, film and commercials.",
+  },
+  {
+    name: "Talent Managers",
+    slug: "talent-managers",
+    blurb: "Managers who guide a young actor's career.",
+  },
 ] as const;
 
-// Slug mapping for reliable matching
-const FEATURED_CATEGORY_SLUGS = [
-  "acting-classes-coaches",
-  "audition-prep",
-  "career-consultation",
-  "demo-reel-creators",
-  "headshot-photographers",
-  "self-tape-support",
-  "talent-agents",
-  "talent-managers",
-] as const;
-
-// Category → Color Map (8-accent balanced set)
-const FEATURED_CATEGORY_COLORS: Record<string, string> = {
-  "Acting Classes & Coaches": "#2DD4BF", // teal - coaching/classes
-  "Audition Prep": "#FB923C", // orange - audition prep
-  "Career Consultation": "#84CC16", // lime green - career consultation
-  "Demo Reel Creators": "#D946EF", // magenta - demo reels
-  "Headshot Photographers": "#FACC15", // gold - headshots
-  "Self Tape Support": "#06B6D4", // cyan - self tape support
-  "Talent Agents": "#3B82F6", // blue - talent agents
-  "Talent Managers": "#EF4444", // red - talent managers
-};
-
-// Normalize visual weight with opacity compensation (18-22% range per spec)
-const CATEGORY_OPACITY: Record<string, number> = {
-  "Acting Classes & Coaches": 20, // teal
-  "Audition Prep": 18, // orange
-  "Career Consultation": 22, // lime green
-  "Demo Reel Creators": 20, // magenta
-  "Headshot Photographers": 18, // gold
-  "Self Tape Support": 20, // cyan
-  "Talent Agents": 22, // blue (slightly more for authority)
-  "Talent Managers": 18, // red
-};
+/**
+ * Browsing groups. Purely presentational: matched by category-name keywords so
+ * no records, slugs or taxonomy rows change. Anything unmatched falls into
+ * "More Specialties" so every category stays reachable.
+ */
+const CATEGORY_GROUPS: Array<{ title: string; match: RegExp }> = [
+  {
+    title: "Photo & Video",
+    match: /photograph|video|reel|self.?tape|portfolio|content creator/i,
+  },
+  {
+    title: "Training & Coaching",
+    match:
+      /class|coach|audition|improv|comedy|vocal|dialect|voice|theat|dance|stunt|workshop|teacher|school|acting|singing|music/i,
+  },
+  {
+    title: "Representation & Casting",
+    match: /agent|manager|casting|publicist|lawyer|attorney|legal/i,
+  },
+  {
+    title: "Career & Business",
+    match: /career|business|website|social media|branding|financial|consult/i,
+  },
+  {
+    title: "Wellness, Style & On-Set Support",
+    match:
+      /mental|therapy|speech|set sitter|advocacy|hair|makeup|stylist|wardrobe|dent|health|tutor/i,
+  },
+];
 
 export default async function CategoryPage() {
   // Get real categories from Supabase
@@ -198,137 +203,111 @@ export default async function CategoryPage() {
       .replace(/^-|-$/g, "");
   };
 
-  // Build featured categories - always render all 8, create placeholders if missing
-  const sortedFeatured = FEATURED_CATEGORIES.map((name, index) => {
-    const slug = FEATURED_CATEGORY_SLUGS[index];
-    const found = categories.find(
-      (cat) =>
-        cat.name === name ||
-        generateSlug(cat.name) === slug ||
-        cat.slug === slug,
-    );
+  const prioritySlugs = new Set<string>(PRIORITY_CATEGORIES.map((c) => c.slug));
+  const bySlug = new Map(
+    categories.map((c) => [c.slug || generateSlug(c.name), c]),
+  );
+  const priority = PRIORITY_CATEGORIES.map((p) => ({
+    ...p,
+    count: bySlug.get(p.slug)?.count ?? 0,
+  }));
 
-    // If found, use it; otherwise create placeholder
-    if (found) {
-      return found;
-    }
-
-    // Placeholder - ensures all 8 always render
-    return {
-      name,
-      slug,
-      description: `${name} services`,
-      count: 0,
-    };
-  });
-
-  // All other categories (not in featured list)
-  const otherCategories = categories.filter((cat) => {
-    const catSlug = cat.slug || generateSlug(cat.name);
-    return !FEATURED_CATEGORY_SLUGS.includes(catSlug as any);
-  });
+  // Everything else, grouped. Every category lands in exactly one group.
+  const rest = categories.filter(
+    (c) => !prioritySlugs.has(c.slug || generateSlug(c.name)),
+  );
+  const grouped: Array<{ title: string; items: typeof rest }> = [
+    ...CATEGORY_GROUPS.map((g) => ({ title: g.title, items: [] as typeof rest })),
+    { title: "More Specialties", items: [] as typeof rest },
+  ];
+  for (const c of rest) {
+    const idx = CATEGORY_GROUPS.findIndex((g) => g.match.test(c.name));
+    grouped[idx === -1 ? grouped.length - 1 : idx].items.push(c);
+  }
+  const groups = grouped.filter((g) => g.items.length > 0);
 
   return (
-    <div className="bg-bg-dark min-h-screen">
-      <section className="max-w-7xl mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-semibold mb-8 text-text-primary">
+    <div className="min-h-screen bg-bg-dark">
+      <section className="mx-auto max-w-7xl px-4 py-10">
+        <div className="mb-10 text-center">
+          <h1 className="mb-4 text-4xl font-semibold text-white">
             Browse by Category
           </h1>
-          <p className="text-lg text-text-secondary max-w-3xl mx-auto">
-            Find trusted acting professionals organized by specialty. Each
-            category contains verified professionals ready to help your child
-            succeed in the entertainment industry.
+          <p className="mx-auto max-w-3xl text-lg text-slate-300">
+            Find trusted professionals for young performers, organized by what
+            you need.
           </p>
         </div>
 
-        {/* Featured Categories (8) - Colored, prominent */}
-        {sortedFeatured.length > 0 && (
-          <div className="mb-16">
-            <h2 className="text-2xl font-semibold text-text-primary mb-6">
-              Featured Categories
-            </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-              {sortedFeatured.map((category) => {
-                const color =
-                  FEATURED_CATEGORY_COLORS[category.name] || "#2DD4BF";
-                const opacity = CATEGORY_OPACITY[category.name] || 10;
-
-                return (
-                  <Link
-                    key={category.slug}
-                    href={`/category/${category.slug}`}
-                    className="category-tile"
-                    style={
-                      {
-                        "--accent": color,
-                        "--accent-opacity": opacity,
-                      } as React.CSSProperties
-                    }
-                  >
-                    <div className="provider-count">{category.count}+</div>
-                    <h3 className="category-title">{category.name}</h3>
-                    {category.description && (
-                      <p className="category-desc">{category.description}</p>
-                    )}
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* All Other Categories - Neutral cards, no accent until hover */}
-        {otherCategories.length > 0 && (
-          <div>
-            <h2 className="text-2xl font-semibold text-text-primary mb-6">
-              All Other Categories
-            </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-              {otherCategories.map((category) => {
-                return (
-                  <Link
-                    key={category.slug}
-                    href={`/category/${category.slug}`}
-                    className="category-neutral-tile"
-                  >
-                    <div className="provider-count-neutral">
-                      {category.count}+
-                    </div>
-                    <h3 className="category-title">{category.name}</h3>
-                    {category.description && (
-                      <p className="category-desc">{category.description}</p>
-                    )}
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* Call to Action */}
-        <div className="bg-card-surface border border-border-subtle rounded-xl text-center p-8">
-          <h2 className="text-2xl font-semibold mb-4 text-text-primary">
-            Don't See Your Category?
-          </h2>
-          <p className="text-text-secondary mb-6 max-w-2xl mx-auto">
-            We're constantly adding new categories and professionals. If you
-            don't see what you're looking for, try our search feature or submit
-            a listing request.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        {/* Priority categories */}
+        <div className="mb-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {priority.map((category) => (
             <Link
-              href="/search"
-              className="inline-flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium bg-transparent border border-border-subtle text-text-secondary hover:text-text-primary transition-colors"
+              key={category.slug}
+              href={`/category/${category.slug}`}
+              className="group flex flex-col rounded-xl border border-white/10 bg-white/[0.04] p-6 transition hover:-translate-y-0.5 hover:border-[#E4572E] hover:bg-white/[0.07]"
             >
-              Search All Professionals
+              <h2 className="text-xl font-bold text-white">{category.name}</h2>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-300">
+                {category.blurb}
+              </p>
+              <p className="mt-4 text-sm font-semibold text-[#F28A63] group-hover:text-white">
+                {category.count > 0
+                  ? `${category.count} providers →`
+                  : "Browse →"}
+              </p>
+            </Link>
+          ))}
+        </div>
+
+        {/* Everything else, grouped */}
+        <div className="space-y-10">
+          {groups.map((group) => (
+            <div key={group.title}>
+              <h2 className="mb-4 border-b border-white/10 pb-2 text-lg font-semibold text-white">
+                {group.title}
+              </h2>
+              <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {group.items.map((category) => (
+                  <li key={category.slug}>
+                    <Link
+                      href={`/category/${category.slug}`}
+                      className="flex items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3 text-sm font-medium text-slate-100 transition hover:border-[#E4572E] hover:text-white"
+                    >
+                      <span>{category.name}</span>
+                      {category.count > 0 && (
+                        <span className="shrink-0 text-xs text-slate-400">
+                          {category.count}
+                        </span>
+                      )}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-14 rounded-xl border border-white/10 bg-white/[0.04] p-8 text-center">
+          <h2 className="mb-3 text-2xl font-semibold text-white">
+            Don’t see what you need?
+          </h2>
+          <p className="mx-auto mb-6 max-w-2xl text-slate-300">
+            Search every professional in the directory, or suggest a vendor we
+            should add.
+          </p>
+          <div className="flex flex-col justify-center gap-4 sm:flex-row">
+            <Link
+              href="/directory"
+              className="inline-flex items-center justify-center rounded-md bg-[#E4572E] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#CC4E2A]"
+            >
+              Search the Directory
             </Link>
             <Link
-              href="/submit"
-              className="inline-flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium bg-transparent border border-border-subtle text-text-secondary hover:text-text-primary transition-colors"
+              href="/suggest-vendor"
+              className="inline-flex items-center justify-center rounded-md border border-white/25 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/10"
             >
-              Submit Your Listing
+              Suggest a Vendor
             </Link>
           </div>
         </div>

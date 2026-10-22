@@ -1,4 +1,6 @@
 import type { Listing } from "@/data/listings";
+import { isIndustryPro as checkIndustryPro } from "@/lib/listings/listingType";
+import { ListingPricing } from "./ListingPricing";
 import { CheckCircle, Clock, Globe, MapPin, Shield, Users } from "lucide-react";
 
 interface ListingDetailsProps {
@@ -36,6 +38,7 @@ export function ListingDetails({
   regions,
   hasVirtualOption,
 }: ListingDetailsProps) {
+  const industryPro = checkIndustryPro(listing.listing_type);
   const trustLevel = (listing as any).trust_level;
   const repeatFamilies = (listing as any).repeat_families_count ?? 0;
   const responseTime = (listing as any).response_time_label;
@@ -57,92 +60,75 @@ export function ListingDetails({
     lastActive;
 
   return (
-    <section className="border border-white/10 bg-[#142B3B] rounded-xl p-6">
-      <h2 className="mb-4 text-lg font-bold text-white">Details</h2>
+    <div>
+      <h2 className="mb-4 text-xl font-bold text-zinc-900">Session Details</h2>
 
-      {/* Trust Signals Bar */}
       {showTrustSignals && (
-        <div className="flex flex-wrap gap-3 mb-6 pb-4 border-b border-white/10">
+        <div className="mb-5 flex flex-wrap items-center gap-2 border-b border-zinc-200 pb-4">
           {isBackgroundChecked && (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-medium">
-              <Shield className="w-3 h-3" />
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">
+              <Shield className="h-3 w-3" />
               Background Checked
             </span>
           )}
           {isVerified && !isBackgroundChecked && (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 text-xs font-medium">
-              <CheckCircle className="w-3 h-3" />
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold text-sky-800">
+              <CheckCircle className="h-3 w-3" />
               Verified
             </span>
           )}
           {repeatFamilies > 0 && (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 text-purple-400 text-xs font-medium">
-              <Users className="w-3 h-3" />
-              {repeatFamilies} repeat{" "}
-              {repeatFamilies === 1 ? "family" : "families"}
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-purple-100 px-3 py-1 text-xs font-semibold text-purple-800">
+              <Users className="h-3 w-3" />
+              {repeatFamilies} repeat {repeatFamilies === 1 ? "family" : "families"}
             </span>
           )}
           {responseTime && (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 text-xs font-medium">
-              <Clock className="w-3 h-3" />
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-900">
+              <Clock className="h-3 w-3" />
               {responseTime}
             </span>
           )}
           {lastActive && (
-            <span className="inline-flex items-center gap-1.5 text-xs text-slate-300">
-              {lastActive}
-            </span>
+            <span className="text-xs text-zinc-500">{lastActive}</span>
           )}
         </div>
       )}
 
-      {/* Details Grid */}
-      <dl className="grid grid-cols-1 gap-4 text-sm">
-        <div className="flex items-start gap-2">
-          <MapPin className="w-4 h-4 text-slate-300 mt-0.5 flex-shrink-0" />
+      <dl className="space-y-4 text-sm">
+        <div className="flex items-start gap-3">
+          <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-zinc-500" />
           <div>
-            <dt className="font-medium text-white">Location</dt>
-            <dd className="text-slate-100">
-              {location || "Not specified"}
-            </dd>
+            <dt className="font-semibold text-zinc-900">Location</dt>
+            <dd className="text-zinc-700">{location || "Not specified"}</dd>
           </div>
         </div>
-
-        <div className="flex items-start gap-2">
-          <Globe className="w-4 h-4 text-slate-300 mt-0.5 flex-shrink-0" />
+        <div className="flex items-start gap-3">
+          <Globe className="mt-0.5 h-4 w-4 shrink-0 text-zinc-500" />
           <div>
-            <dt className="font-medium text-white">Format</dt>
-            <dd className="text-slate-100">
+            <dt className="font-semibold text-zinc-900">Format</dt>
+            <dd className="text-zinc-700">
               {hasVirtualOption ? "Virtual / Online" : "In-Person"}
             </dd>
           </div>
         </div>
-
         {regions.length > 0 && (
-          <div>
-            <dt className="font-medium text-white mb-1">
-              Service Areas
-            </dt>
-            <dd className="text-slate-100 text-sm">
-              {regions.slice(0, 3).join(", ")}
-              {regions.length > 3 ? ` +${regions.length - 3} more` : ""}
-            </dd>
+          <div className="flex items-start gap-3">
+            <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-zinc-500" />
+            <div>
+              <dt className="font-semibold text-zinc-900">Service Areas</dt>
+              <dd className="text-zinc-700">{regions.join(", ")}</dd>
+            </div>
           </div>
         )}
-      </dl>
-
-      {/* Ages & Services Pills */}
-      <div className="mt-5 pt-4 border-t border-white/10 space-y-4">
         {ageRanges.length > 0 && (
           <div>
-            <dt className="font-medium text-white text-sm mb-2">
-              Ages Served
-            </dt>
-            <dd className="flex flex-wrap gap-2">
+            <dt className="mb-2 font-semibold text-zinc-900">Ages Served</dt>
+            <dd className="flex flex-wrap gap-1.5">
               {ageRanges.map((age) => (
                 <span
                   key={age}
-                  className="px-2.5 py-1 rounded-full bg-blue-500/15 text-sky-200 text-xs font-medium border border-blue-500/20"
+                  className="rounded-full bg-sky-100 px-2.5 py-1 text-xs font-semibold text-sky-900"
                 >
                   {age}
                 </span>
@@ -150,30 +136,33 @@ export function ListingDetails({
             </dd>
           </div>
         )}
-
         {services.length > 0 && (
           <div>
-            <dt className="font-medium text-white text-sm mb-2">
-              Services
-            </dt>
-            <dd className="flex flex-wrap gap-2">
-              {services.slice(0, 6).map((service) => (
+            <dt className="mb-2 font-semibold text-zinc-900">Specialties &amp; Services</dt>
+            <dd className="flex flex-wrap gap-1.5">
+              {services.slice(0, 10).map((service) => (
                 <span
                   key={service}
-                  className="px-2.5 py-1 rounded-full bg-white/10 text-slate-100 text-xs border border-white/15"
+                  className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-800"
                 >
                   {service}
                 </span>
               ))}
-              {services.length > 6 && (
-                <span className="text-xs text-slate-300 self-center">
-                  +{services.length - 6} more
+              {services.length > 10 && (
+                <span className="self-center text-xs text-zinc-500">
+                  +{services.length - 10} more
                 </span>
               )}
             </dd>
           </div>
         )}
-      </div>
-    </section>
+      </dl>
+
+      {!industryPro && (
+        <div className="mt-5 border-t border-zinc-200 pt-4">
+          <ListingPricing listing={listing} />
+        </div>
+      )}
+    </div>
   );
 }

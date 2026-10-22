@@ -49,6 +49,31 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // successUrl/cancelUrl come from the client and Stripe will redirect the
+    // buyer there: only allow our own origins (no open redirect).
+    const allowedOrigins = new Set<string>([new URL(request.url).origin]);
+    for (const u of [
+      process.env.NEXT_PUBLIC_SITE_URL,
+      process.env.NEXT_PUBLIC_APP_URL,
+    ]) {
+      try {
+        if (u) allowedOrigins.add(new URL(u).origin);
+      } catch {}
+    }
+    const isOwnUrl = (u: unknown) => {
+      try {
+        return typeof u === "string" && allowedOrigins.has(new URL(u).origin);
+      } catch {
+        return false;
+      }
+    };
+    if (!isOwnUrl(successUrl) || !isOwnUrl(cancelUrl)) {
+      return NextResponse.json(
+        { error: "Invalid redirect URL" },
+        { status: 400 },
+      );
+    }
+
     // If a claim token is provided (email-claim flow), verify it matches the listing
     let hasValidClaimToken = false;
     if (token) {

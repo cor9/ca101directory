@@ -113,14 +113,14 @@ export default function PlanSelectionPage() {
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Free Plan - No Payment Required */}
         <div className="border-2 border-gray-300 rounded-lg p-8 bg-white shadow-lg">
-          <h3 className="text-2xl font-bold mb-4 text-paper">Free Listing</h3>
+          <h3 className="text-2xl font-bold mb-4 text-zinc-900">Free Listing</h3>
           <p className="text-lg mb-2 font-semibold text-green-600">
             $0 / forever
           </p>
-          <p className="text-sm text-paper mb-6">
+          <p className="text-sm text-zinc-900 mb-6">
             Get started with a basic listing - no credit card required!
           </p>
-          <ul className="text-left mb-6 space-y-2 text-sm text-paper">
+          <ul className="text-left mb-6 space-y-2 text-sm text-zinc-900">
             <li>✓ Basic listing information</li>
             <li>✓ Contact details displayed</li>
             <li>✓ Searchable in directory</li>
@@ -136,9 +136,9 @@ export default function PlanSelectionPage() {
 
         {/* Pro Plan */}
         <div className="border-2 border-primary rounded-lg p-8 bg-white shadow-lg text-center">
-          <h3 className="text-2xl font-bold mb-4 text-paper">Pro Listing</h3>
-          <p className="text-lg mb-2 font-semibold">$399 / year</p>
-          <p className="text-sm text-paper mb-6">
+          <h3 className="text-2xl font-bold mb-4 text-zinc-900">Pro Listing</h3>
+          <p className="text-lg mb-2 font-semibold text-zinc-900">$399 / year</p>
+          <p className="text-sm text-zinc-900 mb-6">
             Featured placement, priority support, advanced analytics, and
             unlimited active event postings.
           </p>

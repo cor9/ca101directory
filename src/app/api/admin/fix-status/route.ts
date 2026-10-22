@@ -1,3 +1,4 @@
+import { requireAdmin } from "@/lib/auth/guards";
 import { createServerClient } from "@/lib/supabase";
 import { NextResponse } from "next/server";
 
@@ -8,6 +9,12 @@ export const dynamic = "force-dynamic";
  * GET /api/admin/fix-status
  */
 export async function GET() {
+  // Privileged bulk write using the service-role client: admins only.
+  const guard = await requireAdmin();
+  if (!guard.authorized) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     console.log("=== FIXING STATUS VALUES ===");
 

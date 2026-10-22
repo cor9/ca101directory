@@ -95,8 +95,8 @@ export function PlanSelectionCards() {
             onClick={() => setBillingCycle("monthly")}
             className={`px-6 py-2 rounded-md font-medium transition-colors ${
               billingCycle === "monthly"
-                ? "bg-white text-paper shadow-sm"
-                : "text-paper hover:text-paper"
+                ? "bg-white text-zinc-900 shadow-sm"
+                : "text-zinc-700 hover:text-zinc-900"
             }`}
           >
             Monthly
@@ -106,8 +106,8 @@ export function PlanSelectionCards() {
             onClick={() => setBillingCycle("yearly")}
             className={`px-6 py-2 rounded-md font-medium transition-colors ${
               billingCycle === "yearly"
-                ? "bg-white text-paper shadow-sm"
-                : "text-paper hover:text-paper"
+                ? "bg-white text-zinc-900 shadow-sm"
+                : "text-zinc-700 hover:text-zinc-900"
             }`}
           >
             Annual
@@ -123,7 +123,7 @@ export function PlanSelectionCards() {
         {plans.map((plan) => (
           <Card
             key={plan.id}
-            className={`relative flex flex-col ${
+            className={`relative flex flex-col bg-white text-zinc-900 ${
               plan.popular
                 ? "border-4 border-brand-orange shadow-xl"
                 : "border-2 border-gray-200"
@@ -141,13 +141,13 @@ export function PlanSelectionCards() {
             <CardHeader className="text-center pb-4">
               <CardTitle className="text-2xl mb-2">{plan.name}</CardTitle>
               <div className="mb-2">
-                <span className="text-4xl font-bold text-paper">
+                <span className="text-4xl font-bold text-zinc-900">
                   $
                   {billingCycle === "monthly"
                     ? plan.monthlyPrice
                     : plan.yearlyPrice}
                 </span>
-                <span className="text-paper">
+                <span className="text-zinc-900">
                   /{billingCycle === "monthly" ? "month" : "year"}
                 </span>
               </div>
@@ -156,7 +156,7 @@ export function PlanSelectionCards() {
                   Save ${plan.monthlyPrice * 12 - plan.yearlyPrice}
                 </p>
               )}
-              <p className="text-sm text-paper">{plan.description}</p>
+              <p className="text-sm text-zinc-900">{plan.description}</p>
             </CardHeader>
 
             <CardContent className="flex-1 flex flex-col">
@@ -164,7 +164,7 @@ export function PlanSelectionCards() {
                 {plan.features.map((feature) => (
                   <div key={feature} className="flex items-start gap-2">
                     <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm text-paper">{feature}</span>
+                    <span className="text-sm text-zinc-900">{feature}</span>
                   </div>
                 ))}
               </div>

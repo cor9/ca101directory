@@ -173,7 +173,7 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
             <div className="mt-4 text-center">
               <div className="text-2xl font-semibold">
                 ${PRO_PLAN.price}
-                <span className="text-sm font-normal text-paper">/year</span>
+                <span className="text-sm font-normal text-zinc-700">/year</span>
               </div>
             </div>
           </CardHeader>

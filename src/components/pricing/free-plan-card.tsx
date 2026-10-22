@@ -30,14 +30,14 @@ export function FreePlanCard() {
     <div className="relative overflow-hidden flex flex-col rounded-xl shadow-sm bg-white border border-gray-200">
       {/* Plan header */}
       <div className="p-6 text-center border-b border-gray-100">
-        <h3 className="text-xl font-semibold mb-2 text-paper">
+        <h3 className="text-xl font-semibold mb-2 text-zinc-900">
           {freePlan.title}
         </h3>
         <div className="flex items-baseline justify-center gap-1">
-          <div className="text-3xl font-bold text-paper">${freePlan.price}</div>
-          <div className="text-sm text-paper">{freePlan.priceSuffix}</div>
+          <div className="text-3xl font-bold text-zinc-900">${freePlan.price}</div>
+          <div className="text-sm text-zinc-900">{freePlan.priceSuffix}</div>
         </div>
-        <p className="text-sm text-paper mt-2">{freePlan.description}</p>
+        <p className="text-sm text-zinc-900 mt-2">{freePlan.description}</p>
       </div>
 
       {/* Features and limitations */}
@@ -47,14 +47,14 @@ export function FreePlanCard() {
             {freePlan.benefits.map((feature) => (
               <div key={feature} className="flex items-start gap-x-3">
                 <CheckIcon className="text-green-600 size-4 shrink-0 mt-0.5" />
-                <p className="text-paper">{feature}</p>
+                <p className="text-zinc-900">{feature}</p>
               </div>
             ))}
 
             {freePlan.limitations.map((feature) => (
               <div key={feature} className="flex items-start gap-x-3">
-                <XIcon className="size-4 shrink-0 mt-0.5 text-paper" />
-                <p className="text-paper">{feature}</p>
+                <XIcon className="size-4 shrink-0 mt-0.5 text-zinc-900" />
+                <p className="text-zinc-900">{feature}</p>
               </div>
             ))}
           </div>

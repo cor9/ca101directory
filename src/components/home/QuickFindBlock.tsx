@@ -5,9 +5,9 @@
 export function QuickFindBlock() {
   const shortcuts = [
     { label: "Headshot Photographers", href: "/category/headshot-photographers" },
-    { label: "Acting Coaches", href: "/category/acting-classes-coaches" },
-    { label: "Self-Tape Studios", href: "/category/self-tape-studios" },
-    { label: "Mental Health for Performers", href: "/category/mental-health-for-performers" },
+    { label: "Acting Classes & Coaches", href: "/category/acting-classes-coaches" },
+    { label: "Talent Agents", href: "/category/talent-agents" },
+    { label: "Talent Managers", href: "/category/talent-managers" },
   ];
 
   return (

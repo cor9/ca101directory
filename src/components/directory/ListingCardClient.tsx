@@ -1,25 +1,13 @@
 "use client";
 
-import { BadgeStack } from "@/components/badges/StatusBadge";
 import { CategoryPlaceholder } from "@/components/listing/CategoryPlaceholder";
 import { urlForIcon, urlForImage } from "@/lib/image";
 import { getListingImageUrl } from "@/lib/image-urls";
 import { isIndustryPro } from "@/lib/listings/listingType";
 import { generateSlugFromItem } from "@/lib/slug-utils";
-import { cn } from "@/lib/utils";
 import type { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-
-/**
- * Get initials from a name (first letter of first two words)
- */
-function initialsFromName(name: string): string {
-  const words = name.trim().split(/\s+/).filter(Boolean);
-  if (words.length === 0) return "?";
-  if (words.length === 1) return words[0].charAt(0).toUpperCase();
-  return (words[0].charAt(0) + words[1].charAt(0)).toUpperCase();
-}
 
 /**
  * Determine tier from item pricePlan
@@ -33,22 +21,6 @@ function getTierFromItem(
   return "free";
 }
 
-/**
- * Get tier-based border classes
- */
-function tierClasses(tier: "free" | "standard" | "pro" | "premium"): string {
-  switch (tier) {
-    case "premium":
-    case "pro":
-      return "border-2 border-amber-400 shadow-lg";
-    case "standard":
-      return "border border-sky-400 shadow-md";
-    case "free":
-    default:
-      return "border border-slate-200 shadow-sm";
-  }
-}
-
 interface ListingCardClientProps {
   item: ItemInfo;
 }
@@ -60,22 +32,22 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
       ? urlForIcon(item.icon)
       : null;
 
-  // Prefer Supabase profile image URL when available
-  const profileRef =
-    (item as unknown as { icon?: unknown })?.icon &&
-    typeof (item as unknown as { icon?: unknown }).icon === "object" &&
-    ((item as unknown as { icon?: { asset?: { _ref?: string } } }).icon?.asset
-      ? (item as unknown as { icon?: { asset?: { _ref?: string } } }).icon
-          ?.asset?._ref
-      : null);
+  const iconRef = item?.icon?.asset?._ref;
+  const profileSrc =
+    item.profileImageUrl ||
+    (iconRef ? getListingImageUrl(iconRef) : null) ||
+    imageProps?.src ||
+    null;
+  const logoSrc = item.logoUrl || null;
+  const gallery = (item.galleryUrls || []).filter(Boolean);
 
-  const resolvedSrc = profileRef
-    ? getListingImageUrl(profileRef)
-    : imageProps?.src || null;
+  const tier = getTierFromItem(item);
+  const industryPro = isIndustryPro(item.listingType);
+  const slug =
+    item.slug?.current ||
+    generateSlugFromItem({ name: item.name, _id: item._id });
+  const firstCategory = item.categories?.[0]?.name || "";
 
-  const heroImage = (item as any).logoUrl || resolvedSrc;
-
-  // Check if 101 Approved (from tags)
   const is101Approved = Array.isArray(item.tags)
     ? item.tags.some(
         (t) =>
@@ -86,182 +58,154 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
       )
     : false;
 
-  // Extract tier and generate slug
-  const tier = getTierFromItem(item);
-  const industryPro = isIndustryPro(
-    (item as any).listingType ?? (item as any).listing_type,
-  );
-  const slug =
-    item.slug?.current ||
-    generateSlugFromItem({ name: item.name, _id: item._id });
-  const firstCategory = item.categories?.[0]?.name || "";
-
-  // Extract age ranges from tags
   const ageRanges = (item.tags || [])
     .filter((t) => t?.name && /^\d+-\d+|^\d+\+|^under|^over/i.test(t.name))
     .map((t) => t.name);
 
-  const locationLabel = [(item as any).city, (item as any).state]
+  const online =
+    item.serviceModality === "virtual" || item.serviceModality === "hybrid";
+  const locationLabel = [item.city, item.state].filter(Boolean).join(", ");
+
+  // Paid placement badge: Featured wins over Pro; INDUSTRY_PRO never shows paid badges
+  const isFeatured = Boolean(item.featured) && !industryPro;
+  const isPro = (tier === "pro" || tier === "premium") && !industryPro;
+
+  // 2-3 pills: specialties first, then ages, then other categories
+  const pills = Array.from(
+    new Set([
+      ...(item.specialties || []),
+      ...ageRanges,
+      ...(item.categories || []).slice(1).map((c) => c.name),
+    ]),
+  )
     .filter(Boolean)
-    .join(", ");
+    .slice(0, 3);
 
-  // Normalize badge detection (handles missing/inconsistent fields)
-  // Verified: Check paid status or trust_level from original listing data
-  const isVerified = Boolean(
-    item.paid ||
-      (item as any).trust_level === "verified" ||
-      (item as any).trust_level === "background_checked" ||
-      (item as any).trust_level === "verified_safe" ||
-      (item as any).is_verified,
-  );
-
-  // Featured: Check featured field or use pricePlan as proxy
-  // Note: listingToItem hardcodes featured: false, so we check pricePlan for Pro/Premium
-  const isFeatured = Boolean(
-    item.featured ||
-      (item as any).is_featured ||
-      tier === "pro" ||
-      tier === "premium",
-  );
-
-  // Pro: Check pricePlan for pro/premium tiers
-  const isPro =
-    typeof item.pricePlan === "string" &&
-    (item.pricePlan.toLowerCase().includes("pro") ||
-      item.pricePlan.toLowerCase().includes("premium"));
-
-  // INDUSTRY_PRO should not show monetization badges (Pro/Featured)
-  const showPaidBadges = !industryPro;
-
-  // Determine max badges based on tier
-  const getMaxBadges = (): number => {
-    if (tier === "pro" || tier === "premium") return 2; // Max 2 badges (Verified + Pro)
-    if (tier === "standard") return 2;
-    return 1; // Free: max 1 badge
-  };
-
-  const maxBadges = getMaxBadges();
+  // Photography-led layouts: portfolio strip (with avatar) > single full-bleed photo
+  const strip = gallery.length >= 2 ? gallery.slice(0, 3) : null;
+  const photoLed =
+    Boolean(strip) ||
+    gallery.length === 1 ||
+    /photograph|headshot|portrait|video|reel/i.test(firstCategory);
+  const singleSrc = gallery[0] || profileSrc || logoSrc;
+  const showAvatar = Boolean(strip && profileSrc);
 
   return (
-    <article className="relative flex h-full flex-col rounded-2xl border border-[#E6DFC3] bg-[#FFFDD0] p-5 text-[#1F2327] shadow-sm transition hover:border-[#E4572E]/60 hover:shadow-lg">
-      {/* Hero block: one fixed ratio so every card lines up, image never cropped */}
-      <div className="relative mb-4 aspect-[4/3] w-full shrink-0 overflow-hidden rounded-xl border border-[#E6DFC3] bg-[#FAFAF4]">
-        {heroImage ? (
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white text-zinc-900 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-xl">
+      {/* Media: edge-to-edge photography, faces anchored to the top */}
+      <Link
+        href={`/listing/${slug}`}
+        aria-label={`View ${item.name}`}
+        className="relative block aspect-[4/3] w-full shrink-0 overflow-hidden bg-zinc-100"
+      >
+        {strip ? (
+          <div className="grid h-full w-full grid-cols-3 gap-px bg-white">
+            {strip.map((src, i) => (
+              <div key={`${i}-${src}`} className="relative h-full overflow-hidden">
+                <Image
+                  src={src}
+                  alt={i === 0 ? `${item.name} portfolio preview` : ""}
+                  fill
+                  sizes="(min-width: 1280px) 9vw, (min-width: 1024px) 11vw, (min-width: 640px) 17vw, 33vw"
+                  className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+            ))}
+          </div>
+        ) : singleSrc ? (
           <Image
-            src={heroImage}
-            alt={`${item.name} logo`}
+            src={singleSrc}
+            alt={`${item.name}`}
             fill
             sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-contain p-3"
+            className={
+              photoLed
+                ? "object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                : "object-contain p-6"
+            }
           />
         ) : (
           <CategoryPlaceholder
             category={firstCategory}
             size="md"
-            className="h-full w-full rounded-xl"
+            className="h-full w-full rounded-none"
           />
         )}
-      </div>
 
-      {/* Badge row (never overlays image) */}
-      {(isVerified || (showPaidBadges && (isFeatured || isPro))) && (
-        <div className="mb-3 flex flex-wrap gap-2">
-          <BadgeStack
-            verified={isVerified}
-            featured={showPaidBadges ? isFeatured : false}
-            pro={showPaidBadges ? isPro : false}
-            maxBadges={maxBadges}
-          />
-        </div>
-      )}
-
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="mb-1 text-sm font-semibold text-[#CC4E2A]">
-            {firstCategory || "Featured Provider"}
-          </p>
-          <h3 className="line-clamp-2 text-lg font-bold leading-tight text-[#0D1B2A]">
-            {item.name}
-          </h3>
-          {locationLabel ? (
-            <p className="mt-1 text-sm text-[#4A4F57]">{locationLabel}</p>
-          ) : null}
-        </div>
-
-        {is101Approved && (
-          <span className="shrink-0 rounded-full bg-[#CC5A47] px-2.5 py-0.5 text-xs font-semibold text-white">
-            101 Approved
-          </span>
+        {(isFeatured || isPro || is101Approved) && (
+          <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
+            {isFeatured && (
+              <span className="rounded-full bg-[#E4A72E] px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-zinc-900 shadow">
+                Featured
+              </span>
+            )}
+            {!isFeatured && isPro && (
+              <span className="rounded-full bg-zinc-900/90 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white shadow">
+                Pro
+              </span>
+            )}
+            {is101Approved && (
+              <span className="rounded-full bg-[#CC5A47] px-2.5 py-1 text-xs font-bold text-white shadow">
+                101 Approved
+              </span>
+            )}
+          </div>
         )}
-      </div>
+      </Link>
 
-      {item.description && (
-        <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-[#33383F]">
-          {item.description}
-        </p>
-      )}
-
-      {/* Service Modality Pill */}
-      {(item as any).serviceModality &&
-        (item as any).serviceModality !== "unknown" && (
-          <div className="mt-3">
-            <span
-              className={cn(
-                "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold",
-                (item as any).serviceModality === "virtual" &&
-                  "bg-emerald-100 text-emerald-800",
-                (item as any).serviceModality === "in_person" &&
-                  "bg-[#3A76A6]/15 text-[#2E5E85]",
-                (item as any).serviceModality === "hybrid" &&
-                  "bg-purple-100 text-purple-800",
-              )}
-            >
-              {(item as any).serviceModality === "virtual" && "Virtual"}
-              {(item as any).serviceModality === "in_person" && "In-Person"}
-              {(item as any).serviceModality === "hybrid" && "Hybrid"}
-            </span>
+      <div className="flex flex-1 flex-col px-5 pb-5">
+        {showAvatar && (
+          <div className="relative -mt-8 mb-2 h-16 w-16 shrink-0 overflow-hidden rounded-full bg-zinc-100 ring-4 ring-white shadow-md">
+            <Image
+              src={profileSrc as string}
+              alt=""
+              fill
+              sizes="64px"
+              className="object-cover object-top"
+            />
           </div>
         )}
 
-      {ageRanges.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {ageRanges.slice(0, 4).map((age) => (
-            <span
-              key={age}
-              className="rounded-full bg-[#3A76A6]/15 px-2.5 py-0.5 text-xs font-semibold text-[#2E5E85]"
-            >
-              {age}
-            </span>
-          ))}
-        </div>
-      )}
-
-      {item.categories && item.categories.length > 1 && (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {item.categories.slice(1, 4).map((c) => (
-            <span
-              key={c._id}
-              className="rounded-full bg-[#F7F1D8] px-2.5 py-0.5 text-xs font-medium text-[#4A4F57]"
-            >
-              {c.name}
-            </span>
-          ))}
-          {item.categories.length > 4 && (
-            <span className="rounded-full bg-[#F7F1D8] px-2.5 py-0.5 text-xs font-medium text-[#4A4F57]">
-              +{item.categories.length - 4} more
-            </span>
+        <div className={showAvatar ? "" : "pt-4"}>
+          {firstCategory && (
+            <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-[#B8431F]">
+              {firstCategory}
+            </p>
+          )}
+          <h3 className="line-clamp-2 text-lg font-bold leading-snug text-zinc-900">
+            {item.name}
+          </h3>
+          {(locationLabel || online) && (
+            <p className="mt-1 text-sm text-zinc-600">
+              {locationLabel}
+              {locationLabel && online ? " · " : ""}
+              {online ? "Online available" : ""}
+            </p>
           )}
         </div>
-      )}
 
-      {/* mt-auto pins the button to the bottom edge of every card, never clipped */}
-      <div className="mt-auto pt-5">
-        <Link
-          href={`/listing/${slug}`}
-          className="inline-flex w-full items-center justify-center rounded-md bg-[#E4572E] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#CC4E2A]"
-        >
-          View Details
-        </Link>
+        {pills.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {pills.map((p) => (
+              <span
+                key={p}
+                className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700"
+              >
+                {p}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* mt-auto pins the action to the bottom edge of every card */}
+        <div className="mt-auto pt-5">
+          <Link
+            href={`/listing/${slug}`}
+            className="inline-flex w-full items-center justify-center rounded-md bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#E4572E]"
+          >
+            View Profile
+          </Link>
+        </div>
       </div>
     </article>
   );

@@ -6,6 +6,7 @@ import {
   normalizeListingTier,
   obfuscateEmail,
 } from "@/lib/listingCapabilities";
+import { safeExternalUrl } from "@/lib/url";
 import clsx from "clsx";
 import { Globe, Mail } from "lucide-react";
 import { useCallback } from "react";
@@ -19,7 +20,7 @@ type ContactActionsProps = {
   plan?: string | null;
   /** Whether the listing is comped (treated as Pro) */
   comped?: boolean | null;
-  variant?: "hero" | "mobile";
+  variant?: "hero" | "mobile" | "profile";
   className?: string;
 };
 
@@ -41,7 +42,7 @@ function getPrimaryCTALabel(
 
 export function ContactActions({
   listingId,
-  website,
+  website: websiteRaw,
   email,
   listingType,
   plan,
@@ -49,6 +50,7 @@ export function ContactActions({
   variant = "hero",
   className,
 }: ContactActionsProps) {
+  const website = safeExternalUrl(websiteRaw);
   // Get tier-based capabilities for contact display
   // Gating is based on LISTING tier (what vendor pays), not viewer
   const listingTier = normalizeListingTier(plan, comped);
@@ -65,11 +67,14 @@ export function ContactActions({
   }, [listingId]);
 
   const isHero = variant === "hero";
+  const isProfile = variant === "profile";
 
   // Primary CTA (orange button) - tier determines what this does
   const primaryClass = clsx(
     "inline-flex items-center gap-2",
-    isHero
+    isProfile
+      ? "rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#E4572E]"
+      : isHero
       ? "rounded-full bg-[#FF6B35] px-6 py-2 text-sm font-semibold text-white shadow hover:bg-[#E55F2F] transition-colors"
       : "rounded-full bg-[#FF6B35] px-4 py-1.5 text-xs font-semibold text-white",
   );
@@ -77,14 +82,20 @@ export function ContactActions({
   // Secondary CTA (outlined button)
   const secondaryClass = clsx(
     "inline-flex items-center gap-2",
-    isHero
+    isProfile
+      ? "rounded-full border border-zinc-300 px-6 py-3 text-sm font-semibold text-zinc-800 transition-colors hover:bg-zinc-100"
+      : isHero
       ? "rounded-full border border-white/30 px-6 py-2 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
       : "rounded-full border border-white/30 px-4 py-1.5 text-xs font-semibold text-white",
   );
 
   // Muted text for non-clickable contact info
   const mutedClass = clsx(
-    isHero ? "text-sm text-slate-400" : "text-xs text-slate-400",
+    isProfile
+      ? "text-sm text-zinc-500"
+      : isHero
+        ? "text-sm text-slate-400"
+        : "text-xs text-slate-400",
   );
 
   // Determine what to show based on tier
@@ -125,7 +136,7 @@ export function ContactActions({
           onClick={trackContact}
         >
           <Mail className="w-4 h-4" />
-          Contact
+          {isProfile ? "Book / Contact" : "Contact"}
         </a>
       ) : isStandard && website ? (
         // Standard: Primary is Visit Website

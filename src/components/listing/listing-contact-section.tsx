@@ -1,3 +1,4 @@
+import { safeExternalUrl } from "@/lib/url";
 import Link from "next/link";
 
 import { ClaimButton } from "@/components/claim/claim-button";
@@ -44,14 +45,14 @@ export function ListingContactSection({
 
   return (
     <section className="flex flex-col gap-6">
-      <div className="listing-card-blue">
-        <h2 className="bauhaus-heading text-lg font-semibold text-neutral-200">
+      <div>
+        <h2 className="mb-4 text-xl font-bold text-zinc-900">
           Contact Information
         </h2>
-        <ul className="mt-4 space-y-4 text-base text-neutral-200">
+        <ul className="space-y-4 text-base text-zinc-800">
           {hasLocation && (
             <li className="flex items-start gap-3">
-              <MapPinIcon className="mt-1 h-4 w-4 text-orange-400" />
+              <MapPinIcon className="mt-1 h-4 w-4 text-[#B8431F]" />
               <span>
                 {[listing.city, listing.state].filter(Boolean).join(", ")}
               </span>
@@ -59,37 +60,37 @@ export function ListingContactSection({
           )}
 
           {regions.length > 0 && (
-            <li className="ml-7 text-sm opacity-80">{regions.join(", ")}</li>
+            <li className="ml-7 text-sm text-zinc-600">{regions.join(", ")}</li>
           )}
 
           {listing.phone && (
             <li className="flex items-start gap-3">
-              <PhoneIcon className="mt-1 h-4 w-4 text-orange-400" />
+              <PhoneIcon className="mt-1 h-4 w-4 text-[#B8431F]" />
               {capabilities.canClickPhone ? (
                 <a
                   href={`tel:${listing.phone}`}
-                  className="hover:text-orange-300 transition-colors"
+                  className="text-zinc-900 underline-offset-2 hover:text-[#B8431F] hover:underline transition-colors"
                 >
                   {listing.phone}
                 </a>
               ) : (
-                <span className="select-text">{listing.phone}</span>
+                <span className="select-text text-zinc-800">{listing.phone}</span>
               )}
             </li>
           )}
 
           {listing.email && (
             <li className="flex items-start gap-3">
-              <MailIcon className="mt-1 h-4 w-4 text-orange-400" />
+              <MailIcon className="mt-1 h-4 w-4 text-[#B8431F]" />
               {capabilities.canClickEmail ? (
                 <a
                   href={`mailto:${listing.email}`}
-                  className="hover:text-orange-300 transition-colors"
+                  className="text-zinc-900 underline-offset-2 hover:text-[#B8431F] hover:underline transition-colors"
                 >
                   {listing.email}
                 </a>
               ) : (
-                <span className="select-text">
+                <span className="select-text text-zinc-800">
                   {capabilities.obfuscateEmail
                     ? obfuscateEmail(listing.email)
                     : listing.email}
@@ -100,20 +101,20 @@ export function ListingContactSection({
 
           {listing.website && (
             <li className="flex items-start gap-3">
-              <ExternalLinkIcon className="mt-1 h-4 w-4 text-orange-400" />
+              <ExternalLinkIcon className="mt-1 h-4 w-4 text-[#B8431F]" />
               {capabilities.canClickWebsite ? (
                 <a
-                  href={listing.website}
+                  href={safeExternalUrl(listing.website) || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-orange-300 transition-colors"
+                  className="text-zinc-900 underline-offset-2 hover:text-[#B8431F] hover:underline transition-colors"
                 >
                   {listing.website
                     .replace(/^https?:\/\//, "")
                     .replace(/\/$/, "")}
                 </a>
               ) : (
-                <span className="select-text">
+                <span className="select-text text-zinc-800">
                   {listing.website
                     .replace(/^https?:\/\//, "")
                     .replace(/\/$/, "")}
@@ -124,7 +125,7 @@ export function ListingContactSection({
 
           {hasVirtualOption && (
             <li className="flex items-start gap-3">
-              <GlobeIcon className="mt-1 h-4 w-4 text-orange-400" />
+              <GlobeIcon className="mt-1 h-4 w-4 text-[#B8431F]" />
               <span>Virtual services available</span>
             </li>
           )}
@@ -200,14 +201,6 @@ export function ListingContactSection({
         </div>
       )}
 
-      <div>
-        <Link
-          href="/"
-          className="text-sm text-neutral-300 hover:text-white underline-offset-4 hover:underline transition-colors"
-        >
-          ← Back to Directory
-        </Link>
-      </div>
     </section>
   );
 }

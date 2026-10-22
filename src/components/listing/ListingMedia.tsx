@@ -1,62 +1,68 @@
 import { Gallery } from "@/components/listing/gallery";
+import { ProfileSection } from "@/components/listing/ProfileSection";
 import type { Listing } from "@/data/listings";
+import { normalizeListingTier } from "@/lib/listingCapabilities";
+import { parseGalleryItems } from "@/lib/gallery";
 
-interface ListingMediaProps {
-  listing: Listing;
+/** Convert a YouTube/Vimeo page URL to its embed URL; null if unsupported. */
+export function toEmbedUrl(url: string): string | null {
+  if (!url) return null;
+  const yt = url.match(
+    /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/,
+  );
+  if (yt?.[1]) return `https://www.youtube.com/embed/${yt[1]}`;
+  const vm = url.match(
+    /(?:vimeo\.com\/|player\.vimeo\.com\/video\/)(?:.*\/)?([0-9]+)/,
+  );
+  if (vm?.[1]) return `https://player.vimeo.com/video/${vm[1]}`;
+  return null; // never embed arbitrary URLs
 }
 
-function convertToEmbed(url: string): string {
-  if (!url) return "";
-
-  // YouTube: handle standard watch URLs, short URLs, and embed URLs
-  const youtubeRegex =
-    /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
-  const youtubeMatch = url.match(youtubeRegex);
-  if (youtubeMatch && youtubeMatch[1]) {
-    return `https://www.youtube.com/embed/${youtubeMatch[1]}`;
-  }
-
-  // Vimeo: handle standard URLs, channels, and "manage" dashboard URLs
-  // Extracts the numeric video ID
-  const vimeoRegex =
-    /(?:vimeo\.com\/|player\.vimeo\.com\/video\/)(?:.*\/)?([0-9]+)/;
-  const vimeoMatch = url.match(vimeoRegex);
-  if (vimeoMatch && vimeoMatch[1]) {
-    return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
-  }
-
-  return url;
+/**
+ * Plan entitlements (see pricing): video embeds = Standard and up,
+ * gallery = Pro. Data is never deleted; it just isn't shown above the plan.
+ */
+export function mediaEntitlements(listing: Listing) {
+  const tier = normalizeListingTier(listing.plan, listing.comped);
+  const isPro = tier === "pro" || tier === "premium";
+  return { gallery: isPro, video: isPro || tier === "standard" };
 }
 
-export function ListingMedia({ listing }: ListingMediaProps) {
-  const hasVideo = Boolean(listing.video_url);
-  const hasGallery = Boolean(listing.gallery && listing.gallery !== "[]");
-
-  if (!hasVideo && !hasGallery) {
+export function ListingPortfolio({ listing }: { listing: Listing }) {
+  const ent = mediaEntitlements(listing);
+  if (!ent.gallery || parseGalleryItems(listing.gallery).length === 0) {
     return null;
   }
-
   return (
-    <section className="space-y-6">
-      {/* Video Embed - Always first if exists */}
-      {hasVideo && (
-        <div className="aspect-video w-full rounded-lg overflow-hidden bg-black">
-          <iframe
-            src={convertToEmbed(listing.video_url || "")}
-            title="Provider video"
-            className="h-full w-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        </div>
-      )}
+    <ProfileSection id="gallery">
+      <Gallery listing={listing} tone="light" />
+    </ProfileSection>
+  );
+}
 
-      {/* Gallery Grid - After video */}
-      {hasGallery && (
-        <div id="gallery">
-          <Gallery listing={listing} />
-        </div>
-      )}
-    </section>
+export function ListingVideo({
+  listing,
+  heading,
+}: {
+  listing: Listing;
+  heading: string;
+}) {
+  const embed = mediaEntitlements(listing).video
+    ? toEmbedUrl(listing.video_url || "")
+    : null;
+  if (!embed) return null;
+  return (
+    <ProfileSection title={heading}>
+      <div className="aspect-video w-full overflow-hidden rounded-xl bg-black shadow-md">
+        <iframe
+          src={embed}
+          title={`${listing.listing_name || "Provider"} video`}
+          className="h-full w-full"
+          loading="lazy"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+    </ProfileSection>
   );
 }

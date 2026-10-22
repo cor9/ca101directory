@@ -1,14 +1,15 @@
+import { ListingAbout } from "@/components/listing/ListingAbout";
+import { ListingDetails } from "@/components/listing/ListingDetails";
+import { ListingDifferentiators } from "@/components/listing/ListingDifferentiators";
+import {
+  ListingPortfolio,
+  ListingVideo,
+} from "@/components/listing/ListingMedia";
+import { ProfileHeader } from "@/components/listing/ProfileHeader";
+import { ProfileSection } from "@/components/listing/ProfileSection";
 import type { Listing } from "@/data/listings";
-import { isIndustryPro } from "@/lib/listings/listingType";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ListingAbout } from "./ListingAbout";
-import { ListingCTA } from "./ListingCTA";
-import { ListingDetails } from "./ListingDetails";
-import { ListingDifferentiators } from "./ListingDifferentiators";
-import { ListingHeader } from "./ListingHeader";
-import { ListingMedia } from "./ListingMedia";
-import { ListingPricing } from "./ListingPricing";
 
 interface ListingLayoutProps {
   listing: Listing;
@@ -20,31 +21,28 @@ interface ListingLayoutProps {
   regions: string[];
   hasVirtualOption: boolean;
   averageRating?: { average: number; count: number };
-  /** Right-hand sticky column (contact info, favorite button, ...). */
+  /** Contact information block (right column of the closing section). */
   sidebar?: ReactNode;
-  /** Rendered in the main column after the profile sections (events, reviews). */
+  /** After Session Details & Contact: events, reviews (inside the white card). */
   mainFooter?: ReactNode;
-  /** Full-width content under the two-column grid (recommendations). */
+  /** Full-width content under the card on the charcoal frame (recommendations). */
   children?: ReactNode;
 }
 
 /**
- * Canonical Listing Layout
+ * Canonical profile layout: one white "miniature website" card on the
+ * charcoal site frame.
  *
- * Single source of truth for public listing pages.
- * Applies to /directory, /category/[slug], and /listing/[slug]
- *
- * Structure:
- * 1. Header Block (Logo, Name, Badges, Category, Location)
- * 2. Primary CTA Row (Website, Contact, View Gallery)
- * 3. Two-column body (lg: 2/3 main + 1/3 sticky sidebar)
- *    main: About, Pricing, Media (Video → Gallery), Differentiators, events/reviews
- *    sidebar: Contact Information, Details
- * 7. Back to Directory
+ *   Header (portrait, identity, socials, booking CTA)
+ *   Portfolio (large grid + lightbox)
+ *   About
+ *   Meet Your Photographer (video)
+ *   What sets this provider apart
+ *   Session Details | Contact
+ *   Events / Reviews
  */
 export default function ListingLayout({
   listing,
-  slug,
   category,
   location,
   ageRanges,
@@ -56,44 +54,42 @@ export default function ListingLayout({
   mainFooter,
   children,
 }: ListingLayoutProps) {
-  const industryPro = isIndustryPro(listing.listing_type);
+  const isPhotographer = /photograph|headshot/i.test(category);
+  const hasAbout = Boolean(listing.what_you_offer || listing.description);
+
   return (
-    <>
-      {/* 1. Header Block */}
-      <ListingHeader
-        listing={listing}
-        category={category}
-        location={location}
-        averageRating={averageRating}
-        hasVirtualOption={hasVirtualOption}
-      />
+    <div className="bg-bg-dark py-8 sm:py-10">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <article className="overflow-hidden rounded-2xl bg-white text-zinc-900 shadow-xl">
+          <ProfileHeader
+            listing={listing}
+            category={category}
+            location={location}
+            hasVirtualOption={hasVirtualOption}
+            averageRating={averageRating}
+          />
 
-      {/* 2. Primary CTA Row */}
-      <ListingCTA listing={listing} slug={slug} />
+          <ListingPortfolio listing={listing} />
 
-      {/* 3. Two-column body: main content (2/3) + sticky sidebar (1/3) */}
-      <div className="bg-bg-dark py-10">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-3">
-            <div className="min-w-0 space-y-8 lg:col-span-2">
+          {hasAbout && (
+            <ProfileSection>
               <ListingAbout listing={listing} />
+            </ProfileSection>
+          )}
 
-              {/* Pricing Section */}
-              {!industryPro && <ListingPricing listing={listing} />}
+          <ListingVideo
+            listing={listing}
+            heading={isPhotographer ? "Meet Your Photographer" : "Meet Your Provider"}
+          />
 
-              {/* 4. Media Section (Video → Gallery) */}
-              <ListingMedia listing={listing} />
-
-              {/* 5. Differentiators Section (What Makes Us Unique, Additional Notes) */}
+          {(listing.why_is_it_unique || listing.extras_notes) && (
+            <ProfileSection>
               <ListingDifferentiators listing={listing} />
+            </ProfileSection>
+          )}
 
-              {mainFooter}
-            </div>
-
-            {/* Sticky sidebar: contact info + details sit beside the gallery */}
-            <aside className="space-y-6 lg:sticky lg:top-24 lg:col-span-1 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
-              {sidebar}
-              {/* 6. Details */}
+          <ProfileSection id="contact">
+            <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
               <ListingDetails
                 listing={listing}
                 category={category}
@@ -103,22 +99,24 @@ export default function ListingLayout({
                 regions={regions}
                 hasVirtualOption={hasVirtualOption}
               />
-            </aside>
-          </div>
+              <div>{sidebar}</div>
+            </div>
+          </ProfileSection>
 
-          {children}
+          {mainFooter}
+        </article>
 
-          {/* 7. Back to Directory */}
-          <div className="mt-12 border-t border-white/10 pt-8">
-            <Link
-              href="/directory"
-              className="text-sm text-neutral-300 underline-offset-4 transition-colors hover:text-white hover:underline"
-            >
-              ← Back to Directory
-            </Link>
-          </div>
+        {children}
+
+        <div className="mt-12 border-t border-white/10 pt-8">
+          <Link
+            href="/directory"
+            className="text-sm text-neutral-300 underline-offset-4 transition-colors hover:text-white hover:underline"
+          >
+            ← Back to Directory
+          </Link>
         </div>
       </div>
-    </>
+    </div>
   );
 }

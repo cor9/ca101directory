@@ -44,8 +44,17 @@ export async function POST(req: NextRequest) {
         ? "jpg"
         : file.type === "image/webp"
           ? "webp"
-          : "png";
-    const slug = businessSlug || "logo";
+          : file.type === "image/heic" || file.type === "image/heif"
+            ? "heic"
+            : "png";
+    // businessSlug is client-supplied and becomes part of the storage object
+    // path: allow only [a-z0-9-] so it can't inject path segments.
+    const slug =
+      String(businessSlug || "logo")
+        .toLowerCase()
+        .replace(/[^a-z0-9-]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 60) || "logo";
     const filename = `${slug}-${timestamp}.${fileExtension}`;
 
     // Upload to Supabase Storage (ensure Node/Edge-safe payload)

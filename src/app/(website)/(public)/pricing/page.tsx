@@ -64,20 +64,20 @@ export default async function PricingPage() {
         </header>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          <section className="rounded-2xl border border-border-subtle bg-card-surface p-6 shadow-card md:p-8">
+          <section className="rounded-2xl border border-border-subtle bg-white p-6 shadow-card md:p-8">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-semibold text-text-primary">
+                <h2 className="text-2xl font-semibold text-zinc-900">
                   Free Listing
                 </h2>
-                <p className="mt-2 text-sm text-text-secondary">
+                <p className="mt-2 text-sm text-zinc-700">
                   A solid starting point for getting your business into the
                   directory.
                 </p>
               </div>
               <div className="text-right">
-                <div className="text-4xl font-bold text-text-primary">$0</div>
-                <div className="text-sm text-text-muted">forever</div>
+                <div className="text-4xl font-bold text-zinc-900">$0</div>
+                <div className="text-sm text-zinc-500">forever</div>
               </div>
             </div>
 
@@ -85,9 +85,9 @@ export default async function PricingPage() {
               {freeFeatures.map((feature) => (
                 <li
                   key={feature}
-                  className="flex gap-3 text-sm text-text-secondary"
+                  className="flex gap-3 text-sm text-zinc-700"
                 >
-                  <span className="mt-0.5 text-accent-teal">✓</span>
+                  <span className="mt-0.5 text-emerald-600">✓</span>
                   <span>{feature}</span>
                 </li>
               ))}
@@ -95,32 +95,32 @@ export default async function PricingPage() {
 
             <Link
               href="/submit"
-              className="mt-8 inline-flex w-full items-center justify-center rounded-md border border-border-subtle bg-bg-dark-3 px-4 py-3 text-sm font-medium text-text-primary transition-colors hover:border-accent-blue"
+              className="mt-8 inline-flex w-full items-center justify-center rounded-md border border-zinc-300 bg-zinc-100 px-4 py-3 text-sm font-semibold text-zinc-900 transition-colors hover:border-accent-blue"
             >
               Start Free Listing
             </Link>
           </section>
 
-          <section className="relative rounded-2xl border border-accent-blue/40 bg-card-surface p-6 shadow-card md:p-8">
-            <div className="absolute right-6 top-6 rounded-full bg-accent-blue/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-accent-blue">
+          <section className="relative rounded-2xl border border-accent-blue/40 bg-white p-6 shadow-card md:p-8">
+            <div className="absolute right-6 top-6 rounded-full bg-zinc-900 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-white">
               Pro
             </div>
 
             <div className="pr-16">
-              <h2 className="text-2xl font-semibold text-text-primary">
+              <h2 className="text-2xl font-semibold text-zinc-900">
                 Pro Listing
               </h2>
-              <p className="mt-2 text-sm text-text-secondary">
+              <p className="mt-2 text-sm text-zinc-700">
                 Built for vendors who want premium placement, more exposure, and
                 a stronger directory presence.
               </p>
             </div>
 
             <div className="mt-6 flex items-end gap-2">
-              <span className="text-4xl font-bold text-text-primary">$399</span>
-              <span className="pb-1 text-sm text-text-muted">/ year</span>
+              <span className="text-4xl font-bold text-zinc-900">$399</span>
+              <span className="pb-1 text-sm text-zinc-500">/ year</span>
             </div>
-            <p className="mt-2 text-sm text-text-secondary">
+            <p className="mt-2 text-sm text-zinc-700">
               One annual plan. No monthly toggle. No legacy tiers.
             </p>
 
@@ -128,9 +128,9 @@ export default async function PricingPage() {
               {proFeatures.map((feature) => (
                 <li
                   key={feature}
-                  className="flex gap-3 text-sm text-text-secondary"
+                  className="flex gap-3 text-sm text-zinc-700"
                 >
-                  <span className="mt-0.5 text-accent-blue">✓</span>
+                  <span className="mt-0.5 text-[#E4572E]">✓</span>
                   <span>{feature}</span>
                 </li>
               ))}
@@ -138,7 +138,7 @@ export default async function PricingPage() {
 
             <Link
               href={proHref}
-              className="mt-8 inline-flex w-full items-center justify-center rounded-md bg-accent-blue px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-blue/90"
+              className="mt-8 inline-flex w-full items-center justify-center rounded-md bg-zinc-900 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#E4572E]"
             >
               {existingListingId
                 ? "Checkout Pro Listing"

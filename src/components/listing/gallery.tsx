@@ -1,171 +1,144 @@
 "use client";
 
-import { ImageModal } from "@/components/shared/image-modal";
-import { getListingImageUrl, parseGalleryImages } from "@/lib/image-urls";
+import { parseGalleryItems } from "@/lib/gallery";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface GalleryProps {
   listing: {
     listing_name: string;
     gallery?: string | string[] | null;
-    plan?: string;
-    comped?: boolean;
+    plan?: string | null;
+    comped?: boolean | null;
   };
+  /** Light surface (profile card) vs. dark surface */
+  tone?: "light" | "dark";
 }
 
-export function Gallery({ listing }: GalleryProps) {
-  const [modalImage, setModalImage] = useState<{
-    url: string;
-    alt: string;
-    caption?: string;
-  } | null>(null);
+export function Gallery({ listing, tone = "light" }: GalleryProps) {
+  const items = parseGalleryItems(listing.gallery);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const openModal = (url: string, alt: string, caption?: string) => {
-    setModalImage({ url, alt, caption });
-  };
+  const close = useCallback(() => setOpenIndex(null), []);
+  const step = useCallback(
+    (dir: 1 | -1) =>
+      setOpenIndex((i) =>
+        i === null ? i : (i + dir + items.length) % items.length,
+      ),
+    [items.length],
+  );
 
-  const closeModal = () => {
-    setModalImage(null);
-  };
+  useEffect(() => {
+    if (openIndex === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowRight") step(1);
+      if (e.key === "ArrowLeft") step(-1);
+    };
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [openIndex, close, step]);
 
-  // Parse gallery images and optional captions (backward compatible)
-  type GalleryItem = { url: string; caption?: string };
-  const galleryItems: GalleryItem[] = (() => {
-    // If gallery is a string, try to parse JSON first (may be array of strings or objects)
-    if (typeof listing.gallery === "string" && listing.gallery.trim() !== "") {
-      try {
-        const parsed = JSON.parse(listing.gallery);
-        if (Array.isArray(parsed)) {
-          return parsed
-            .map((entry: any) => {
-              // Support objects { url, caption } or { src, caption }
-              if (entry && typeof entry === "object") {
-                const rawUrl = entry.url || entry.src || "";
-                if (!rawUrl || typeof rawUrl !== "string") return null;
-                return {
-                  url: getListingImageUrl(rawUrl),
-                  caption:
-                    typeof entry.caption === "string"
-                      ? entry.caption
-                      : undefined,
-                } as GalleryItem;
-              }
-              // Support legacy string entries
-              if (typeof entry === "string") {
-                return { url: getListingImageUrl(entry) } as GalleryItem;
-              }
-              return null;
-            })
-            .filter(Boolean) as GalleryItem[];
-        }
-      } catch {
-        // Fallback to previous parser that expects a comma-delimited or JSON-like string of filenames/urls
-        const urls = parseGalleryImages(listing.gallery);
-        return urls.map((u) => ({ url: u }));
-      }
-    }
-    // If gallery is already an array
-    if (Array.isArray(listing.gallery)) {
-      return (listing.gallery as any[])
-        .map((entry) => {
-          if (typeof entry === "string") {
-            return { url: getListingImageUrl(entry) } as GalleryItem;
-          }
-          if (entry && typeof entry === "object") {
-            const rawUrl = (entry as any).url || (entry as any).src || "";
-            if (!rawUrl || typeof rawUrl !== "string") return null;
-            return {
-              url: getListingImageUrl(rawUrl),
-              caption:
-                typeof (entry as any).caption === "string"
-                  ? (entry as any).caption
-                  : undefined,
-            } as GalleryItem;
-          }
-          return null;
-        })
-        .filter(Boolean) as GalleryItem[];
-    }
-    return [];
-  })();
+  if (items.length === 0) return null;
 
-  if (!listing.gallery && listing.plan !== "pro" && !listing.comped) {
-    return null;
-  }
+  const active = openIndex === null ? null : items[openIndex];
 
   return (
     <>
-      <div className="listing-card-transparent">
-        <h2 className="text-xl font-semibold mb-4 text-text-primary">
-          Gallery
-        </h2>
-        {galleryItems.length > 0 ? (
-          <div className="relative">
-            <div className="absolute inset-0 bg-black/40 rounded-xl pointer-events-none z-10" />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 relative z-0">
-              {galleryItems.map((item, index) => (
-                <button
-                  key={`gallery-${index}-${item.url}`}
-                  className="relative group overflow-hidden rounded-lg h-44 md:h-48 lg:h-56 cursor-pointer hover:opacity-90 transition-opacity"
-                  type="button"
-                  onClick={() =>
-                    openModal(
-                      item.url,
-                      `Gallery image ${index + 1} for ${listing.listing_name}`,
-                      item.caption,
-                    )
-                  }
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      openModal(
-                        item.url,
-                        `Gallery image ${index + 1} for ${listing.listing_name}`,
-                        item.caption,
-                      );
-                    }
-                  }}
-                >
-                  <Image
-                    src={item.url}
-                    alt={`Gallery image ${index + 1} for ${listing.listing_name}`}
-                    title="Click to view larger image"
-                    loading="lazy"
-                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                    fill
-                    className="border w-full shadow-lg object-cover object-center"
-                  />
-                  {item.caption && (
-                    <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white px-3 py-1 rounded-b-lg">
-                      <p className="text-xs">{item.caption}</p>
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white px-4 py-2 rounded-full shadow-lg border border-gray-200">
-                      <span className="text-sm font-semibold text-black">
-                        Click to enlarge
-                      </span>
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="aspect-[4/3] bg-gray-700 rounded-lg flex items-center justify-center border-2 border-dashed border-white/10">
-            <p className="text-text-secondary text-sm">No gallery images yet</p>
-          </div>
-        )}
+      <h2
+        className={
+          tone === "light"
+            ? "mb-4 text-xl font-bold text-zinc-900"
+            : "mb-4 text-xl font-bold text-white"
+        }
+      >
+        Portfolio
+      </h2>
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+        {items.map((item, index) => (
+          <button
+            key={`${index}-${item.url}`}
+            type="button"
+            onClick={() => setOpenIndex(index)}
+            aria-label={`View portfolio image ${index + 1} of ${items.length} larger`}
+            className="group relative aspect-[4/5] cursor-zoom-in overflow-hidden rounded-lg bg-zinc-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E4572E]"
+          >
+            <Image
+              src={item.url}
+              alt={
+                item.caption ||
+                `${listing.listing_name} portfolio image ${index + 1}`
+              }
+              fill
+              loading={index < 4 ? "eager" : "lazy"}
+              sizes="(min-width: 1024px) 22vw, (min-width: 768px) 30vw, 48vw"
+              className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]"
+            />
+          </button>
+        ))}
       </div>
 
-      {/* Image Modal */}
-      <ImageModal
-        isOpen={!!modalImage}
-        onClose={closeModal}
-        imageUrl={modalImage?.url || ""}
-        alt={modalImage?.alt || ""}
-        caption={modalImage?.caption}
-      />
+      {active && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Portfolio image viewer"
+        >
+          <button
+            type="button"
+            aria-label="Close"
+            onClick={close}
+            className="absolute inset-0 cursor-default"
+          />
+          <button
+            type="button"
+            aria-label="Close viewer"
+            onClick={close}
+            className="absolute right-4 top-4 z-10 rounded-full bg-white/10 p-2 text-white hover:bg-white/20"
+          >
+            <X className="h-6 w-6" />
+          </button>
+          {items.length > 1 && (
+            <>
+              <button
+                type="button"
+                aria-label="Previous image"
+                onClick={() => step(-1)}
+                className="absolute left-3 z-10 rounded-full bg-white/10 p-2 text-white hover:bg-white/20"
+              >
+                <ChevronLeft className="h-7 w-7" />
+              </button>
+              <button
+                type="button"
+                aria-label="Next image"
+                onClick={() => step(1)}
+                className="absolute right-3 z-10 rounded-full bg-white/10 p-2 text-white hover:bg-white/20"
+              >
+                <ChevronRight className="h-7 w-7" />
+              </button>
+            </>
+          )}
+          <figure className="pointer-events-none relative z-0 flex max-h-full max-w-5xl flex-col items-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={active.url}
+              alt={`${listing.listing_name} portfolio image ${(openIndex ?? 0) + 1}`}
+              className="max-h-[85vh] w-auto max-w-full rounded-md object-contain"
+            />
+            <figcaption className="mt-3 text-sm text-white/80">
+              {active.caption ? `${active.caption} · ` : ""}
+              {(openIndex ?? 0) + 1} / {items.length}
+            </figcaption>
+          </figure>
+        </div>
+      )}
     </>
   );
 }

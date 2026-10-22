@@ -1,3 +1,4 @@
+import { requireAdmin } from "@/lib/auth/guards";
 import { sendDiscordNotification } from "@/lib/discord";
 import { createServerClient } from "@/lib/supabase";
 import { headers } from "next/headers";
@@ -60,7 +61,13 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json().catch(() => ({}));
-    const { path, message, context, userId, userEmail } = body || {};
+    const { context, userId } = body || {};
+    // Cap client-supplied strings (they are forwarded to Discord and the DB)
+    const cap = (v: unknown, n: number) =>
+      typeof v === "string" ? v.slice(0, n) : undefined;
+    const path = cap(body?.path, 300);
+    const message = cap(body?.message, 2000);
+    const userEmail = cap(body?.userEmail, 200);
 
     if (!message) {
       return NextResponse.json(
@@ -100,6 +107,12 @@ export async function POST(request: Request) {
 // Lightweight GET handler for testing Discord delivery from Production without requiring POST clients
 export async function GET(request: Request) {
   try {
+    // Admin-only: this posts arbitrary text to the team's Discord channel.
+    const guard = await requireAdmin();
+    if (!guard.authorized) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const title = searchParams.get("title") || "🚨 User Issue Reported (Test)";
     const path = searchParams.get("path") || "/test";

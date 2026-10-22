@@ -1,6 +1,7 @@
 "use server";
 
 import { getRoleBasedRedirect } from "@/lib/auth-redirects";
+import { magicLinkSiteUrl } from "@/lib/auth-config";
 import { MagicLinkRequestSchema } from "@/lib/schemas";
 import { createServerClient } from "@/lib/supabase";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
@@ -81,11 +82,10 @@ export async function login(
     const redirectUrl =
       callbackUrl || roleBasedRedirect || DEFAULT_LOGIN_REDIRECT;
 
-    // CRITICAL: Always use fallback if env var is missing
-    const siteUrl =
-      process.env.NEXT_PUBLIC_SITE_URL ||
-      process.env.NEXT_PUBLIC_APP_URL ||
-      "https://directory.childactor101.com";
+    // Production: configured site URL (with the production fallback).
+    // Vercel preview: the preview's own origin, so the emailed link signs the
+    // person in on the deployment they are testing.
+    const siteUrl = magicLinkSiteUrl();
 
     const magicLinkUrl = new URL(`${siteUrl}/auth/magic-link`);
     magicLinkUrl.searchParams.set("email", email);

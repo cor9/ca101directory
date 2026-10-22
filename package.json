@@ -35,6 +35,7 @@
     "gen:category-redirects": "tsx scripts/gen-category-redirects.ts",
     "test:specialty-audit": "tsx scripts/test-specialty-audit.ts",
     "test:submission-fields": "tsx scripts/test-submission-fields.ts",
+    "test:auth-config": "tsx scripts/test-auth-config.ts",
     "test:category-taxonomy": "tsx scripts/test-category-taxonomy.ts",
     "test:e2e-commercial-loop": "tsx scripts/test-e2e-commercial-loop.ts",
     "export-user-emails": "tsx scripts/export-user-emails.ts",

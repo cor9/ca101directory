@@ -90,28 +90,6 @@ export function ProfileHeader({
             </div>
           )}
         </div>
-        <div className="flex flex-wrap justify-center gap-1.5 md:justify-start">
-          {listing.featured && !isIndustryPro && (
-            <span className="rounded-full bg-[#E4A72E] px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-zinc-900">
-              Featured
-            </span>
-          )}
-          {isPro && !isIndustryPro && (
-            <span className="rounded-full bg-zinc-900 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white">
-              Pro
-            </span>
-          )}
-          {approved101 && (
-            <span className="rounded-full bg-[#CC5A47] px-2.5 py-1 text-xs font-bold text-white">
-              101 Approved
-            </span>
-          )}
-          {verified && (
-            <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-800">
-              Verified
-            </span>
-          )}
-        </div>
       </div>
 
       {/* Identity */}
@@ -139,6 +117,28 @@ export function ProfileHeader({
             {averageRating.count === 1 ? "" : "s"})
           </a>
         )}
+        <div className="mt-3 flex flex-wrap justify-center gap-1.5 md:justify-start">
+          {listing.featured && !isIndustryPro && (
+            <span className="rounded-full bg-[#E4A72E] px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-zinc-900">
+              Featured
+            </span>
+          )}
+          {isPro && !isIndustryPro && (
+            <span className="rounded-full bg-zinc-900 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white">
+              Pro
+            </span>
+          )}
+          {approved101 && (
+            <span className="rounded-full bg-[#CC5A47] px-2.5 py-1 text-xs font-bold text-white">
+              101 Approved
+            </span>
+          )}
+          {verified && (
+            <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-800">
+              Verified
+            </span>
+          )}
+        </div>
         {specialties.length > 0 && (
           <ul className="mt-3 flex flex-wrap justify-center gap-1.5 md:justify-start">
             {specialties.map((s) => (

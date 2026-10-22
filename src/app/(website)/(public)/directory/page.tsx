@@ -15,6 +15,7 @@ import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import EmptyGrid from "@/components/shared/empty-grid";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
+import { resolveCategoryRef } from "@/lib/category-taxonomy";
 import { getItems } from "@/data/item-service";
 import { regionsList, stateNames } from "@/data/regions";
 import { DIRECTORY_ITEMS_PER_PAGE } from "@/lib/constants";
@@ -66,6 +67,7 @@ export default async function DirectoryPage({
   const {
     page,
     category,
+    specialty,
     state,
     region,
     city,
@@ -83,9 +85,22 @@ export default async function DirectoryPage({
   // Category arrives as a UUID from the filter UI; getItems resolves UUID,
   // name or slug and enforces it strictly. The name is only used for display.
   const categoryFilter = category && category !== "all" ? category : undefined;
-  const categoryName = categoryFilter
-    ? categories.find((cat) => cat.id === categoryFilter)?.category_name
-    : undefined;
+  const categoryRef = categoryFilter
+    ? resolveCategoryRef(categoryFilter)
+    : null;
+  const categoryName =
+    categoryRef?.kind === "primary" || categoryRef?.kind === "legacy"
+      ? categoryRef.primary.name
+      : categoryRef?.kind === "retired"
+        ? categoryRef.retired.name
+        : categoryFilter
+          ? categories.find((cat) => cat.id === categoryFilter)?.category_name
+          : undefined;
+  // A legacy value implies its specialty (e.g. Improv Classes -> Improv)
+  const specialtyFilter =
+    specialty?.trim() ||
+    (categoryRef?.kind === "legacy" ? categoryRef.specialty : null) ||
+    undefined;
   const stateFilter = state && state !== "all" ? state : undefined;
 
   // Any search/filter hides the global Featured/Pro showcase and lets
@@ -93,6 +108,7 @@ export default async function DirectoryPage({
   const filtersActive = Boolean(
     query?.trim() ||
       categoryFilter ||
+      specialtyFilter ||
       stateFilter ||
       city?.trim() ||
       region ||
@@ -107,6 +123,7 @@ export default async function DirectoryPage({
 
   const { items, totalCount, itemsPerPage } = await getItems({
     category: categoryFilter,
+    specialty: specialtyFilter,
     state: stateFilter,
     city: city?.trim() || undefined,
     region,
@@ -128,7 +145,8 @@ export default async function DirectoryPage({
     .filter(Boolean)
     .join(", ");
   const heading = [
-    categoryName || (filtersActive ? "Search Results" : "All Professionals"),
+    [categoryName, specialtyFilter].filter(Boolean).join(" · ") ||
+      (filtersActive ? "Search Results" : "All Professionals"),
     locationLabel ? `in ${locationLabel}` : null,
   ]
     .filter(Boolean)

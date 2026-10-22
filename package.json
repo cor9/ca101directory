@@ -32,6 +32,7 @@
     "test:webhook-and-ownership": "tsx scripts/test-webhook-and-ownership.ts",
     "test:directory-filters": "tsx scripts/test-directory-filters.ts",
     "test:card-data": "tsx scripts/test-card-data.ts",
+    "gen:category-redirects": "tsx scripts/gen-category-redirects.ts",
     "test:category-taxonomy": "tsx scripts/test-category-taxonomy.ts",
     "test:e2e-commercial-loop": "tsx scripts/test-e2e-commercial-loop.ts",
     "export-user-emails": "tsx scripts/export-user-emails.ts",

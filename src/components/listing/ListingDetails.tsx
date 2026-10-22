@@ -1,6 +1,7 @@
 import type { Listing } from "@/data/listings";
 import { isIndustryPro as checkIndustryPro } from "@/lib/listings/listingType";
-import { ListingPricing } from "./ListingPricing";
+import { type ProfileCopy, profileCopyFor } from "@/lib/profile-kind";
+import { ListingPricing, hasListingPricing } from "./ListingPricing";
 import { Clock, Globe, MapPin, Shield, Users } from "lucide-react";
 
 interface ListingDetailsProps {
@@ -11,22 +12,8 @@ interface ListingDetailsProps {
   services: string[];
   regions: string[];
   hasVirtualOption: boolean;
-}
-
-// Format "last active" as relative time
-function formatLastActive(dateStr: string | null): string | null {
-  if (!dateStr) return null;
-  const date = new Date(dateStr);
-  const now = new Date();
-  const diffDays = Math.floor(
-    (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
-  );
-
-  if (diffDays === 0) return "Active today";
-  if (diffDays === 1) return "Active yesterday";
-  if (diffDays < 7) return `Active ${diffDays} days ago`;
-  if (diffDays < 30) return `Active ${Math.floor(diffDays / 7)} weeks ago`;
-  return null; // Don't show if more than a month
+  /** Category-aware wording (defaults to a bookable service) */
+  copy?: ProfileCopy;
 }
 
 export function ListingDetails({
@@ -37,12 +24,12 @@ export function ListingDetails({
   services,
   regions,
   hasVirtualOption,
+  copy = profileCopyFor(null),
 }: ListingDetailsProps) {
   const industryPro = checkIndustryPro(listing.listing_type);
   const trustLevel = (listing as any).trust_level;
   const repeatFamilies = (listing as any).repeat_families_count ?? 0;
   const responseTime = (listing as any).response_time_label;
-  const lastActive = formatLastActive((listing as any).last_active_at);
 
   const isBackgroundChecked =
     trustLevel === "background_checked" || trustLevel === "verified_safe";
@@ -51,12 +38,17 @@ export function ListingDetails({
   const showTrustSignals =
     isBackgroundChecked ||
     repeatFamilies > 0 ||
-    responseTime ||
-    lastActive;
+    responseTime;
+
+  // Only state a format the listing actually provides; never default to "In-Person"
+  const rawFormat = typeof listing.format === "string" ? listing.format.trim() : "";
+  const formatLabel = hasVirtualOption ? "Virtual / Online" : rawFormat || null;
 
   return (
     <div>
-      <h2 className="mb-4 text-xl font-bold text-zinc-900">Session Details</h2>
+      <h2 className="mb-4 text-xl font-bold text-zinc-900">
+        {copy.detailsTitle}
+      </h2>
 
       {showTrustSignals && (
         <div className="mb-5 flex flex-wrap items-center gap-2 border-b border-zinc-200 pb-4">
@@ -78,29 +70,28 @@ export function ListingDetails({
               {responseTime}
             </span>
           )}
-          {lastActive && (
-            <span className="text-xs text-zinc-500">{lastActive}</span>
-          )}
         </div>
       )}
 
       <dl className="space-y-4 text-sm">
-        <div className="flex items-start gap-3">
-          <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-zinc-500" />
-          <div>
-            <dt className="font-semibold text-zinc-900">Location</dt>
-            <dd className="text-zinc-700">{location || "Not specified"}</dd>
+        {location && (
+          <div className="flex items-start gap-3">
+            <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-zinc-500" />
+            <div>
+              <dt className="font-semibold text-zinc-900">Location</dt>
+              <dd className="text-zinc-700">{location}</dd>
+            </div>
           </div>
-        </div>
-        <div className="flex items-start gap-3">
-          <Globe className="mt-0.5 h-4 w-4 shrink-0 text-zinc-500" />
-          <div>
-            <dt className="font-semibold text-zinc-900">Format</dt>
-            <dd className="text-zinc-700">
-              {hasVirtualOption ? "Virtual / Online" : "In-Person"}
-            </dd>
+        )}
+        {formatLabel && (
+          <div className="flex items-start gap-3">
+            <Globe className="mt-0.5 h-4 w-4 shrink-0 text-zinc-500" />
+            <div>
+              <dt className="font-semibold text-zinc-900">Format</dt>
+              <dd className="text-zinc-700">{formatLabel}</dd>
+            </div>
           </div>
-        </div>
+        )}
         {regions.length > 0 && (
           <div className="flex items-start gap-3">
             <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-zinc-500" />
@@ -127,7 +118,7 @@ export function ListingDetails({
         )}
         {services.length > 0 && (
           <div>
-            <dt className="mb-2 font-semibold text-zinc-900">Specialties &amp; Services</dt>
+            <dt className="mb-2 font-semibold text-zinc-900">{copy.kind === "service" ? "Specialties & Services" : "Specialties"}</dt>
             <dd className="flex flex-wrap gap-1.5">
               {services.slice(0, 10).map((service) => (
                 <span
@@ -147,7 +138,13 @@ export function ListingDetails({
         )}
       </dl>
 
-      {!industryPro && (
+      {copy.note && (
+        <p className="mt-5 border-t border-zinc-200 pt-4 text-sm leading-relaxed text-zinc-600">
+          {copy.note}
+        </p>
+      )}
+
+      {!industryPro && copy.showPricing && hasListingPricing(listing) && (
         <div className="mt-5 border-t border-zinc-200 pt-4">
           <ListingPricing listing={listing} />
         </div>

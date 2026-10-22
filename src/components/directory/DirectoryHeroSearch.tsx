@@ -5,11 +5,18 @@ import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { stateNames, statesList } from "@/data/regions";
+import {
+  SECTIONS,
+  resolveCategoryRef,
+  sectionPrimaries,
+} from "@/lib/category-taxonomy";
 import {
   Baby,
   ChevronDown,
@@ -52,19 +59,10 @@ const UNION_STATUS_OPTIONS = [
 ] as const;
 
 // Categories that support technique focus filter
-const TECHNIQUE_CATEGORIES = [
-  "Acting Classes & Coaches",
-  "Acting Schools",
-  "Acting Camps",
-  "Casting Workshops",
-];
+const TECHNIQUE_CATEGORIES = ["acting-training"];
 
 // Categories that support union status filter
-const UNION_CATEGORIES = [
-  "Talent Managers",
-  "Talent Agents",
-  "Casting Workshops",
-];
+const UNION_CATEGORIES = ["talent-agents", "talent-managers"];
 
 interface DirectoryHeroSearchProps {
   categories: Array<{ id: string; category_name: string }>;
@@ -77,7 +75,17 @@ export default function DirectoryHeroSearch({
   const searchParams = useSearchParams();
 
   const [query, setQuery] = useState(searchParams?.get("q") || "");
-  const [category, setCategory] = useState(searchParams?.get("category") || "");
+  // The filter is keyed by primary-category slug. Old links carrying a legacy
+  // name, slug or UUID are mapped to the primary that now contains it; retired
+  // or unknown values are left as-is (the server still honours them).
+  const [category, setCategory] = useState(() => {
+    const raw = searchParams?.get("category") || "";
+    if (!raw) return "";
+    const ref = resolveCategoryRef(raw);
+    return ref.kind === "primary" || ref.kind === "legacy"
+      ? ref.primary.slug
+      : raw;
+  });
   const [state, setState] = useState(searchParams?.get("state") || "");
   const [city, setCity] = useState(searchParams?.get("city") || "");
   const [onlineAvailable, setOnlineAvailable] = useState(
@@ -112,17 +120,8 @@ export default function DirectoryHeroSearch({
     unionStatus !== "",
   ].filter(Boolean).length;
 
-  // Get selected category name for conditional filter display
-  const selectedCategoryName =
-    categories.find((c) => c.id === category)?.category_name || "";
-  const showTechniqueFilter = TECHNIQUE_CATEGORIES.some(
-    (tc) =>
-      selectedCategoryName.includes(tc) || tc.includes(selectedCategoryName),
-  );
-  const showUnionFilter = UNION_CATEGORIES.some(
-    (uc) =>
-      selectedCategoryName.includes(uc) || uc.includes(selectedCategoryName),
-  );
+  const showTechniqueFilter = TECHNIQUE_CATEGORIES.includes(category);
+  const showUnionFilter = UNION_CATEGORIES.includes(category);
 
   const toggleTechnique = (value: string) => {
     setTechniqueFocus((prev) =>
@@ -256,10 +255,17 @@ export default function DirectoryHeroSearch({
                 </SelectTrigger>
                 <SelectContent className="bg-white text-slate-900 border border-slate-200 shadow-lg z-[100]">
                   <SelectItem value="all">All Categories</SelectItem>
-                  {categories.map((cat) => (
-                    <SelectItem key={cat.id} value={cat.id}>
-                      {cat.category_name}
-                    </SelectItem>
+                  {SECTIONS.map((section) => (
+                    <SelectGroup key={section.id}>
+                      <SelectLabel className="text-xs uppercase tracking-wide text-slate-500">
+                        {section.title}
+                      </SelectLabel>
+                      {sectionPrimaries(section.id).map((cat) => (
+                        <SelectItem key={cat.slug} value={cat.slug}>
+                          {cat.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
                   ))}
                 </SelectContent>
               </Select>

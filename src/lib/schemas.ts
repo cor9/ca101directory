@@ -96,6 +96,7 @@ export const baseSubmitSchema = {
   categories: z
     .array(z.string())
     .min(1, { message: "Please select at least one category" }),
+  specialties: z.array(z.string()).optional(),
   // Gallery supports legacy string[] and new object format with captions
   gallery: z
     .array(

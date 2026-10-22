@@ -1,5 +1,11 @@
 import type { Listing } from "@/data/listings";
 
+/** True when the listing has any real pricing to show. */
+export const hasListingPricing = (listing: Listing): boolean =>
+  listing.price_starting_at != null ||
+  (listing.price_range_min != null && listing.price_range_max != null) ||
+  listing.free_consult === true;
+
 /**
  * Pricing from real data only; renders nothing when no pricing exists.
  */

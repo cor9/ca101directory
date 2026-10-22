@@ -1,0 +1,90 @@
+[
+  {
+    "from": "/category/acting-classes-coaches",
+    "to": "/category/acting-training"
+  },
+  {
+    "from": "/category/acting-coach",
+    "to": "/category/acting-training"
+  },
+  {
+    "from": "/category/acting-school",
+    "to": "/category/acting-training"
+  },
+  {
+    "from": "/category/acting-schoolcoach",
+    "to": "/category/acting-training"
+  },
+  {
+    "from": "/category/acting-schools",
+    "to": "/category/acting-training"
+  },
+  {
+    "from": "/category/actor-websites",
+    "to": "/category/actor-marketing-services?specialty=Actor%20Websites"
+  },
+  {
+    "from": "/category/audition-prep",
+    "to": "/category/acting-training?specialty=Audition%20Coaching"
+  },
+  {
+    "from": "/category/branding-coaches",
+    "to": "/category/career-coaching-consulting?specialty=Personal%20Branding"
+  },
+  {
+    "from": "/category/business-of-acting",
+    "to": "/category/career-coaching-consulting?specialty=Business%20of%20Acting"
+  },
+  {
+    "from": "/category/career-consulting",
+    "to": "/category/career-coaching-consulting?specialty=Career%20Strategy"
+  },
+  {
+    "from": "/category/demo-reel-creators",
+    "to": "/category/demo-reels-editing?specialty=Demo%20Reel%20Production"
+  },
+  {
+    "from": "/category/demo-reel-editors",
+    "to": "/category/demo-reels-editing?specialty=Reel%20Editing"
+  },
+  {
+    "from": "/category/dialect-coach",
+    "to": "/category/acting-training?specialty=Dialect%20Coaching"
+  },
+  {
+    "from": "/category/headshot-photographer",
+    "to": "/category/headshot-photographers"
+  },
+  {
+    "from": "/category/improv-classes",
+    "to": "/category/acting-training?specialty=Improv"
+  },
+  {
+    "from": "/category/publicists",
+    "to": "/category/actor-marketing-services?specialty=Public%20Relations"
+  },
+  {
+    "from": "/category/reel-editors",
+    "to": "/category/demo-reels-editing?specialty=Reel%20Editing"
+  },
+  {
+    "from": "/category/self-tape-support",
+    "to": "/category/self-tape-services"
+  },
+  {
+    "from": "/category/stylists",
+    "to": "/category/actor-marketing-services?specialty=Personal%20Styling"
+  },
+  {
+    "from": "/category/theatre-training",
+    "to": "/category/acting-training?specialty=Theatre%20Training"
+  },
+  {
+    "from": "/category/vocal-coaches",
+    "to": "/category/acting-training?specialty=Vocal%20Training"
+  },
+  {
+    "from": "/category/voiceover-support",
+    "to": "/category/acting-training?specialty=Voiceover%20Training"
+  }
+]

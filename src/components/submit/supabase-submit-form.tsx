@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { CategoryPicker } from "@/components/vendor/category-picker";
 import { useFormAutosave } from "@/hooks/use-form-autosave";
 import { checkmarkCelebration } from "@/lib/confetti";
 import Link from "next/link";
@@ -47,6 +48,7 @@ interface Listing {
   state?: string;
   zip?: number;
   categories?: string[];
+  specialties?: string[];
   age_range?: string[];
   format?: string;
   notes?: string;
@@ -143,6 +145,7 @@ export function SupabaseSubmitForm({
     imageId: existingListing?.image_url || "",
     tags: existingListing?.age_range || [],
     categories: existingListing?.categories || [],
+    specialties: existingListing?.specialties || [],
     // IMPORTANT: Pre-fill plan from existing listing if claiming
     plan: existingListing?.plan || "Free",
     performerPermit: false,
@@ -295,15 +298,6 @@ export function SupabaseSubmitForm({
           ? prev.format.filter((f) => f !== formatTag)
           : [...prev.format, formatTag]
         : [formatTag],
-    }));
-  };
-
-  const handleCategoryToggle = (categoryId: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      categories: prev.categories.includes(categoryId)
-        ? prev.categories.filter((c) => c !== categoryId)
-        : [...prev.categories, categoryId],
     }));
   };
 
@@ -911,37 +905,21 @@ export function SupabaseSubmitForm({
             <FieldTooltip message="Pick the categories that mirror your services. They power search filters and appear on your profile." />
           </div>
           {/* STEP 9: Remove upgrade callouts */}
-          <div
-            className={`grid grid-cols-2 gap-2 p-3 border rounded-lg ${getFieldError("categories") ? "border-red-500 border-2 bg-red-50" : ""}`}
-          >
-            {categories.map((category) => {
-              const isDisabled =
-                formData.plan === "Free" &&
-                formData.categories.length >= 1 &&
-                !formData.categories.includes(category.id);
-
-              return (
-                <div
-                  key={category.id}
-                  className="flex items-start gap-2 text-text-secondary"
-                >
-                  <Checkbox
-                    id={`category-${category.id}`}
-                    checked={formData.categories.includes(category.id)}
-                    onCheckedChange={() => handleCategoryToggle(category.id)}
-                    disabled={isDisabled}
-                    className="mt-1 accent-accent-blue"
-                  />
-                  <Label
-                    htmlFor={`category-${category.id}`}
-                    className={`text-sm cursor-pointer ${isDisabled ? "opacity-50" : ""}`}
-                  >
-                    {category.name}
-                  </Label>
-                </div>
-              );
-            })}
-          </div>
+          <CategoryPicker
+            tone="dark"
+            categories={formData.categories}
+            specialties={formData.specialties}
+            singleCategory={formData.plan === "Free"}
+            invalid={Boolean(getFieldError("categories"))}
+            resolveName={(v) => categories.find((c) => c.id === v)?.name ?? v}
+            onChange={(next) =>
+              setFormData((prev) => ({
+                ...prev,
+                categories: next.categories,
+                specialties: next.specialties,
+              }))
+            }
+          />
           {getFieldError("categories") && (
             <p className="text-red-600 text-sm font-semibold">
               ⚠️ {getFieldError("categories")}

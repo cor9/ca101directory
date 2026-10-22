@@ -27,6 +27,8 @@ type BaseSubmitFormData = {
   imageId: string;
   tags: string[];
   categories: string[];
+  /** Specialty tags chosen in the category picker (optional for older callers) */
+  specialties?: string[];
   // Support legacy string[] and new object[] with captions
   gallery?: Array<string | { url: string; caption?: string }>;
   plan: string;
@@ -130,6 +132,7 @@ export async function submitToSupabase(
       imageId,
       tags,
       categories,
+      specialties,
       plan,
       performerPermit,
       bonded,
@@ -238,6 +241,19 @@ export async function submitToSupabase(
       ? categories.slice(0, 1) // Free: only 1 category
       : categories; // Paid: multiple categories allowed
 
+    // Specialty tags describe the chosen category; they are not plan-gated.
+    // Trim, de-duplicate and cap so a crafted payload cannot bloat the row.
+    const cleanSpecialties = Array.isArray(specialties)
+      ? Array.from(
+          new Set(
+            specialties
+              .filter((t): t is string => typeof t === "string")
+              .map((t) => t.trim().slice(0, 60))
+              .filter(Boolean),
+          ),
+        ).slice(0, 20)
+      : null;
+
     const galleryLimit = isPro ? 12 : isStandard ? 6 : 0;
 
     const enforcedGallery =
@@ -266,6 +282,7 @@ export async function submitToSupabase(
       zip: zip ? Number.parseInt(zip, 10) : null,
       region: region,
       categories: enforcedCategories,
+      ...(cleanSpecialties ? { specialties: cleanSpecialties } : {}),
       age_range: tags,
       profile_image: imageId,
       gallery: enforcedGallery,

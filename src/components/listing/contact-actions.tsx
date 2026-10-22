@@ -28,6 +28,8 @@ type ContactActionsProps = {
   imageUrl?: string;
   phone?: string | null;
   bookingUrl?: string | null;
+  /** Label for the main contact button (profile variant); default "Book / Contact" */
+  ctaLabel?: string;
   /** Suppress standalone website links (the modal still lists the website) */
   hideWebsiteLink?: boolean;
 };
@@ -61,6 +63,7 @@ export function ContactActions({
   imageUrl,
   phone,
   bookingUrl,
+  ctaLabel,
   hideWebsiteLink,
 }: ContactActionsProps) {
   const website = safeExternalUrl(websiteRaw);
@@ -141,7 +144,7 @@ export function ContactActions({
           onClick={trackContact}
         >
           <Mail className="w-4 h-4" />
-          Email
+          {isProfile ? (ctaLabel ?? "Email") : "Email"}
         </a>
       ) : isPro && email && isProfile ? (
         // Pro profile: opens the contact modal (mailto alone did nothing
@@ -158,7 +161,7 @@ export function ContactActions({
             }}
           >
             <Mail className="w-4 h-4" />
-            Book / Contact
+            {ctaLabel ?? "Book / Contact"}
           </button>
           <ContactModal
             open={modalOpen}
@@ -180,7 +183,7 @@ export function ContactActions({
           onClick={trackContact}
         >
           <Mail className="w-4 h-4" />
-          {isProfile ? "Book / Contact" : "Contact"}
+          {isProfile ? (ctaLabel ?? "Book / Contact") : "Contact"}
         </a>
       ) : isStandard && websiteLink ? (
         // Standard: Primary is Visit Website
@@ -205,7 +208,7 @@ export function ContactActions({
           onClick={trackContact}
         >
           <Mail className="w-4 h-4" />
-          Email
+          {isProfile ? (ctaLabel ?? "Email") : "Email"}
         </a>
       )}
 
@@ -223,7 +226,7 @@ export function ContactActions({
       )}
 
       {/* Non-clickable email for non-Pro tiers */}
-      {email && !capabilities.canClickEmail && (
+      {email && !capabilities.canClickEmail && !isProfile && (
         <span className={mutedClass} title="Contact info visible to all">
           {capabilities.obfuscateEmail ? obfuscateEmail(email) : email}
         </span>

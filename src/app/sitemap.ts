@@ -1,4 +1,4 @@
-import { getCategories } from "@/data/categories";
+import { PRIMARY_CATEGORIES } from "@/lib/category-taxonomy";
 import { getPublicListings } from "@/data/listings";
 import type { MetadataRoute } from "next";
 
@@ -50,10 +50,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     // Get listings and categories from Supabase
-    const [listings, categories] = await Promise.all([
-      getPublicListings(),
-      getCategories(),
-    ]);
+    const listings = await getPublicListings();
 
     // Add listing pages
     for (const listing of listings) {
@@ -70,21 +67,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }
     }
 
-    // Add category pages
-    for (const category of categories) {
-      const slug = (category.category_name || "")
-        .toLowerCase()
-        .replace(/\s+/g, "-")
-        .replace(/[^a-z0-9-]/g, "");
-
-      if (slug) {
-        sitemapList.push({
-          url: `${site_url}/category/${slug}`,
-          lastModified: new Date().toISOString(),
-          changeFrequency: "weekly",
-          priority: 0.8,
-        });
-      }
+    // Category pages: the 13 primary categories only. Consolidated legacy
+    // slugs redirect to their parent and retired ones are noindex.
+    for (const category of PRIMARY_CATEGORIES) {
+      sitemapList.push({
+        url: `${site_url}/category/${category.slug}`,
+        lastModified: new Date().toISOString(),
+        changeFrequency: "weekly",
+        priority: 0.8,
+      });
     }
 
     console.log(`Sitemap generated: ${sitemapList.length} URLs`);

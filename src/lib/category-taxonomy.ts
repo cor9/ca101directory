@@ -711,3 +711,18 @@ export const removeStoredValue = (
   names: ReadonlyArray<string>,
   value: string,
 ): string[] => names.filter((v) => v !== value);
+
+/**
+ * Every consolidated legacy slug and where it permanently redirects, including
+ * the specialty a legacy name directly implies. Generated into
+ * `src/lib/category-redirects.generated.json` for next.config.mjs so the
+ * redirect is a real HTTP 308 (the page-level redirect is only a fallback).
+ */
+export function legacyRedirectTable(): Array<{ from: string; to: string }> {
+  return Array.from(LEGACY_SLUG, ([slug, { primary }]) => {
+    const ref = resolveCategoryRef(slug);
+    const specialty = ref.kind === "legacy" ? ref.specialty : null;
+    const qs = specialty ? `?specialty=${encodeURIComponent(specialty)}` : "";
+    return { from: `/category/${slug}`, to: `/category/${primary.slug}${qs}` };
+  }).sort((a, b) => a.from.localeCompare(b.from));
+}

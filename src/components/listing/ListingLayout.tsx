@@ -12,6 +12,7 @@ import { ProfileSection } from "@/components/listing/ProfileSection";
 import type { Listing } from "@/data/listings";
 import { dedupeLabels } from "@/lib/labels";
 import { getProfileContactProps } from "@/lib/listing-contact";
+import { type ProfileCopy, profileCopyFor } from "@/lib/profile-kind";
 import {
   hasPrimaryContactAction,
   normalizeListingTier,
@@ -30,6 +31,10 @@ interface ListingLayoutProps {
   averageRating?: { average: number; count: number };
   /** Contact information block (right column of the closing section). */
   sidebar?: ReactNode;
+  /** False when the contact card would be empty: details then use the full width */
+  showContactCard?: boolean;
+  /** Category-aware wording (defaults to a bookable service) */
+  copy?: ProfileCopy;
   /** After Session Details & Contact: events, reviews (inside the white card). */
   mainFooter?: ReactNode;
   /** Full-width content under the card on the charcoal frame (recommendations). */
@@ -58,6 +63,8 @@ export default function ListingLayout({
   hasVirtualOption,
   averageRating,
   sidebar,
+  showContactCard = true,
+  copy = profileCopyFor(null),
   mainFooter,
   children,
 }: ListingLayoutProps) {
@@ -71,7 +78,10 @@ export default function ListingLayout({
     ...headerSpecialties,
   ]);
   const hasCta = hasPrimaryContactAction(listing);
-  const contactProps = getProfileContactProps(listing);
+  const contactProps = getProfileContactProps(listing, {
+    allowBooking: copy.allowBooking,
+    ctaLabel: copy.ctaLabel,
+  });
   // Closing CTA in the contact card is only the Book / Contact modal button
   // (Pro with an email). The website already has its own button in the header.
   const tier = normalizeListingTier(listing.plan, listing.comped);
@@ -93,6 +103,7 @@ export default function ListingLayout({
             hasVirtualOption={hasVirtualOption}
             averageRating={averageRating}
             specialties={headerSpecialties}
+            copy={copy}
           />
 
           <ListingPortfolio listing={listing} />
@@ -116,9 +127,11 @@ export default function ListingLayout({
             </ProfileSection>
           )}
 
-          {/* Session details + contact: two balanced cards on a tinted band */}
+          {/* Details + contact: two cards on a tinted band, sized to their content */}
           <ProfileSection id="contact" className="bg-zinc-50">
-            <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2">
+            <div
+              className={`grid grid-cols-1 items-start gap-6 ${showContactCard ? "md:grid-cols-2" : ""}`}
+            >
               <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
                 <ListingDetails
                   listing={listing}
@@ -128,10 +141,12 @@ export default function ListingLayout({
                   services={detailServices}
                   regions={regions}
                   hasVirtualOption={hasVirtualOption}
+                  copy={copy}
                 />
               </div>
+              {showContactCard && (
               <div className="flex flex-col rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
-                <div className="flex-1">{sidebar}</div>
+                <div>{sidebar}</div>
                 {showClosingCta && (
                   <div className="mt-8 border-t border-zinc-200 pt-6">
                     <ContactActions
@@ -149,6 +164,7 @@ export default function ListingLayout({
                   </div>
                 )}
               </div>
+              )}
             </div>
           </ProfileSection>
 

@@ -5,7 +5,7 @@
 export function QuickFindBlock() {
   const shortcuts = [
     { label: "Headshot Photographers", href: "/category/headshot-photographers" },
-    { label: "Acting Classes & Coaches", href: "/category/acting-classes-coaches" },
+    { label: "Acting Training", href: "/category/acting-training" },
     { label: "Talent Agents", href: "/category/talent-agents" },
     { label: "Talent Managers", href: "/category/talent-managers" },
   ];

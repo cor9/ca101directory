@@ -11,7 +11,11 @@ import { safeExternalUrl } from "@/lib/url";
  * plan entitlements (Pro: email/phone/booking; Standard+: website).
  * Only real values are returned; anything missing is undefined.
  */
-export function getProfileContactProps(listing: Listing) {
+export function getProfileContactProps(
+  listing: Listing,
+  opts: { allowBooking?: boolean; ctaLabel?: string } = {},
+) {
+  const allowBooking = opts.allowBooking ?? true;
   const tier = normalizeListingTier(listing.plan, listing.comped);
   const caps = getListingCapabilities(tier, {}, listing.listing_type);
   const isPro = tier === "pro" || tier === "premium";
@@ -20,8 +24,9 @@ export function getProfileContactProps(listing: Listing) {
     listingName: listing.listing_name || "this provider",
     imageUrl: img ? getListingImageUrl(img) : undefined,
     phone: caps.canClickPhone ? listing.phone?.trim() || undefined : undefined,
+    ctaLabel: opts.ctaLabel,
     bookingUrl:
-      isPro && caps.canClickWebsite
+      allowBooking && isPro && caps.canClickWebsite
         ? safeExternalUrl(listing.custom_link_url) || undefined
         : undefined,
   };

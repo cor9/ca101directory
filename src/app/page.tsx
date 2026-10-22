@@ -86,7 +86,7 @@ export default async function Page() {
             <div className="max-w-6xl mx-auto px-6">
               <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-12 text-sm text-text-muted">
                 <div>1,000+ listed professionals</div>
-                <div>25+ industry categories</div>
+                <div>13 categories of professionals</div>
                 <div>Used by families nationwide</div>
               </div>
             </div>

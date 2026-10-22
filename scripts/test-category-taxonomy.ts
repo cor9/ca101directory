@@ -1,5 +1,8 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import {
+  legacyRedirectTable,
   PRIMARY_CATEGORIES,
   RETIRED_CATEGORIES,
   SECTIONS,
@@ -225,6 +228,24 @@ test("new primary NAMES saved by the picker are read back as that primary", () =
 test("primary_category_id (when valid) takes the first slot", () => {
   const l = { categories: ["Headshot Photographers", "Stylists"], primary_category_id: "7a6327b8-3de1-4c68-93ad-8927477cb9b3" };
   assert.deepEqual(primariesForListing(l).map((p) => p.slug), ["actor-marketing-services", "headshot-photographers"]);
+});
+
+test("legacy redirect table: generated JSON is in sync; consolidated slugs hit primaries; retired/primary slugs never redirect", () => {
+  const table = legacyRedirectTable();
+  const generated = JSON.parse(
+    readFileSync(join(__dirname, "../src/lib/category-redirects.generated.json"), "utf8"),
+  );
+  assert.deepEqual(generated, table, "run `npm run gen:category-redirects`");
+  const to = (from: string) => table.find((r) => r.from === from)?.to;
+  assert.equal(to("/category/acting-classes-coaches"), "/category/acting-training");
+  assert.equal(to("/category/audition-prep"), "/category/acting-training?specialty=Audition%20Coaching");
+  assert.equal(to("/category/self-tape-support"), "/category/self-tape-services");
+  assert.equal(to("/category/reel-editors"), "/category/demo-reels-editing?specialty=Reel%20Editing");
+  for (const r of ["talent-showcases", "mental-health-for-performers", "casting-workshops"]) {
+    assert.equal(to(`/category/${r}`), undefined, `${r} must not redirect`);
+  }
+  for (const c of PRIMARY_CATEGORIES) assert.equal(to(`/category/${c.slug}`), undefined);
+  assert.equal(new Set(table.map((r) => r.from)).size, table.length);
 });
 
 console.log(`\n${passed} tests passed`);

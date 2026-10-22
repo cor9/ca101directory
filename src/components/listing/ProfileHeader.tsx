@@ -7,6 +7,7 @@ import {
   normalizeListingTier,
 } from "@/lib/listingCapabilities";
 import { getProfileContactProps } from "@/lib/listing-contact";
+import { type ProfileCopy, profileCopyFor } from "@/lib/profile-kind";
 import { safeExternalUrl } from "@/lib/url";
 import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
 import Image from "next/image";
@@ -19,6 +20,8 @@ interface ProfileHeaderProps {
   averageRating?: { average: number; count: number };
   /** Already de-duplicated by the caller */
   specialties?: string[];
+  /** Category-aware wording (defaults to a bookable service) */
+  copy?: ProfileCopy;
 }
 
 function initials(name: string): string {
@@ -39,6 +42,7 @@ export function ProfileHeader({
   hasVirtualOption,
   averageRating,
   specialties = [],
+  copy = profileCopyFor(null),
 }: ProfileHeaderProps) {
   const tier = normalizeListingTier(listing.plan, listing.comped);
   const caps = getListingCapabilities(tier, {}, listing.listing_type);
@@ -81,7 +85,7 @@ export function ProfileHeader({
     ? safeExternalUrl(listing.tiktok_url)
     : null;
   const bookingUrl =
-    caps.canClickWebsite && isPro
+    copy.allowBooking && caps.canClickWebsite && isPro
       ? safeExternalUrl(listing.custom_link_url)
       : null;
 
@@ -206,7 +210,10 @@ export function ProfileHeader({
           comped={listing.comped}
           variant="profile"
           className="flex-col items-stretch md:items-end"
-          {...getProfileContactProps(listing)}
+          {...getProfileContactProps(listing, {
+            allowBooking: copy.allowBooking,
+            ctaLabel: copy.ctaLabel,
+          })}
         />
         {bookingUrl && (
           <a

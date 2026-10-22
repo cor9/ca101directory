@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { getCategoriesClient } from "@/data/categories-client";
+import { CategoryPicker } from "@/components/vendor/category-picker";
 import type { Listing } from "@/data/listings";
 import { regionsList } from "@/data/regions";
 import { UpdateListingSchema } from "@/lib/validations/listings";
@@ -268,32 +269,6 @@ export function VendorEditForm({
     "Commercial",
     "Theatrical",
   ];
-  const specialtyOptions = [
-    "Pre-Readers",
-    "Memorization",
-    "Audition Prep",
-    "Self-Tapes",
-  ];
-
-  const handleCategoryToggle = (categoryName: string) => {
-    const currentStr = (form.getValues("categories") as any) || "";
-    const currentArray = currentStr
-      ? String(currentStr).split(", ").filter(Boolean)
-      : [];
-    const newCategories = currentArray.includes(categoryName)
-      ? currentArray.filter((c) => c !== categoryName)
-      : [...currentArray, categoryName];
-
-    // Free tier: limit to 1 category
-    if (!hasStandardAccess && newCategories.length > 1) {
-      toast.error(
-        "Free plan allows only 1 category. Upgrade to select multiple.",
-      );
-      return;
-    }
-
-    form.setValue("categories", newCategories.join(", ") as any);
-  };
 
   const handleTagToggle = (
     tag: string,
@@ -861,36 +836,32 @@ export function VendorEditForm({
           </div>
         </div>
       )}
-      {/* Categories */}
+      {/* Category + specialties (taxonomy compatibility layer) */}
       <div className="space-y-2">
         <Label>
-          Categories {!hasStandardAccess && "(Select 1 - Free Plan)"}
+          Category {!hasStandardAccess && "(Select 1 - Free Plan)"}
         </Label>
-        <div className="grid grid-cols-2 gap-2">
-          {categories.map((category) => (
-            <label key={category.id} className="flex items-center space-x-2">
-              <Checkbox
-                checked={String((form.watch("categories") as any) || "")
-                  .split(", ")
-                  .includes(category.category_name)}
-                onCheckedChange={() =>
-                  handleCategoryToggle(category.category_name)
-                }
-                disabled={
-                  isPending ||
-                  (!hasStandardAccess &&
-                    !String((form.watch("categories") as any) || "")
-                      .split(", ")
-                      .includes(category.category_name) &&
-                    String((form.watch("categories") as any) || "")
-                      .split(", ")
-                      .filter(Boolean).length >= 1)
-                }
-              />
-              <span className="text-sm">{category.category_name}</span>
-            </label>
-          ))}
-        </div>
+        <CategoryPicker
+          categories={String((form.watch("categories") as any) || "")
+            .split(", ")
+            .filter(Boolean)}
+          specialties={String((form.watch("specialties") as any) || "")
+            .split(", ")
+            .filter(Boolean)}
+          singleCategory={!hasStandardAccess}
+          disabled={isPending}
+          resolveName={(v) =>
+            categories.find((c) => c.id === v)?.category_name ?? v
+          }
+          onChange={(next) => {
+            form.setValue("categories", next.categories.join(", ") as any, {
+              shouldDirty: true,
+            });
+            form.setValue("specialties", next.specialties.join(", ") as any, {
+              shouldDirty: true,
+            });
+          }}
+        />
         {!hasStandardAccess && (
           <p className="text-xs text-gray-600">
             Free Plan: You can select 1 category. Upgrade to Pro to select
@@ -970,23 +941,6 @@ export function VendorEditForm({
           </div>
         </div>
 
-        <div className="space-y-2">
-          <Label>Specialties</Label>
-          <div className="space-y-2">
-            {specialtyOptions.map((opt) => (
-              <label key={opt} className="flex items-center space-x-2">
-                <Checkbox
-                  checked={String((form.watch("specialties") as any) || "")
-                    .split(", ")
-                    .includes(opt)}
-                  onCheckedChange={() => handleTagToggle(opt, "specialties")}
-                  disabled={isPending}
-                />
-                <span className="text-sm">{opt}</span>
-              </label>
-            ))}
-          </div>
-        </div>
       </div>
       {/* Location/Region Tags */}
       <div className="space-y-2">

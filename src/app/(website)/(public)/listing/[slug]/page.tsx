@@ -8,7 +8,10 @@ import ListingLayout from "@/components/listing/ListingLayout";
 import { ProfileSection } from "@/components/listing/ProfileSection";
 import { ContactActions } from "@/components/listing/contact-actions";
 import { ListingCarousel } from "@/components/listing/listing-carousel";
-import { ListingContactSection } from "@/components/listing/listing-contact-section";
+import {
+  ListingContactSection,
+  hasContactContent,
+} from "@/components/listing/listing-contact-section";
 import type { DisplayCategory } from "@/components/listing/types";
 import { ReviewForm as SubmitReviewForm } from "@/components/reviews/review-form";
 import {
@@ -22,7 +25,13 @@ import { siteConfig } from "@/config/site";
 import { getCategories, getCategoryIconsMap } from "@/data/categories";
 import { stateNames } from "@/data/regions";
 import {
+  primariesForListing,
+  primaryCategoryOf,
+  unmappedValues,
+} from "@/lib/category-taxonomy";
+import {
   buildCategoryMatcher,
+  isUuid,
   listingHasPhoto,
   listingMatchesCategory,
   toStateAbbr,
@@ -38,6 +47,7 @@ import { getPublicEventsForListing } from "@/lib/events/queries";
 import type { DirectoryEventWithListing } from "@/lib/events/types";
 import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
 import { constructMetadata } from "@/lib/metadata";
+import { profileCopyFor } from "@/lib/profile-kind";
 import { getCleanArray } from "@/lib/sanitizeFields";
 import { generateSlugFromListing } from "@/lib/slug-utils";
 import { createServerClient } from "@/lib/supabase";
@@ -104,7 +114,10 @@ export async function generateMetadata({
     }
 
     // Build SEO-rich title and description
-    const category = listing.categories?.[0] || "Acting Professional";
+    const category =
+      primaryCategoryOf(listing)?.name ||
+      listing.categories?.find((c) => typeof c === "string" && !isUuid(c)) ||
+      "Acting Professional";
     const cityState = [listing.city, listing.state].filter(Boolean).join(", ");
     const location = cityState ? ` in ${cityState}` : "";
 
@@ -268,6 +281,11 @@ export default async function ListingPage({ params }: ListingPageProps) {
     }
 
     const localIconMap: Record<string, string> = {
+      "Acting Training": "/categories/masks.png",
+      "Career Coaching & Consulting": "/categories/consult.png",
+      "Demo Reels & Editing": "/categories/reelcreator.png",
+      "Actor Marketing Services": "/categories/publicist.png",
+      "Self-Tape Services": "/categories/selftape.png",
       "Acting Classes & Coaches": "/categories/masks.png",
       "Headshot Photographers": "/categories/camera.png",
       "Self-Tape Studios": "/categories/selftape.png",
@@ -312,7 +330,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
     // Display categories - handle both UUIDs and names
     const displayCategories: DisplayCategory[] = [];
     const seenCategoryNames = new Set<string>();
-    for (const rawCategory of listing.categories || []) {
+    // Taxonomy primaries first (the consolidated names), then any stored value
+    // that maps to no primary (retired / unmapped) so nothing silently vanishes.
+    const rawCategoryList: string[] = [
+      ...primariesForListing(listing).map((p) => p.name),
+      ...unmappedValues(listing),
+    ];
+    for (const rawCategory of rawCategoryList) {
       const storedName = categoryNames[rawCategory];
       const readableName =
         !storedName && !isUuidLike(rawCategory)
@@ -608,6 +632,11 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
           {/* Canonical Listing Layout: one grid, main (2/3) + sticky sidebar (1/3) */}
           <ListingLayout
+            copy={profileCopyFor(primaryCategoryOf(listing))}
+            showContactCard={
+              showFavorite ||
+              hasContactContent(listing, { showClaimCallout, showUpgradePrompt })
+            }
             listing={listing}
             slug={params.slug}
             category={displayPrimaryCategory}

@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+
 /** @type {import('next').NextConfig} */
 const supabaseUrl =
   process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
@@ -54,7 +56,20 @@ const nextConfig = {
 
   // Redirects for production
   async redirects() {
+    // Consolidated legacy category slugs -> their primary category (HTTP 308).
+    // Generated from src/lib/category-taxonomy.ts (npm run gen:category-redirects).
+    const categoryRedirects = JSON.parse(
+      readFileSync(
+        new URL("./src/lib/category-redirects.generated.json", import.meta.url),
+        "utf8",
+      ),
+    ).map(({ from, to }) => ({
+      source: from,
+      destination: to,
+      permanent: true,
+    }));
     return [
+      ...categoryRedirects,
       {
         source: "/dashboard",
         destination: "/dashboard/vendor",

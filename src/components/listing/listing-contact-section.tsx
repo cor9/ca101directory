@@ -17,6 +17,32 @@ import {
   ShieldIcon,
 } from "lucide-react";
 
+/** True when the contact card would show anything at all. */
+export function hasContactContent(
+  listing: Listing,
+  opts: { showClaimCallout: boolean; showUpgradePrompt: boolean },
+): boolean {
+  const caps = getListingCapabilities(
+    normalizeListingTier(listing.plan, listing.comped),
+    {},
+    listing.listing_type,
+  );
+  const virtual =
+    typeof listing.format === "string" &&
+    listing.format.toLowerCase().includes("online");
+  return Boolean(
+    opts.showClaimCallout ||
+      opts.showUpgradePrompt ||
+      listing.city ||
+      listing.state ||
+      (Array.isArray(listing.region) && listing.region.length > 0) ||
+      listing.phone ||
+      listing.email ||
+      (listing.website && !caps.canClickWebsite) ||
+      virtual,
+  );
+}
+
 interface ListingContactSectionProps {
   listing: Listing;
   showClaimCallout: boolean;

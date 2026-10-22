@@ -23,10 +23,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { type ReviewFormData, ReviewSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+
+// Light panel that sits natively on the white profile (no dark inset)
+const PANEL = "rounded-xl border-zinc-200 bg-zinc-50 text-zinc-900 shadow-none";
+const DARK_BTN =
+  "border-zinc-900 bg-zinc-900 text-white hover:border-zinc-700 hover:bg-zinc-700";
 
 interface ReviewFormProps {
   vendorId: string;
@@ -45,9 +51,9 @@ export function ReviewForm({
   // Don't show form if user is not logged in
   if (status === "loading") {
     return (
-      <Card className={className}>
+      <Card className={cn(PANEL, className)}>
         <CardContent className="p-6">
-          <div className="text-center text-paper">Loading...</div>
+          <div className="text-center text-zinc-700">Loading...</div>
         </CardContent>
       </Card>
     );
@@ -55,23 +61,25 @@ export function ReviewForm({
 
   if (!session?.user) {
     return (
-      <Card className={className}>
+      <Card className={cn(PANEL, className)}>
         <CardHeader>
-          <CardTitle className="text-xl font-bold">Write a Review</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-xl font-bold text-zinc-900">
+            Write a Review
+          </CardTitle>
+          <CardDescription className="text-zinc-700">
             Share your experience with {vendorName}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="text-center space-y-4">
-            <p className="text-paper">
+            <p className="text-zinc-700">
               You must be logged in as a parent to write a review.
             </p>
             <div className="flex gap-2 justify-center">
               <Button asChild variant="outline">
                 <Link href="/auth/login">Sign In</Link>
               </Button>
-              <Button asChild>
+              <Button asChild className={DARK_BTN}>
                 <Link href="/auth/register">Sign Up as Parent</Link>
               </Button>
             </div>
@@ -84,19 +92,21 @@ export function ReviewForm({
   // Only parents can submit reviews
   if (session.user.role !== "parent") {
     return (
-      <Card className={className}>
+      <Card className={cn(PANEL, className)}>
         <CardHeader>
-          <CardTitle className="text-xl font-bold">Write a Review</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-xl font-bold text-zinc-900">
+            Write a Review
+          </CardTitle>
+          <CardDescription className="text-zinc-700">
             Share your experience with {vendorName}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="text-center space-y-4">
-            <p className="text-paper">
+            <p className="text-zinc-700">
               Only parents can submit reviews for vendors.
             </p>
-            <p className="text-sm text-paper">
+            <p className="text-sm text-zinc-700">
               If you're a parent, please make sure you're logged in with the
               correct account.
             </p>
@@ -134,10 +144,12 @@ export function ReviewForm({
   });
 
   return (
-    <Card className={className}>
+    <Card className={cn(PANEL, className)}>
       <CardHeader>
-        <CardTitle className="text-xl font-bold">Write a Review</CardTitle>
-        <CardDescription>
+        <CardTitle className="text-xl font-bold text-zinc-900">
+          Write a Review
+        </CardTitle>
+        <CardDescription className="text-zinc-700">
           Share your experience with {vendorName}
         </CardDescription>
       </CardHeader>
@@ -150,15 +162,18 @@ export function ReviewForm({
               name="rating"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Rating *</FormLabel>
+                  <FormLabel className="font-semibold text-zinc-900">
+                    Rating *
+                  </FormLabel>
                   <FormControl>
                     <StarRating
                       value={field.value}
                       onChange={field.onChange}
                       size="lg"
+                      tone="light"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-700" />
                 </FormItem>
               )}
             />
@@ -169,21 +184,27 @@ export function ReviewForm({
               name="comment"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Your Review *</FormLabel>
+                  <FormLabel className="font-semibold text-zinc-900">
+                    Your Review *
+                  </FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Tell us about your experience with this vendor..."
-                      className="min-h-[120px]"
+                      className="min-h-[120px] border-zinc-400 bg-white text-zinc-900 placeholder:text-zinc-500 focus-visible:ring-[#2563EB]"
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-700" />
                 </FormItem>
               )}
             />
 
             {/* Submit Button */}
-            <Button type="submit" className="w-full" disabled={isPending}>
+            <Button
+              type="submit"
+              className={cn("w-full", DARK_BTN)}
+              disabled={isPending}
+            >
               {isPending ? (
                 <>
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

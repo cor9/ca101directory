@@ -15,7 +15,7 @@ export function SuggestVendorCTA({
     <Link
       href="/suggest-vendor"
       className={cn(
-        "block p-4 rounded-xl border border-border-subtle bg-card-surface hover:bg-bg-3 transition-all hover:border-accent-teal group",
+        "block p-4 rounded-xl border border-border-subtle bg-card-surface hover:bg-bg-3 transition-all hover:border-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white group",
         variant === "compact" && "p-3",
         className,
       )}
@@ -29,7 +29,7 @@ export function SuggestVendorCTA({
             Suggest a vendor →
           </p>
         </div>
-        <ArrowRightIcon className="w-5 h-5 text-text-muted group-hover:text-accent-teal group-hover:translate-x-1 transition-all flex-shrink-0 ml-2" />
+        <ArrowRightIcon className="w-5 h-5 text-text-muted group-hover:text-white group-hover:translate-x-1 transition-all flex-shrink-0 ml-2" />
       </div>
     </Link>
   );

@@ -44,13 +44,13 @@ export default function WhyParentsTrust({
           ].map((stat) => (
             <div
               key={stat.label}
-              className="bauhaus-card bg-[#FFFBEA] p-6 text-center rounded-xl"
+              className="rounded-xl border border-zinc-200 bg-white p-6 text-center shadow-sm"
             >
-              <stat.icon className="w-8 h-8 mx-auto mb-3 text-[#FF6B35]" />
-              <div className="bauhaus-heading text-3xl text-[#0C1A2B]">
+              <stat.icon className="mx-auto mb-3 h-8 w-8 text-zinc-700" />
+              <div className="text-3xl font-bold text-zinc-900">
                 {stat.value}
               </div>
-              <div className="bauhaus-body text-sm text-slate-600 uppercase tracking-wide">
+              <div className="text-sm font-medium uppercase tracking-wide text-zinc-600">
                 {stat.label}
               </div>
             </div>
@@ -85,10 +85,10 @@ export default function WhyParentsTrust({
               key={point.title}
               className="flex items-start gap-4 bg-white/5 rounded-xl p-5"
             >
-              <CheckCircle2 className="w-6 h-6 text-[#7AB8CC] flex-shrink-0 mt-0.5" />
+              <CheckCircle2 className="mt-0.5 h-6 w-6 shrink-0 text-white/80" />
               <div>
                 <h3 className="font-semibold text-white mb-1">{point.title}</h3>
-                <p className="text-sm text-white/70">{point.description}</p>
+                <p className="text-sm text-white/80">{point.description}</p>
               </div>
             </div>
           ))}

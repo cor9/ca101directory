@@ -16,7 +16,6 @@ import {
   hasPrimaryContactAction,
   normalizeListingTier,
 } from "@/lib/listingCapabilities";
-import Link from "next/link";
 import type { ReactNode } from "react";
 
 interface ListingLayoutProps {
@@ -173,14 +172,6 @@ export default function ListingLayout({
           </StickyContactBar>
         )}
 
-        <div className="mt-12 border-t border-white/10 pt-8">
-          <Link
-            href="/directory"
-            className="text-sm text-neutral-300 underline-offset-4 transition-colors hover:text-white hover:underline"
-          >
-            ← Back to Directory
-          </Link>
-        </div>
       </div>
     </div>
   );

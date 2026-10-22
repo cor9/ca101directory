@@ -701,8 +701,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                       </div>
                     )}
 
-                    {/* Form is built for dark surfaces: keep it on a dark inset */}
-                    <div className="mt-6 rounded-xl bg-[#0D1B2A] p-4 text-white sm:p-6">
+                    <div className="mt-6">
                       <SubmitReviewForm
                         vendorId={listing.id}
                         vendorName={listing.listing_name || "this provider"}

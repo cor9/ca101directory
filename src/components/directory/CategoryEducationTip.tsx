@@ -40,15 +40,13 @@ export function CategoryEducationTip({
 
   return (
     <div
-      className={`relative mb-8 rounded-2xl border-2 px-6 py-6 shadow-md ${
-        isSafetyTip
-          ? "border-amber-300 bg-amber-50"
-          : "border-sky-300 bg-sky-50"
+      className={`relative mb-8 rounded-2xl border border-zinc-200 bg-white px-6 py-6 shadow-sm ${
+        isSafetyTip ? "border-l-4 border-l-amber-500" : ""
       }`}
     >
       <button
         onClick={handleDismiss}
-        className="absolute right-4 top-4 rounded-full p-1.5 text-slate-400 hover:bg-black/5 hover:text-slate-600 transition-colors"
+        className="absolute right-4 top-4 rounded-full p-1.5 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] transition-colors"
         aria-label="Dismiss tip"
       >
         <X className="h-4 w-4" />
@@ -56,11 +54,7 @@ export function CategoryEducationTip({
 
       <div className="flex gap-3">
         <div
-          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
-            isSafetyTip
-              ? "bg-amber-100 text-amber-600"
-              : "bg-sky-100 text-sky-600"
-          }`}
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-700"
         >
           {isSafetyTip ? (
             <ShieldAlert className="h-5 w-5" />
@@ -81,7 +75,7 @@ export function CategoryEducationTip({
             {tip.bullets.map((bullet, i) => (
               <li key={i} className="flex items-start gap-2">
                 <span
-                  className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${isSafetyTip ? "bg-amber-500" : "bg-sky-500"}`}
+                  className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-500"
                 />
                 <span>{bullet}</span>
               </li>

@@ -20,23 +20,23 @@ const typeConfig: Record<
 > = {
   safety: {
     icon: Shield,
-    color: "border-rose-200/60 bg-rose-50/70",
-    iconColor: "text-rose-600",
-    bgIcon: "bg-rose-100",
+    color: "border-zinc-200 bg-white shadow-sm",
+    iconColor: "text-zinc-700",
+    bgIcon: "bg-zinc-100",
     label: "Safety Tip",
   },
   guide: {
     icon: BookOpen,
-    color: "border-sky-200/60 bg-sky-50/70",
-    iconColor: "text-sky-600",
-    bgIcon: "bg-sky-100",
+    color: "border-zinc-200 bg-white shadow-sm",
+    iconColor: "text-zinc-700",
+    bgIcon: "bg-zinc-100",
     label: "Quick Guide",
   },
   info: {
     icon: Info,
-    color: "border-amber-200/60 bg-amber-50/70",
-    iconColor: "text-amber-600",
-    bgIcon: "bg-amber-100",
+    color: "border-zinc-200 bg-white shadow-sm",
+    iconColor: "text-zinc-700",
+    bgIcon: "bg-zinc-100",
     label: "Good to Know",
   },
 };
@@ -75,7 +75,7 @@ export function CategoryTipCard({ category }: CategoryTipCardProps) {
       {/* Dismiss button */}
       <button
         onClick={handleDismiss}
-        className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-black/5 transition-colors text-slate-400 hover:text-slate-600"
+        className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-black/5 transition-colors text-zinc-500 hover:text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]"
         aria-label="Dismiss tip"
       >
         <X className="w-4 h-4" />

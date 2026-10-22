@@ -1,7 +1,7 @@
 /**
  * SEO-rich content for category pages
  * Uses prewritten CSV content
- * Bauhaus theme with proper text contrast
+ * Neutral white cards (matches the profile / card surfaces)
  */
 
 import { categoryCopyData } from "@/data/category-copy";
@@ -49,48 +49,53 @@ export function CategoryContent({
   if (!content) return null;
 
   return (
-    <div className="mb-8">
-      {/* Intro Section - Full width */}
-      <div className="bauhaus-card p-6 mb-4">
-        <p className="bauhaus-body text-base leading-relaxed text-surface">
+    <div className="mb-8 space-y-4">
+      {/* Intro */}
+      <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+        <p className="text-base leading-relaxed text-zinc-800">
           {content.intro}
         </p>
       </div>
 
-      {/* Two Column Grid for Why/What sections */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Why You Need This Section - Robin Egg Blue */}
-        <div className="listing-card-blue p-6">
-          <h2 className="bauhaus-heading text-xl mb-3">
+      {/* Why / What: two neutral white cards */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+          <h2 className="mb-3 text-xl font-bold text-zinc-900">
             Why You Need {categoryName}
           </h2>
           <ul className="space-y-2">
             {content.whyYouNeed.map((item) => (
-              <li key={item} className="flex items-start gap-2 text-sm">
-                <span className="text-primary-orange text-lg mt-0.5 flex-shrink-0">
+              <li
+                key={item}
+                className="flex items-start gap-2 text-sm text-zinc-800"
+              >
+                <span
+                  aria-hidden="true"
+                  className="mt-0.5 shrink-0 text-base font-bold text-zinc-900"
+                >
                   ✓
                 </span>
-                <span className="flex-1 bauhaus-body">{item}</span>
+                <span className="flex-1 leading-relaxed">{item}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* What to Look For Section - Mustard Yellow */}
-        <div className="listing-card-mustard p-6">
-          <h2 className="bauhaus-heading text-xl mb-3 text-charcoal">
+        <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+          <h2 className="mb-3 text-xl font-bold text-zinc-900">
             What to Look For
           </h2>
           <ul className="space-y-2">
             {content.whatToLookFor.map((item) => (
               <li
                 key={item}
-                className="flex items-start gap-2 text-charcoal text-sm"
+                className="flex items-start gap-2 text-sm text-zinc-800"
               >
-                <span className="text-primary-orange text-lg mt-0.5 flex-shrink-0">
-                  •
-                </span>
-                <span className="flex-1 bauhaus-body">{item}</span>
+                <span
+                  aria-hidden="true"
+                  className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-500"
+                />
+                <span className="flex-1 leading-relaxed">{item}</span>
               </li>
             ))}
           </ul>

@@ -349,7 +349,7 @@ export default function DirectoryHeroSearch({
               onClick={() => setShowMoreFilters(!showMoreFilters)}
               className={`flex items-center gap-2 text-sm font-medium transition-colors ${
                 advancedFilterCount > 0
-                  ? "text-amber-300"
+                  ? "text-white"
                   : "text-white/70 hover:text-white"
               }`}
             >
@@ -357,7 +357,7 @@ export default function DirectoryHeroSearch({
               <span>
                 More Filters
                 {advancedFilterCount > 0 && (
-                  <span className="ml-1.5 inline-flex items-center justify-center h-5 w-5 rounded-full bg-amber-500 text-white text-xs font-bold">
+                  <span className="ml-1.5 inline-flex items-center justify-center h-5 w-5 rounded-full bg-white text-zinc-900 text-xs font-bold">
                     {advancedFilterCount}
                   </span>
                 )}
@@ -436,7 +436,7 @@ export default function DirectoryHeroSearch({
                           onClick={() => setBeginnerFriendly(!beginnerFriendly)}
                           className={`h-10 w-full flex items-center justify-center gap-2 rounded-lg border transition-colors ${
                             beginnerFriendly
-                              ? "bg-sky-500/90 border-sky-400 text-white"
+                              ? "bg-white border-white text-zinc-900 font-semibold"
                               : "bg-white/10 border-white/30 text-white hover:bg-white/20"
                           }`}
                         >
@@ -486,7 +486,7 @@ export default function DirectoryHeroSearch({
                               onClick={() => setUnionStatus(opt.value)}
                               className={`px-3 py-1.5 text-sm font-medium rounded-full border transition-colors ${
                                 unionStatus === opt.value
-                                  ? "bg-amber-500/90 border-amber-400 text-white"
+                                  ? "bg-white border-white text-zinc-900"
                                   : "bg-white/10 border-white/30 text-white hover:bg-white/20"
                               }`}
                             >
@@ -506,7 +506,7 @@ export default function DirectoryHeroSearch({
           <div className="mt-6 flex justify-center">
             <Button
               type="submit"
-              className="h-12 px-8 bg-[#FF6B35] hover:bg-[#E55F2F] text-white font-semibold rounded-full text-base"
+              className="h-12 rounded-full border-white bg-white px-8 text-base font-semibold text-zinc-900 hover:border-zinc-200 hover:bg-zinc-200"
             >
               <SearchIcon className="w-5 h-5 mr-2" />
               Show Results

@@ -1,8 +1,15 @@
 "use client";
 
 import { parseGalleryItems } from "@/lib/gallery";
+import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+
+const navBtn = (extra: string) =>
+  cn(
+    "shrink-0 items-center justify-center self-center rounded-full border border-white/15 bg-white/10 p-3 text-white transition-colors hover:bg-white/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white",
+    extra.includes("hidden") ? extra : `flex ${extra}`,
+  );
 
 interface GalleryProps {
   listing: {
@@ -50,7 +57,7 @@ export function Gallery({ listing, tone = "light" }: GalleryProps) {
         // Focus stays inside the viewer
         const nodes = Array.from(
           document.querySelectorAll<HTMLElement>("[data-lightbox] button"),
-        );
+        ).filter((el) => el.offsetParent !== null); // skip breakpoint-hidden controls
         if (nodes.length === 0) return;
         const first = nodes[0];
         const last = nodes[nodes.length - 1];
@@ -140,7 +147,7 @@ export function Gallery({ listing, tone = "light" }: GalleryProps) {
       {active && (
         <div
           data-lightbox
-          className="fixed inset-0 z-[90] flex touch-pan-y items-center justify-center overscroll-x-none bg-black/95 p-2 sm:p-6"
+          className="fixed inset-0 z-[90] flex touch-pan-y flex-col overscroll-x-none bg-zinc-950"
           role="dialog"
           aria-modal="true"
           aria-label="Portfolio image viewer"
@@ -161,60 +168,112 @@ export function Gallery({ listing, tone = "light" }: GalleryProps) {
             }
           }}
         >
-          <button
-            type="button"
-            tabIndex={-1}
-            aria-hidden="true"
-            onClick={() => {
-              if (!justSwiped.current) close();
-            }}
-            className="absolute inset-0 cursor-default"
-          />
-          <button
-            ref={closeBtnRef}
-            type="button"
-            aria-label="Close viewer"
-            onClick={close}
-            className="absolute right-3 top-3 z-10 rounded-full bg-white/15 p-2.5 text-white hover:bg-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-          >
-            <X className="h-6 w-6" />
-          </button>
-          {items.length > 1 && (
-            <>
+          {/* Top bar: quiet counter + close */}
+          <div className="flex shrink-0 items-center justify-between px-4 py-3 sm:px-6">
+            <p
+              className="text-sm font-medium tabular-nums text-zinc-400"
+              aria-live="polite"
+            >
+              {(openIndex ?? 0) + 1} of {items.length}
+            </p>
+            <button
+              ref={closeBtnRef}
+              type="button"
+              aria-label="Close viewer"
+              onClick={close}
+              className="rounded-full bg-white/10 p-2.5 text-white hover:bg-white/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+
+          {/* Image row: arrows are siblings of the image, never overlaid on it */}
+          <div className="flex min-h-0 flex-1 items-stretch gap-2 px-2 sm:gap-4 sm:px-6">
+            {items.length > 1 && (
               <button
                 type="button"
                 aria-label="Previous image"
                 onClick={() => step(-1)}
-                className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/15 p-2.5 text-white hover:bg-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:left-4"
+                className={navBtn("hidden sm:flex")}
               >
                 <ChevronLeft className="h-7 w-7" />
               </button>
+            )}
+            <div
+              className="relative flex min-w-0 flex-1 items-center justify-center"
+              onClick={(e) => {
+                // Clicking the empty area around the photo closes the viewer
+                if (e.target === e.currentTarget && !justSwiped.current)
+                  close();
+              }}
+            >
+              {/* Complete original: contained, never cropped */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={active.url}
+                alt={
+                  active.caption ||
+                  `${listing.listing_name} portfolio image ${(openIndex ?? 0) + 1}`
+                }
+                className="max-h-full max-w-full rounded-sm object-contain shadow-2xl"
+              />
+            </div>
+            {items.length > 1 && (
               <button
                 type="button"
                 aria-label="Next image"
                 onClick={() => step(1)}
-                className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/15 p-2.5 text-white hover:bg-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:right-4"
+                className={navBtn("hidden sm:flex")}
               >
                 <ChevronRight className="h-7 w-7" />
               </button>
-            </>
-          )}
-          <figure className="pointer-events-none relative z-0 flex max-h-full max-w-full flex-col items-center">
-            {/* Complete original: contained, never cropped */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={active.url}
-              alt={
-                active.caption ||
-                `${listing.listing_name} portfolio image ${(openIndex ?? 0) + 1}`
-              }
-              className="max-h-[calc(100vh-6rem)] w-auto max-w-full rounded-md object-contain"
-            />
-            <figcaption className="mt-3 text-center text-sm text-white/85">
-              {active.caption ? `${active.caption} · ` : ""}
-              {(openIndex ?? 0) + 1} / {items.length}
-            </figcaption>
-          </figure>
+            )}
+          </div>
+
+          {/* Caption panel: its own defined area under the photo */}
+          <div
+            className={cn(
+              "shrink-0 border-t border-white/10 bg-zinc-900 px-4 py-4 sm:px-8 sm:py-5",
+              !active.caption && "sm:hidden",
+            )}
+          >
+            <div className="mx-auto flex max-w-4xl items-start gap-3">
+              {items.length > 1 && (
+                <button
+                  type="button"
+                  aria-label="Previous image"
+                  onClick={() => step(-1)}
+                  className={navBtn("sm:hidden")}
+                >
+                  <ChevronLeft className="h-6 w-6" />
+                </button>
+              )}
+              <div className="min-w-0 flex-1 text-left">
+                {active.caption ? (
+                  <p
+                    data-lightbox-caption
+                    className="max-h-[22vh] overflow-y-auto whitespace-pre-line break-words pr-2 text-base leading-relaxed text-zinc-100 [scrollbar-color:#71717a_transparent] [scrollbar-width:thin]"
+                  >
+                    {active.caption}
+                  </p>
+                ) : (
+                  <p className="text-sm text-zinc-400 sm:hidden">
+                    {listing.listing_name}
+                  </p>
+                )}
+              </div>
+              {items.length > 1 && (
+                <button
+                  type="button"
+                  aria-label="Next image"
+                  onClick={() => step(1)}
+                  className={navBtn("sm:hidden")}
+                >
+                  <ChevronRight className="h-6 w-6" />
+                </button>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </>

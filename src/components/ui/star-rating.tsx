@@ -9,6 +9,8 @@ interface StarRatingProps {
   size?: "sm" | "md" | "lg";
   readonly?: boolean;
   className?: string;
+  /** "light" for white surfaces: visible empty stars + focus ring */
+  tone?: "dark" | "light";
 }
 
 export function StarRating({ 
@@ -16,7 +18,8 @@ export function StarRating({
   onChange, 
   size = "md", 
   readonly = false,
-  className 
+  className,
+  tone = "dark",
 }: StarRatingProps) {
   const sizeClasses = {
     sm: "h-4 w-4",
@@ -38,8 +41,9 @@ export function StarRating({
           type="button"
           onClick={() => handleClick(star)}
           disabled={readonly}
+          aria-label={`${star} star${star === 1 ? "" : "s"}`}
           className={cn(
-            "transition-colors duration-200",
+            "rounded transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:ring-offset-2",
             !readonly && "hover:scale-110",
             readonly ? "cursor-default" : "cursor-pointer"
           )}
@@ -48,8 +52,10 @@ export function StarRating({
             className={cn(
               sizeClasses[size],
               star <= value
-                ? "fill-yellow-400 text-yellow-400"
-                : "fill-gray-200 text-paper"
+                ? "fill-amber-400 text-amber-500"
+                : tone === "light"
+                  ? "fill-zinc-100 text-zinc-400"
+                  : "fill-gray-200 text-paper"
             )}
           />
         </button>

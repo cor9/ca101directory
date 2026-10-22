@@ -47,7 +47,7 @@ export function QuickFindBlock() {
         .quick-find__item {
           background: rgba(255,255,255,0.05);
           border: 1px solid rgba(255,255,255,0.1);
-          color: #cbd5e1;
+          color: #e2e8f0;
           padding: 14px 12px;
           text-align: center;
           font-weight: 600;
@@ -58,9 +58,9 @@ export function QuickFindBlock() {
           line-height: 1.35;
         }
         .quick-find__item:hover {
-          background: rgba(237, 209, 125, 0.12);
-          border-color: #edd17d;
-          color: #edd17d;
+          background: rgba(255, 255, 255, 0.12);
+          border-color: #ffffff;
+          color: #ffffff;
         }
       `}</style>
     </section>

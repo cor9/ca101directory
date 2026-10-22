@@ -6,7 +6,7 @@ interface ClaimBannerProps {
 
 /**
  * Shown at the very top of unclaimed listing pages.
- * Keeps the site's dark aesthetic with the gold accent color.
+ * Charcoal bar with a white action button (matches the site frame).
  */
 export function ClaimBanner({ listingId }: ClaimBannerProps) {
   return (
@@ -21,7 +21,7 @@ export function ClaimBanner({ listingId }: ClaimBannerProps) {
 
       <style>{`
         .claim-banner {
-          background: #0d1b2a;
+          background: #0e1117;
           color: #fff;
           padding: 12px 20px;
           display: flex;
@@ -29,7 +29,7 @@ export function ClaimBanner({ listingId }: ClaimBannerProps) {
           align-items: center;
           gap: 16px;
           font-size: 14px;
-          border-bottom: 2px solid #edd17d;
+          border-bottom: 1px solid rgba(255,255,255,0.14);
           flex-wrap: wrap;
         }
         .claim-banner__text {
@@ -39,27 +39,31 @@ export function ClaimBanner({ listingId }: ClaimBannerProps) {
         }
         .claim-banner__text strong {
           font-weight: 700;
-          color: #edd17d;
+          color: #ffffff;
           letter-spacing: 0.01em;
         }
         .claim-banner__text span {
-          color: #94a3b8;
+          color: #cbd5e1;
           font-size: 13px;
         }
         .claim-banner__btn {
-          background: #edd17d;
-          color: #0d1b2a;
+          background: #ffffff;
+          color: #18181b;
           padding: 8px 16px;
           font-weight: 700;
           font-size: 13px;
           text-decoration: none;
-          border-radius: 4px;
+          border-radius: 6px;
           white-space: nowrap;
           transition: background 0.15s;
           flex-shrink: 0;
         }
         .claim-banner__btn:hover {
-          background: #f5df9a;
+          background: #e4e4e7;
+        }
+        .claim-banner__btn:focus-visible {
+          outline: 2px solid #ffffff;
+          outline-offset: 2px;
         }
       `}</style>
     </div>

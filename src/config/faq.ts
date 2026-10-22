@@ -7,7 +7,7 @@ export const faqConfig: FAQConfig = {
       id: "item-1",
       question: "How do I get listed in the Child Actor 101 Vendor Directory?",
       answer:
-        "Getting listed is straightforward. Choose either a Free Listing or a Pro Listing, submit your business details, and complete checkout if you want Pro visibility. Our team reviews new listings before they appear in the directory.",
+        "Getting listed is straightforward. Choose either a Free Listing or a Pro Listing, submit your listing details, and complete checkout if you want Pro visibility. Our team reviews new listings before they appear in the directory.",
     },
     {
       id: "item-2",

@@ -11,6 +11,7 @@ import {
   togglePrimaryInNames,
   unmappedValues,
 } from "@/lib/category-taxonomy";
+import { submissionProfile } from "@/lib/submission-fields";
 import { useId } from "react";
 
 export interface CategoryPickerValue {
@@ -76,6 +77,7 @@ export function CategoryPicker({
   const otherTags = effective.filter((s) => !optionKeys.has(normKey(s)));
   const effectiveKeys = new Set(effective.map(normKey));
   // Free plan counts every stored value so nothing is dropped silently on save
+  const specialtyHeading = submissionProfile(categories).specialtyLabel;
   const atLimit = singleCategory && categories.length >= 1;
 
   const togglePrimary = (slug: string) => {
@@ -178,7 +180,7 @@ export function CategoryPicker({
           <p
             className={`mb-2 text-sm font-semibold ${dark ? "text-text-primary" : "text-zinc-900"}`}
           >
-            Specialties
+            {specialtyHeading}
           </p>
           <div className="flex flex-wrap gap-2">
             {[...options, ...otherTags].map((label) => {
@@ -207,7 +209,7 @@ export function CategoryPicker({
             })}
           </div>
           <p className={`mt-2 text-xs ${muted}`}>
-            Only tick what you really offer. Tags you saved earlier stay listed
+            Select all that apply, and only what you really offer. Tags you saved earlier stay listed
             here until you untick them.
           </p>
         </div>

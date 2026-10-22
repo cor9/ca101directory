@@ -178,7 +178,10 @@ test("specialty options depend on the selected category", () => {
   assert.ok(specialtyOptionsFor(["acting-training"]).includes("Audition Coaching"));
   assert.ok(!specialtyOptionsFor(["acting-training"]).includes("Self-Tape Studio"));
   assert.deepEqual(specialtyOptionsFor(["self-tape-services"]), ["Self-Tape Studio", "Professional Reader", "Self-Tape Feedback", "Audition Recording"]);
-  assert.deepEqual(specialtyOptionsFor(["talent-agents"]), []);
+  assert.deepEqual(specialtyOptionsFor(["talent-agents"]), ["Commercial", "Theatrical", "Print & Modeling", "Voiceover"]);
+  assert.deepEqual(specialtyOptionsFor(["set-teachers"]), []);
+  assert.ok(!specialtyOptionsFor(["actor-marketing-services"]).includes("Styling"), "legacy-only label is not offered");
+  assert.deepEqual(specialtyOptionsFor(["actor-marketing-services"]), ["Public Relations", "Actor Websites", "Website Design", "Wardrobe Styling", "Hair & Makeup", "Personal Styling"]);
   assert.ok(specialtyOptionsFor(["acting-training", "self-tape-services"]).length > specialtyOptionsFor(["acting-training"]).length);
 });
 
@@ -247,8 +250,10 @@ test("attributes are not specialties: ages, places, formats are never in any voc
 test("categories without meaningful specialty data show no filters", () => {
   for (const slug of ["talent-agents", "talent-managers", "influencer-agents", "background-casting", "child-advocacy", "set-teachers", "set-sitters"]) {
     const p = getPrimaryBySlug(slug)!;
-    assert.deepEqual(p.specialties, [], slug);
-    assert.deepEqual(specialtyCounts([L([p.legacyNames[0]], ["Improv", "Audition Coaching"]), L([p.legacyNames[0]])], slug), [], slug);
+    // representation types are shown on profiles but are never filter chips
+    if (p.section !== "representation") assert.deepEqual(p.specialties, [], slug);
+    else assert.equal(p.noFacets, true, slug);
+    assert.deepEqual(specialtyCounts([L([p.legacyNames[0]], ["Improv", "Audition Coaching", "Commercial"]), L([p.legacyNames[0]], ["Commercial", "Theatrical"])], slug), [], slug);
   }
   // vocab exists but nothing stored -> no chips (headshots, self-tape)
   assert.deepEqual(specialtyCounts([L(["Headshot Photographers"]), L(["Headshot Photographers"])], "headshot-photographers"), []);

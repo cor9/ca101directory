@@ -13,6 +13,11 @@ import {
   sendListingSubmittedEmail,
 } from "@/lib/mail";
 import { SubmitSchema } from "@/lib/schemas";
+import {
+  categoryRequirementErrors,
+  cleanServiceAreas,
+  submissionProfile,
+} from "@/lib/submission-fields";
 import { createServerClient } from "@/lib/supabase";
 import { revalidatePath, revalidateTag } from "next/cache";
 
@@ -29,6 +34,8 @@ type BaseSubmitFormData = {
   categories: string[];
   /** Specialty tags chosen in the category picker (optional for older callers) */
   specialties?: string[];
+  /** Extra cities/areas served (saved to secondary_locations) */
+  serviceAreas?: Array<{ city?: string; state?: string; zip?: string }>;
   // Support legacy string[] and new object[] with captions
   gallery?: Array<string | { url: string; caption?: string }>;
   plan: string;
@@ -142,6 +149,7 @@ export async function submitToSupabase(
       state,
       zip,
       region,
+      serviceAreas,
       bondNumber,
       gallery,
       active,
@@ -165,6 +173,21 @@ export async function submitToSupabase(
       "region:",
       region,
     );
+
+    // Category-aware requirements: only service categories must give a service
+    // format and a broad region. Agencies, managers, background casting, child
+    // advocacy and set teachers are not asked questions meant for bookable services.
+    const profile = submissionProfile(categories);
+    const categoryErrors = categoryRequirementErrors(profile, { format, region });
+    if (Object.keys(categoryErrors).length > 0) {
+      return {
+        status: "error",
+        message: `Please fix these issues:\n${Object.values(categoryErrors)
+          .map((m) => `• ${m[0]}`)
+          .join("\n")}`,
+        errors: categoryErrors,
+      };
+    }
 
     // SECURITY FIX (recovery audit, Phase 1C Task 7): this action used to
     // write the client-submitted `plan` straight to the database
@@ -254,6 +277,10 @@ export async function submitToSupabase(
         ).slice(0, 20)
       : null;
 
+    // Extra cities: set teachers / sitters on any plan (15); otherwise the
+    // existing Pro-only entitlement (2). Anything else leaves the column untouched.
+    const areaLimit = profile.emphasizeCoverage ? 15 : isPro ? 2 : 0;
+
     const galleryLimit = isPro ? 12 : isStandard ? 6 : 0;
 
     const enforcedGallery =
@@ -281,6 +308,10 @@ export async function submitToSupabase(
       state: state,
       zip: zip ? Number.parseInt(zip, 10) : null,
       region: region,
+      // Extra cities/areas served (existing jsonb column; searched by location filters)
+      ...(serviceAreas && areaLimit > 0
+        ? { secondary_locations: cleanServiceAreas(serviceAreas, areaLimit) }
+        : {}),
       categories: enforcedCategories,
       ...(cleanSpecialties ? { specialties: cleanSpecialties } : {}),
       age_range: tags,

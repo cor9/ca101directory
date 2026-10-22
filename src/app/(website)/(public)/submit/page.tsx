@@ -7,9 +7,9 @@ import { constructMetadata } from "@/lib/metadata";
 import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
-  title: "Submit Your Business | List on Child Actor 101 Vendor Directory",
+  title: "Add Your Listing | Child Actor 101 Vendor Directory",
   description:
-    "Join 250+ trusted child actor professionals on our directory. Submit your acting coaching, photography, talent management, or other child entertainment services. Get discovered by families nationwide.",
+    "Create a free listing in the Child Actor 101 Vendor Directory so families can discover your services or professional information.",
   canonicalUrl: `${siteConfig.url}/submit`,
 });
 
@@ -197,12 +197,12 @@ export default async function SubmitPage({
         {/* STEP 2: Header copy - low pressure */}
         <header className="mb-10">
           <h1 className="text-3xl font-semibold text-text-primary">
-            {isClaimFlow ? "Claim Your Listing" : "Submit your business"}
+            {isClaimFlow ? "Claim Your Listing" : "Add Your Listing"}
           </h1>
           <p className="mt-3 text-text-secondary max-w-2xl">
             {isClaimFlow
-              ? "Complete your listing details to claim this business."
-              : "Create a free listing and be discovered by parents looking for trusted child-acting professionals."}
+              ? "Complete your listing details to claim this listing."
+              : "Create a free listing in the Child Actor 101 Vendor Directory so families can discover your services or professional information."}
           </p>
           {existingListing && (
             <div className="mt-4 bg-card-surface border border-border-subtle rounded-lg p-4">

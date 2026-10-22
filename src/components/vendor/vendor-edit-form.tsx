@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { getCategoriesClient } from "@/data/categories-client";
 import { CategoryPicker } from "@/components/vendor/category-picker";
+import { showLicensing, submissionProfile } from "@/lib/submission-fields";
 import type { Listing } from "@/data/listings";
 import { regionsList } from "@/data/regions";
 import { UpdateListingSchema } from "@/lib/validations/listings";
@@ -261,6 +262,27 @@ export function VendorEditForm({
   const hasStandardAccess = isStandard || isPro || isTalentRep;
   const hasProAccess = isPro || isTalentRep;
 
+  // The questions below adapt to the selected category (agencies, set teachers,
+  // etc. are not asked bookable-service questions).
+  const profile = submissionProfile(
+    String((form.watch("categories") as any) || "")
+      .split(", ")
+      .filter(Boolean),
+  );
+  // Set teachers / sitters work where they are hired, so they may list their
+  // coverage cities on any plan (up to 15); other categories keep the Pro rule (2).
+  const coverageCities = profile.emphasizeCoverage;
+  const canUseLocations = hasProAccess || coverageCities;
+  const maxLocations = coverageCities ? 15 : 2;
+  const askServiceQuestions = profile.mode === "service" || profile.mode === "none";
+  const licensingVisible = showLicensing({
+    profile,
+    state: String((form.watch("state") as any) || ""),
+    hasExistingAnswer:
+      Boolean(form.watch("ca_permit_required")) ||
+      Boolean(form.watch("is_bonded")),
+  });
+
   const serviceOptions = [
     "Private Coaching",
     "Group Classes",
@@ -495,7 +517,7 @@ export function VendorEditForm({
       </div>
       {/* What You Offer */}
       <div className="space-y-1">
-        <Label htmlFor="what_you_offer">What You Offer</Label>
+        <Label htmlFor="what_you_offer">{profile.descriptionLabel === "Description" ? "What You Offer" : profile.descriptionLabel}</Label>
         <Textarea
           id="what_you_offer"
           {...form.register("what_you_offer")}
@@ -579,10 +601,10 @@ export function VendorEditForm({
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <Label className="flex items-center gap-2">
-            {!hasProAccess && <Lock className="w-4 h-4" />}
-            Secondary Locations
+            {!canUseLocations && <Lock className="w-4 h-4" />}
+            {coverageCities ? "Cities and Areas You Cover" : "Secondary Locations"}
           </Label>
-          {hasProAccess && locationFields.length < 2 && (
+          {canUseLocations && locationFields.length < maxLocations && (
             <Button
               type="button"
               variant="outline"
@@ -595,7 +617,7 @@ export function VendorEditForm({
           )}
         </div>
 
-        {hasProAccess ? (
+        {canUseLocations ? (
           <div className="space-y-4">
             {locationFields.map((field, index) => (
               <div
@@ -650,8 +672,9 @@ export function VendorEditForm({
             ))}
             {locationFields.length === 0 && (
               <p className="text-sm text-gray-500 italic">
-                No secondary locations added. Pro users can add up to 2
-                additional locations.
+                {coverageCities
+                  ? "No additional cities added. List the cities and areas where you work so families and productions nearby can find you."
+                  : "No secondary locations added. Pro users can add up to 2 additional locations."}
               </p>
             )}
           </div>
@@ -869,7 +892,8 @@ export function VendorEditForm({
           </p>
         )}
       </div>
-      /* Service Format Tags */
+      {/* Service format (service categories only) */}
+      {askServiceQuestions && (
       <div className="space-y-2">
         <Label>Service Format Tags</Label>
         <div className="space-y-2">
@@ -898,6 +922,7 @@ export function VendorEditForm({
           Select all that apply. These tags help families find your service.
         </p>
       </div>
+      )}
       {/* Age Tags */}
       <div className="space-y-2">
         <Label>Age Tags</Label>
@@ -919,7 +944,8 @@ export function VendorEditForm({
           ))}
         </div>
       </div>
-      {/* Structured Taxonomy */}
+      {/* Structured Taxonomy (bookable-service options) */}
+      {askServiceQuestions && (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="space-y-2">
           <Label>Services Offered</Label>
@@ -942,6 +968,7 @@ export function VendorEditForm({
         </div>
 
       </div>
+      )}
       {/* Location/Region Tags */}
       <div className="space-y-2">
         <Label>Location/Region</Label>
@@ -960,8 +987,13 @@ export function VendorEditForm({
           ))}
         </div>
       </div>
-      {/* Legal Compliance */}
+      {/* California licensing: optional, only where it can apply */}
+      {licensingVisible && (
       <div className="space-y-4">
+        <p className="text-sm text-gray-600">
+          California licensing (optional): answer only if it applies to your
+          work.
+        </p>
         <div className="flex items-center space-x-2">
           <Checkbox
             id="ca_permit_required"
@@ -972,7 +1004,7 @@ export function VendorEditForm({
             disabled={isPending}
           />
           <Label htmlFor="ca_permit_required">
-            California Child Performer Services Permit Required
+            California Child Performer Services Permit
           </Label>
         </div>
         <div className="flex items-center space-x-2">
@@ -982,7 +1014,7 @@ export function VendorEditForm({
             onCheckedChange={(checked) => form.setValue("is_bonded", !!checked)}
             disabled={isPending}
           />
-          <Label htmlFor="is_bonded">Bonded For Advanced Fees</Label>
+          <Label htmlFor="is_bonded">Bonded for Advanced Fees</Label>
         </div>
         {form.watch("is_bonded") && (
           <div className="space-y-1">
@@ -995,6 +1027,7 @@ export function VendorEditForm({
           </div>
         )}
       </div>
+      )}
       {/* Submit Buttons */}
       <div className="flex justify-end gap-2 pt-4 border-t sticky bottom-0 bg-card/90 backdrop-blur supports-[backdrop-filter]:bg-card/70">
         <Button

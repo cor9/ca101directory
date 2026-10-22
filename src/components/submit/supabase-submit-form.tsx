@@ -25,6 +25,10 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { CategoryPicker } from "@/components/vendor/category-picker";
+import {
+  showLicensing,
+  submissionProfile,
+} from "@/lib/submission-fields";
 import { useFormAutosave } from "@/hooks/use-form-autosave";
 import { checkmarkCelebration } from "@/lib/confetti";
 import Link from "next/link";
@@ -56,6 +60,10 @@ interface Listing {
   gallery?: string | null;
   plan?: string;
   region?: string[];
+  secondary_locations?: Array<{ city?: string; state?: string; zip?: string }> | null;
+  ca_permit_required?: boolean | null;
+  is_bonded?: boolean | null;
+  bond_number?: string | null;
 }
 
 interface SupabaseSubmitFormProps {
@@ -148,16 +156,22 @@ export function SupabaseSubmitForm({
     specialties: existingListing?.specialties || [],
     // IMPORTANT: Pre-fill plan from existing listing if claiming
     plan: existingListing?.plan || "Free",
-    performerPermit: false,
-    bonded: false,
+    // Licensing answers an owner already gave are kept (never reset by a re-save)
+    performerPermit: existingListing?.ca_permit_required === true,
+    bonded: existingListing?.is_bonded === true,
     email: existingListing?.email || "",
     phone: existingListing?.phone || "",
     city: existingListing?.city || "",
     state: existingListing?.state || "",
     zip: existingListing?.zip?.toString() || "",
     region: existingListing?.region || [], // Array for multi-select
-    bondNumber: "",
+    bondNumber: existingListing?.bond_number || "",
     active: true,
+    serviceAreas: (existingListing?.secondary_locations || []).map((a) => ({
+      city: a.city || "",
+      state: a.state || "",
+      zip: a.zip || "",
+    })),
     // Social media fields
     facebook_url: "",
     instagram_url: "",
@@ -205,7 +219,22 @@ export function SupabaseSubmitForm({
   });
   const [isGalleryUploading, setIsGalleryUploading] = useState(false);
 
+  const profile = submissionProfile(formData.categories);
+  const licensingVisible = showLicensing({
+    profile,
+    state: formData.state,
+    hasExistingAnswer:
+      existingListing?.ca_permit_required === true ||
+      existingListing?.is_bonded === true,
+  });
   const currentPlanLevel = getPlanLevel(formData.plan);
+  // Extra cities: set teachers / sitters on any plan (they work where they are
+  // hired); other categories keep the existing Pro-only rule (2 locations).
+  const maxServiceAreas = profile.emphasizeCoverage
+    ? 15
+    : currentPlanLevel === "Pro"
+      ? 2
+      : 0;
   const canEditEnhancedFields = currentPlanLevel !== "Free";
   const canEditNotes = currentPlanLevel !== "Free";
   const canEditProfileImage = currentPlanLevel !== "Free";
@@ -298,6 +327,18 @@ export function SupabaseSubmitForm({
           ? prev.format.filter((f) => f !== formatTag)
           : [...prev.format, formatTag]
         : [formatTag],
+    }));
+  };
+
+  const updateServiceArea = (
+    index: number,
+    patch: Partial<{ city: string; state: string; zip: string }>,
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
+      serviceAreas: prev.serviceAreas.map((a, i) =>
+        i === index ? { ...a, ...patch } : a,
+      ),
     }));
   };
 
@@ -698,6 +739,37 @@ export function SupabaseSubmitForm({
           </div>
         )}
 
+        {/* Category + specialties first: the rest of the form adapts to it */}
+        <div className="space-y-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <h2 className="text-lg font-semibold text-text-primary mb-4">
+              Category *
+            </h2>
+            <FieldTooltip message="Choose the category that best describes your listing, then pick the specialties that apply. They power search filters and appear on your profile." />
+          </div>
+          {/* STEP 9: Remove upgrade callouts */}
+          <CategoryPicker
+            tone="dark"
+            categories={formData.categories}
+            specialties={formData.specialties}
+            singleCategory={formData.plan === "Free"}
+            invalid={Boolean(getFieldError("categories"))}
+            resolveName={(v) => categories.find((c) => c.id === v)?.name ?? v}
+            onChange={(next) =>
+              setFormData((prev) => ({
+                ...prev,
+                categories: next.categories,
+                specialties: next.specialties,
+              }))
+            }
+          />
+          {getFieldError("categories") && (
+            <p className="text-red-600 text-sm font-semibold">
+              ⚠️ {getFieldError("categories")}
+            </p>
+          )}
+        </div>
+
         {/* STEP 4: Field grouping - Basic Information */}
         <div className="space-y-4">
           <h2 className="text-lg font-semibold text-text-primary mb-4">
@@ -707,7 +779,7 @@ export function SupabaseSubmitForm({
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-2">
               <Label htmlFor="name" className="text-text-primary">
-                Business Name *
+                {profile.nameLabel} *
               </Label>
               <FieldTooltip message="Use the exact name parents will search for. Avoid abbreviations unless they appear on your signage and marketing." />
             </div>
@@ -717,7 +789,7 @@ export function SupabaseSubmitForm({
               name="name"
               value={formData.name}
               onChange={(e) => handleInputChange("name", e.target.value)}
-              placeholder="e.g., Bright Lights Talent Coaching"
+              placeholder={profile.namePlaceholder}
               maxLength={100}
               required
               className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue ${getFieldError("name") ? "border-red-500 border-2" : ""}`}
@@ -735,9 +807,9 @@ export function SupabaseSubmitForm({
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-2">
               <Label htmlFor="description" className="text-text-primary">
-                What You Offer *
+                {profile.descriptionLabel} *
               </Label>
-              <FieldTooltip message="List your signature services and what makes them valuable. Aim for one punchy sentence with an outcome." />
+              <FieldTooltip message={profile.descriptionHelp} />
             </div>
             {/* STEP 5: Input styling */}
             <Textarea
@@ -745,7 +817,7 @@ export function SupabaseSubmitForm({
               name="description"
               value={formData.description}
               onChange={(e) => handleInputChange("description", e.target.value)}
-              placeholder="Example: 'On-set tutoring, permit processing, and audition coaching for young performers in LA.'"
+              placeholder={profile.descriptionPlaceholder}
               maxLength={256}
               required
               className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue ${getFieldError("description") ? "border-red-500 border-2" : ""}`}
@@ -829,10 +901,12 @@ export function SupabaseSubmitForm({
           </div>
         </div>
 
-        {/* Service Format Tags */}
+        {/* Service format (service categories only) and age ranges */}
+        {(profile.requireFormat || profile.showAges) && (
         <div className="space-y-4">
           {/* STEP 4: Field grouping - Services (already has h2 above) */}
 
+          {profile.requireFormat && (
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-2">
               <Label className="text-text-primary">Service Format *</Label>
@@ -853,7 +927,7 @@ export function SupabaseSubmitForm({
                     <Checkbox
                       checked={isChecked}
                       onCheckedChange={() => handleFormatToggle(formatTag)}
-                      required={formatArray.length === 0}
+                      required={profile.requireFormat && formatArray.length === 0}
                     />
                     <span className="text-sm text-text-primary capitalize">
                       {formatTag.replace("-", " ")}
@@ -868,9 +942,13 @@ export function SupabaseSubmitForm({
               </p>
             )}
           </div>
+          )}
 
+          {profile.showAges && (
           <div className="space-y-2">
-            <Label className="text-text-primary">Age Ranges</Label>
+            <Label className="text-text-primary">
+              {profile.mode === "representation" ? "Ages You Represent" : "Age Ranges"}
+            </Label>
             <div className="grid grid-cols-2 gap-2">
               {/* STEP 6: Checkboxes - visible, legible */}
               {["5-8", "9-12", "13-17", "18+"].map((age) => (
@@ -894,38 +972,10 @@ export function SupabaseSubmitForm({
               ))}
             </div>
           </div>
-        </div>
-
-        {/* Categories */}
-        <div className="space-y-4">
-          <div className="flex flex-wrap items-center gap-2">
-            <h2 className="text-lg font-semibold text-text-primary mb-4">
-              Categories *
-            </h2>
-            <FieldTooltip message="Pick the categories that mirror your services. They power search filters and appear on your profile." />
-          </div>
-          {/* STEP 9: Remove upgrade callouts */}
-          <CategoryPicker
-            tone="dark"
-            categories={formData.categories}
-            specialties={formData.specialties}
-            singleCategory={formData.plan === "Free"}
-            invalid={Boolean(getFieldError("categories"))}
-            resolveName={(v) => categories.find((c) => c.id === v)?.name ?? v}
-            onChange={(next) =>
-              setFormData((prev) => ({
-                ...prev,
-                categories: next.categories,
-                specialties: next.specialties,
-              }))
-            }
-          />
-          {getFieldError("categories") && (
-            <p className="text-red-600 text-sm font-semibold">
-              ⚠️ {getFieldError("categories")}
-            </p>
           )}
         </div>
+        )}
+
 
         {/* Contact Information */}
         <div className="space-y-4">
@@ -985,7 +1035,7 @@ export function SupabaseSubmitForm({
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-2">
               <Label htmlFor="link" className="text-text-primary">
-                Website *
+                Website
               </Label>
               <FieldTooltip message="Link to the page families should land on—your main site, booking page, or dedicated listing." />
             </div>
@@ -1076,10 +1126,11 @@ export function SupabaseSubmitForm({
 
           <div className="space-y-2">
             <Label className="text-text-primary">
-              Service Areas (Select all that apply) *
+              Regional Service Areas {profile.requireRegion ? "*" : "(optional)"}
             </Label>
             <p className="text-text-secondary text-sm">
-              Where do you serve clients? Select all regions that apply.
+              Broad regions you cover. Add specific cities below so families
+              nearby can find you.
             </p>
             <div
               className={`grid grid-cols-1 md:grid-cols-2 gap-3 p-4 border border-border-subtle rounded-lg bg-bg-dark-3 ${getFieldError("region") ? "border-red-500 border-2" : ""}`}
@@ -1127,13 +1178,100 @@ export function SupabaseSubmitForm({
               </p>
             )}
           </div>
+
+          {/* Specific cities served: saved to the existing secondary_locations
+              column, which city / state search already matches. */}
+          {maxServiceAreas > 0 && (
+          <div className="space-y-3">
+            <Label className="text-text-primary">
+              {profile.emphasizeCoverage
+                ? "Cities and Areas You Cover"
+                : "Additional Cities You Serve (optional)"}
+            </Label>
+            <p className="text-text-secondary text-sm">
+              {profile.emphasizeCoverage
+                ? "Families and productions search by city. List every city or area where you work, besides the one above (up to 15)."
+                : "Besides the city above, list up to 2 other cities where you work."}
+            </p>
+            {formData.serviceAreas.map((area, index) => (
+              <div
+                key={`area-${index}`}
+                className="grid grid-cols-[1fr_6rem_auto] gap-2 sm:grid-cols-[1fr_8rem_7rem_auto]"
+              >
+                <Input
+                  aria-label={`Additional city ${index + 1}`}
+                  value={area.city}
+                  placeholder="City"
+                  onChange={(e) =>
+                    updateServiceArea(index, { city: e.target.value })
+                  }
+                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted"
+                />
+                <Input
+                  aria-label={`Additional state ${index + 1}`}
+                  value={area.state}
+                  placeholder="State"
+                  onChange={(e) =>
+                    updateServiceArea(index, { state: e.target.value })
+                  }
+                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted"
+                />
+                <Input
+                  aria-label={`Additional ZIP ${index + 1}`}
+                  value={area.zip}
+                  placeholder="ZIP"
+                  onChange={(e) =>
+                    updateServiceArea(index, { zip: e.target.value })
+                  }
+                  className="hidden bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted sm:block"
+                />
+                <button
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      serviceAreas: prev.serviceAreas.filter(
+                        (_, i) => i !== index,
+                      ),
+                    }))
+                  }
+                  className="rounded-md border border-border-subtle px-3 text-sm text-text-secondary hover:text-text-primary"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+            {formData.serviceAreas.length < maxServiceAreas && (
+              <button
+                type="button"
+                onClick={() =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    serviceAreas: [
+                      ...prev.serviceAreas,
+                      { city: "", state: prev.state, zip: "" },
+                    ],
+                  }))
+                }
+                className="rounded-md border border-border-subtle px-3 py-2 text-sm font-medium text-text-primary hover:bg-white/5"
+              >
+                + Add a city
+              </button>
+            )}
+          </div>
+          )}
         </div>
 
         {/* STEP 4: Field grouping - Legal Compliance */}
+        {licensingVisible && (
         <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-text-primary mb-4">
-            Legal Compliance
+          <h2 className="text-lg font-semibold text-text-primary">
+            California Licensing (optional)
           </h2>
+          <p className="text-sm text-text-secondary">
+            Answer only if this applies to your work. Most professionals do not
+            need to complete this section.
+          </p>
 
           <div className="space-y-4">
             {/* STEP 6: Checkboxes - visible, legible */}
@@ -1186,6 +1324,7 @@ export function SupabaseSubmitForm({
             )}
           </div>
         </div>
+        )}
 
         {/* Additional Notes */}
         <div className="space-y-2">

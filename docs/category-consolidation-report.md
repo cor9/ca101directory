@@ -317,10 +317,12 @@ Approved vocabularies:
 | Acting Training | Audition Coaching, Improv, Scene Study, On-Camera Acting, Voiceover Training, Vocal Training, Dialect Coaching, Theatre Training, Memorization |
 | Career Coaching & Consulting | Career Strategy, Personal Branding, Business of Acting, Parent Consultations, Industry Guidance |
 | Demo Reels & Editing | Demo Reel Production, Scene Filming, Reel Editing, Reel Updates, Video Production |
-| Actor Marketing Services | Public Relations, Actor Websites, Styling, Marketing Materials |
-| Headshot Photographers | Studio Headshots, Natural Light, Outdoor Sessions, Character Looks, Hair & Makeup |
+| Actor Marketing Services | Public Relations, Actor Websites, Website Design, Wardrobe Styling, Hair & Makeup, Personal Styling (+ "Styling", implied by legacy Stylists, filterable but not offered as a new choice) |
+| Headshot Photographers | Studio Headshots, Natural Light, Outdoor Sessions, Character Looks, Hair & Makeup, Commercial Headshots, Theatrical Headshots |
 | Self-Tape Services | Self-Tape Studio, Professional Reader, Self-Tape Feedback, Audition Recording |
-| Set Sitters, Talent Agents, Talent Managers, Influencer Agents, Background Casting, Child Advocacy, Set Teachers | none (no meaningful specialty data; no filters shown) |
+| Talent Agents, Talent Managers | Commercial, Theatrical, Print & Modeling, Voiceover ("Representation type"; shown on profiles, never as filter chips) |
+| Influencer Agents | Social Media Creators, Brand Partnerships (same) |
+| Set Sitters, Background Casting, Child Advocacy, Set Teachers | none (no meaningful specialty data; no filters shown) |
 
 Live chips on production data (snapshot of 1,042 listings, `npm run test:specialty-audit`):
 
@@ -331,3 +333,23 @@ Live chips on production data (snapshot of 1,042 listings, `npm run test:special
 | Demo Reels & Editing (43) | Demo Reel Production 24, Reel Editing 21 |
 | Actor Marketing Services (68) | Styling 48, Public Relations 16, Actor Websites 5 |
 | All other 9 | no specialty filters |
+
+## "Add Your Listing" form (category-aware)
+
+- Category and specialties come first; the rest of the form adapts
+  (`src/lib/submission-fields.ts`, shared by the form and the server action).
+- Services & Training: What You Offer, Service Format (required), Age Ranges,
+  regional Service Areas (required). Talent Representation: "About Your Agency /
+  Management Company", Representation type, no Service Format, regions optional.
+  Industry & On-Set Resources: Company / Professional Information, no Service Format.
+- Specialties are saved to the existing `specialties` column and shown on profiles;
+  chips in category filters follow the curated-vocabulary rules above.
+- Location: City, State, ZIP kept; broad regions kept for compatibility; extra
+  cities are saved to the existing `secondary_locations` jsonb (already matched by
+  city/state search). **Entitlement note:** extra cities were already a Pro feature
+  (2 locations). They are opened on every plan, up to 15, ONLY for Set Teachers and
+  Set Sitters, who work where they are hired; all other categories keep the Pro rule.
+- California permit / bonded questions are an optional section shown only for
+  service categories in California, or when the listing already holds an answer.
+  Existing answers are pre-filled and never reset by a re-save.
+- No database schema changes.

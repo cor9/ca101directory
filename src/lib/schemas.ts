@@ -47,7 +47,7 @@ const optionalUrlWithProtocol = z
 export const baseSubmitSchema = {
   name: z
     .string()
-    .min(1, { message: "Business name is required" })
+    .min(1, { message: "Name is required" })
     .max(100, { message: "Name must be 100 or fewer characters long" }),
   link: urlWithProtocol,
   description: z
@@ -61,28 +61,38 @@ export const baseSubmitSchema = {
     })
     .optional(), // Optional for free listings
   unique: z.string().optional(), // Optional for free listings, validated in form based on plan
-  format: z.union([
-    z.enum(["In-person", "Online", "Hybrid"]), // Legacy single value
-    z
-      .array(z.enum(["online", "in-person", "hybrid"]))
-      .min(1, {
-        message: "Please select at least one service format",
-      }), // New tags format
-  ]),
+  // Required only for service categories (enforced category-aware in the
+  // submit action via submissionProfile); agencies, set teachers etc. skip it.
+  format: z
+    .union([
+      z.enum(["In-person", "Online", "Hybrid"]), // Legacy single value
+      z.array(z.enum(["online", "in-person", "hybrid"])), // Tags format
+    ])
+    .optional(),
   notes: z.string().optional(),
   email: z.string().email({ message: "Please enter a valid email address" }),
   phone: z.string().optional(),
   city: z.string().min(1, { message: "City is required" }), // Required for all listings
   state: z.string().min(1, { message: "State is required" }), // Required for all listings
   zip: z.string().optional(),
-  region: z.union([
-    z
-      .array(z.string())
-      .min(1, { message: "Please select at least one region" }),
-    z
-      .string()
-      .transform((val) => [val]), // Convert single string to array
-  ]),
+  // Required only for service categories (see submissionProfile)
+  region: z
+    .union([
+      z.array(z.string()),
+      z.string().transform((val) => (val ? [val] : [])), // Convert single string to array
+    ])
+    .optional()
+    .transform((val) => val ?? []),
+  // Extra cities/areas served (stored in the existing secondary_locations jsonb)
+  serviceAreas: z
+    .array(
+      z.object({
+        city: z.string().optional(),
+        state: z.string().optional(),
+        zip: z.string().optional(),
+      }),
+    )
+    .optional(),
   bondNumber: z.string().optional(),
   plan: z.enum(
     ["Free", "Standard", "Pro", "Founding Standard", "Founding Pro"],

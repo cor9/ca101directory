@@ -46,6 +46,10 @@ export interface PrimaryCategory {
   specialties: string[];
   /** label -> other stored spellings that mean the same thing (one filter) */
   aliases?: Record<string, string[]>;
+  /** Approved labels that exist for filtering / legacy data but are not offered as new choices */
+  hiddenFromPicker?: string[];
+  /** Specialties are shown on profiles but never as filter chips (too sparse to filter on) */
+  noFacets?: boolean;
   /**
    * Legacy category name -> specialty it directly implies. Only categories whose
    * name unambiguously states the specialty appear here.
@@ -97,6 +101,8 @@ export const PRIMARY_CATEGORIES: PrimaryCategory[] = [
       "Outdoor Sessions",
       "Character Looks",
       "Hair & Makeup",
+      "Commercial Headshots",
+      "Theatrical Headshots",
     ],
     derive: {},
   },
@@ -242,12 +248,16 @@ export const PRIMARY_CATEGORIES: PrimaryCategory[] = [
     specialties: [
       "Public Relations",
       "Actor Websites",
+      "Website Design",
+      "Wardrobe Styling",
+      "Hair & Makeup",
+      "Personal Styling",
+      // what the legacy "Stylists" category directly implies; not offered as a new choice
       "Styling",
-      "Marketing Materials",
     ],
+    hiddenFromPicker: ["Styling"],
     aliases: {
-      "Actor Websites": ["Website Design", "Actor Website", "Websites"],
-      Styling: ["Personal Styling", "Wardrobe Styling", "Wardrobe", "Stylist"],
+      Styling: ["Stylist", "Stylists"],
       "Public Relations": ["PR", "Publicity"],
     },
     derive: {
@@ -301,7 +311,13 @@ export const PRIMARY_CATEGORIES: PrimaryCategory[] = [
     blurb: "Agencies that represent young talent.",
     legacyNames: ["Talent Agents"],
     legacyIds: ["78b32c61-a10e-478f-a464-a84ad9eaa075"],
-    specialties: [],
+    specialties: [
+      "Commercial",
+      "Theatrical",
+      "Print & Modeling",
+      "Voiceover",
+    ],
+    noFacets: true,
     derive: {},
   },
   {
@@ -312,7 +328,13 @@ export const PRIMARY_CATEGORIES: PrimaryCategory[] = [
     blurb: "Management companies that guide young talent.",
     legacyNames: ["Talent Managers"],
     legacyIds: ["472f7c28-e5cf-405e-82bd-f55b93407ae9"],
-    specialties: [],
+    specialties: [
+      "Commercial",
+      "Theatrical",
+      "Print & Modeling",
+      "Voiceover",
+    ],
+    noFacets: true,
     derive: {},
   },
   {
@@ -323,7 +345,11 @@ export const PRIMARY_CATEGORIES: PrimaryCategory[] = [
     blurb: "Agents who represent young creators and influencers.",
     legacyNames: ["Influencer Agents"],
     legacyIds: ["22ffa1e8-394c-41c9-8f68-7e82d8656229"],
-    specialties: [],
+    specialties: [
+      "Social Media Creators",
+      "Brand Partnerships",
+    ],
+    noFacets: true,
     derive: {},
   },
   /* --------------------- Industry & on-set resources -------------------- */
@@ -658,7 +684,9 @@ export function specialtiesForListing(
 export function specialtyOptionsFor(slugs: string[]): string[] {
   const out: string[] = [];
   for (const s of slugs) {
-    for (const label of BY_SLUG.get(s)?.specialties ?? []) {
+    const p = BY_SLUG.get(s);
+    for (const label of p?.specialties ?? []) {
+      if (p?.hiddenFromPicker?.includes(label)) continue;
       if (!out.includes(label)) out.push(label);
     }
   }
@@ -769,7 +797,7 @@ export function specialtyCounts(
   slug: string,
 ): Array<{ name: string; count: number }> {
   const primary = BY_SLUG.get(slug);
-  if (!primary) return [];
+  if (!primary || primary.noFacets) return [];
   const counts = new Map<string, number>();
   for (const l of listings) {
     for (const s of specialtiesForListing(l, slug)) {

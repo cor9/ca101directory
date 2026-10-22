@@ -81,65 +81,72 @@ export default async function Page() {
           {/* Hero Section */}
           <HomeHero />
 
-          {/* Credibility strip: warm band directly under the dark hero */}
-          <section className="border-b border-canvas-line bg-canvas-2 py-5">
-            <ul className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-3 px-6 text-sm font-medium text-ink-2 sm:flex-row sm:gap-0 sm:divide-x sm:divide-canvas-line">
-              <li className="sm:px-8">1,000+ listed professionals</li>
-              <li className="sm:px-8">13 categories of professionals</li>
-              <li className="sm:px-8">Used by families nationwide</li>
-            </ul>
+          {/* Credibility Strip */}
+          <section className="bg-bg-dark border-t border-border-subtle py-6">
+            <div className="max-w-6xl mx-auto px-6">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-12 text-sm text-text-muted">
+                <div>1,000+ listed professionals</div>
+                <div>13 categories of professionals</div>
+                <div>Used by families nationwide</div>
+              </div>
+            </div>
           </section>
 
           {/* Category Tiles */}
           <CategoryTiles />
 
-          {/* Featured Listings */}
-          <section className="surface-canvas-2 py-16 md:py-20">
-            <div className="mx-auto max-w-7xl px-4">
-              <div className="mb-10 flex items-end justify-between gap-4">
-                <div>
-                  <p className="eyebrow">Featured</p>
-                  <h2 className="heading-display mt-3 text-3xl text-ink md:text-4xl">
-                    Featured professionals
-                  </h2>
+          {/* Vendor CTA - Bridge between categories and listings */}
+          <section className="bg-bg-dark py-12 md:py-16">
+            <div className="max-w-7xl mx-auto px-4">
+              <div className="rounded-xl border border-border-subtle bg-bg-dark-2 px-6 py-8">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                  <div>
+                    <h3 className="text-lg font-semibold text-text-primary">
+                      Are you a trusted industry professional working with young
+                      actors?
+                    </h3>
+                    <p className="mt-1 text-sm text-text-muted">
+                      List your services where families already come looking for
+                      specialized support.
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <a
+                      href="/submit"
+                      className="rounded-md bg-accent-blue px-5 py-2.5 text-sm font-medium text-white hover:opacity-90 transition"
+                    >
+                      List Your Services
+                    </a>
+                    <a
+                      href="/pricing"
+                      className="text-sm text-text-secondary hover:text-text-primary transition"
+                    >
+                      Learn how listings work →
+                    </a>
+                  </div>
                 </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Featured Listings */}
+          <section className="bg-bg-dark py-12 md:py-16 lg:py-20">
+            <div className="max-w-7xl mx-auto px-4">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-semibold text-text-primary">
+                  Featured Professionals
+                </h2>
                 <a
                   href="/directory"
-                  className="text-sm font-semibold !text-brass-dark underline underline-offset-4"
+                  className="text-text-secondary hover:text-text-primary transition-colors"
                 >
                   View all →
                 </a>
               </div>
-              <Suspense fallback={<div className="h-48 rounded-lg bg-canvas-3" />}>
+              <Suspense fallback={<div className="h-48 bg-bg-2 rounded-lg" />}>
                 <FeaturedListingsGrid />
               </Suspense>
-            </div>
-          </section>
-
-          {/* Vendor invitation: navy band, one brass action */}
-          <section className="surface-navy py-16 md:py-20">
-            <div className="mx-auto flex max-w-5xl flex-col items-start justify-between gap-8 px-6 md:flex-row md:items-center">
-              <div className="max-w-2xl">
-                <p className="eyebrow">For professionals</p>
-                <h2 className="heading-display mt-3 text-3xl text-white md:text-4xl">
-                  Work with young performers? Add your listing.
-                </h2>
-                <p className="mt-4 text-lg !text-zinc-300">
-                  Create a free listing so families can discover your services or
-                  professional information.
-                </p>
-              </div>
-              <div className="flex flex-col items-start gap-4">
-                <a href="/submit" className="btn-brass focus-ring">
-                  Add Your Listing
-                </a>
-                <a
-                  href="/pricing"
-                  className="text-sm font-medium !text-white underline decoration-brass underline-offset-[6px]"
-                >
-                  Learn how listings work
-                </a>
-              </div>
             </div>
           </section>
         </main>

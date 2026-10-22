@@ -16,9 +16,10 @@ export function ActivityBar() {
 
       <style>{`
         .activity-bar {
-          background: #f1e6cf;
-          border-bottom: 1px solid #e2dacb;
-          color: #2a303b;
+          background: rgba(237, 209, 125, 0.08);
+          border-top: 1px solid rgba(237, 209, 125, 0.2);
+          border-bottom: 1px solid rgba(237, 209, 125, 0.2);
+          color: #cbd5e1;
           font-size: 13px;
           padding: 9px 20px;
           display: flex;
@@ -30,7 +31,7 @@ export function ActivityBar() {
           letter-spacing: 0.01em;
         }
         .activity-bar__dot {
-          color: #76561f;
+          color: rgba(237, 209, 125, 0.4);
         }
       `}</style>
     </div>

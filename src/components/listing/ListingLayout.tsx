@@ -94,7 +94,7 @@ export default function ListingLayout({
   const hasAbout = Boolean(listing.what_you_offer || listing.description);
 
   return (
-    <div className="bg-gradient-to-b from-[#0E1117] to-navy py-8 sm:py-10">
+    <div className="bg-bg-dark py-8 sm:py-10">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <article className="overflow-hidden rounded-2xl bg-white text-zinc-900 shadow-xl">
           <ProfileHeader

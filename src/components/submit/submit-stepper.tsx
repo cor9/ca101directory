@@ -9,7 +9,7 @@ import {
   StepperTitle,
   StepperTrigger,
 } from "@/components/shared/stepper";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface SubmitStepperProps {
   initialStep?: number;
@@ -17,10 +17,21 @@ interface SubmitStepperProps {
 
 export function SubmitStepper({ initialStep = 1 }: SubmitStepperProps) {
   const [currentStep, setCurrentStep] = useState(initialStep);
+  // A Free listing never involves payment, so the middle step reads "Review".
+  // The form announces when the chosen plan actually requires payment.
+  const [requiresPayment, setRequiresPayment] = useState(false);
+  useEffect(() => {
+    const onChange = (e: Event) =>
+      setRequiresPayment(Boolean((e as CustomEvent<boolean>).detail));
+    window.addEventListener("listing-plan-change", onChange);
+    return () => window.removeEventListener("listing-plan-change", onChange);
+  }, []);
 
   const steps = [
     { title: "Details", description: "Enter product information" },
-    { title: "Payment", description: "Select pricing plan" },
+    requiresPayment
+      ? { title: "Payment", description: "Select pricing plan" }
+      : { title: "Review", description: "Review your listing" },
     { title: "Publish", description: "Publish your product" },
   ];
 

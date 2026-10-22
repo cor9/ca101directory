@@ -49,7 +49,7 @@ export default function ResultsPagination({
   const base =
     "inline-flex h-10 min-w-10 items-center justify-center rounded-md border px-3 text-sm font-semibold transition-colors";
   const idle =
-    "border-canvas-line bg-white !text-ink hover:border-brass-dark";
+    "border-white/20 bg-white/5 text-white hover:border-[#E4572E] hover:text-[#E4572E]";
 
   return (
     <nav
@@ -67,7 +67,7 @@ export default function ResultsPagination({
       )}
       {pageWindow(currentPage, totalPages).map((p, i) =>
         p === "…" ? (
-          <span key={`gap-${i}`} className="px-1 text-ink-soft">
+          <span key={`gap-${i}`} className="px-1 text-white/50">
             …
           </span>
         ) : (
@@ -78,7 +78,7 @@ export default function ResultsPagination({
             className={cn(
               base,
               p === currentPage
-                ? "border-ink bg-ink !text-white"
+                ? "border-[#E4572E] bg-[#E4572E] text-white"
                 : idle,
             )}
           >

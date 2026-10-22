@@ -2,7 +2,7 @@ import { RichTextDisplay } from "@/components/ui/rich-text-display";
 import type { Listing } from "@/data/listings";
 
 const RICH_LIGHT =
-  "text-base leading-relaxed [&_*]:!text-zinc-800 [&_a]:!text-brass-dark [&_p]:mb-3";
+  "text-base leading-relaxed [&_*]:!text-zinc-800 [&_a]:!text-[#B8431F] [&_p]:mb-3";
 
 export function ListingDifferentiators({ listing }: { listing: Listing }) {
   const unique = listing.why_is_it_unique?.trim();

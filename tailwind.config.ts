@@ -55,30 +55,6 @@ const config: Config = {
           gold: "#FFD700", // verified / approved
         },
 
-        /* Editorial surfaces: warm white content on charcoal / navy framing */
-        canvas: {
-          DEFAULT: "#FAF7F2",
-          2: "#F3EEE6",
-          3: "#EAE3D6",
-          line: "#E2DACB",
-        },
-        ink: {
-          DEFAULT: "#12161D",
-          2: "#2A303B",
-          soft: "#4A5160",
-        },
-        navy: {
-          DEFAULT: "#0F1B2E",
-          2: "#16263E",
-        },
-        /* The ONE accent: antique brass. brass on dark surfaces, brass-dark for
-           text on warm white (contrast-checked), brass-tint for subtle fills. */
-        brass: {
-          DEFAULT: "#C9A66B",
-          dark: "#76561F",
-          tint: "#F1E6CF",
-        },
-
         /* Status / utility */
         brand: {
           success: "#3DD68C",

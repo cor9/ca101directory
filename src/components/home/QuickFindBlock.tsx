@@ -12,8 +12,7 @@ export function QuickFindBlock() {
 
   return (
     <section className="quick-find">
-      <p className="eyebrow">Shortcuts</p>
-      <h2 className="quick-find__title heading-display">Find the right fit fast</h2>
+      <h2 className="quick-find__title">Find the Right Fit Fast</h2>
       <div className="quick-find__grid">
         {shortcuts.map(({ label, href }) => (
           <a key={href} href={href} className="quick-find__item">
@@ -25,13 +24,14 @@ export function QuickFindBlock() {
       <style>{`
         .quick-find {
           padding: 28px 20px 12px;
-          max-width: 1100px;
+          max-width: 900px;
           margin: 0 auto;
         }
         .quick-find__title {
-          font-size: 26px;
-          color: #12161d;
-          margin: 10px 0 16px;
+          font-size: 18px;
+          font-weight: 700;
+          color: #f1f5f9;
+          margin-bottom: 14px;
           letter-spacing: -0.01em;
         }
         .quick-find__grid {
@@ -45,22 +45,22 @@ export function QuickFindBlock() {
           }
         }
         .quick-find__item {
-          background: #ffffff;
-          border: 1px solid #e2dacb;
-          color: #12161d;
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.1);
+          color: #e2e8f0;
           padding: 14px 12px;
           text-align: center;
           font-weight: 600;
-          font-size: 14px;
-          border-radius: 12px;
+          font-size: 13px;
+          border-radius: 8px;
           text-decoration: none;
           transition: background 0.15s, color 0.15s, border-color 0.15s;
           line-height: 1.35;
         }
         .quick-find__item:hover {
-          background: #ffffff;
-          border-color: #76561f;
-          color: #12161d;
+          background: rgba(255, 255, 255, 0.12);
+          border-color: #ffffff;
+          color: #ffffff;
         }
       `}</style>
     </section>

@@ -13,14 +13,14 @@ export function PricingFaq() {
         <AccordionItem
           key={faqItem.id}
           value={faqItem.id}
-          className="border-canvas-line"
+          className="border-secondary-denim/30"
         >
-          <AccordionTrigger className="text-base text-ink hover:text-brass-dark">
-            <div className="text-left w-full font-semibold">
+          <AccordionTrigger className="text-base text-paper hover:text-bauhaus-blue">
+            <div className="text-left w-full bauhaus-heading">
               {faqItem.question}
             </div>
           </AccordionTrigger>
-          <AccordionContent className="text-base text-ink-soft whitespace-pre-wrap [&_a]:text-brass-dark [&_a]:underline">
+          <AccordionContent className="text-base text-paper bauhaus-body whitespace-pre-wrap">
             {/* {faqItem.answer} */}
             {/* biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation> */}
             <div dangerouslySetInnerHTML={{ __html: faqItem.answer }} />

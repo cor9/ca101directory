@@ -11,11 +11,6 @@ interface CategoryPlaceholderProps {
 // Short labels for common categories (keeps badge compact)
 const shortLabels: Record<string, string> = {
   "Headshot Photographers": "Headshots",
-  "Acting Training": "Training",
-  "Career Coaching & Consulting": "Consulting",
-  "Demo Reels & Editing": "Reels",
-  "Actor Marketing Services": "Marketing",
-  "Self-Tape Services": "Self Tape",
   "Talent Managers": "Managers",
   "Talent Agents": "Agents",
   "Acting Classes & Coaches": "Coaches",
@@ -27,15 +22,25 @@ const shortLabels: Record<string, string> = {
   "Vocal Coaches": "Vocal",
 };
 
-// One warm, neutral tint for every category (no rainbow of pastels)
-const PLACEHOLDER_GRADIENT = "from-canvas-2 to-canvas-3";
+// Category-specific gradient tints (intentional design, not placeholder)
+const categoryGradients: Record<string, string> = {
+  "Headshot Photographers": "from-purple-100 to-indigo-100",
+  "Talent Managers": "from-emerald-100 to-teal-100",
+  "Talent Agents": "from-blue-100 to-cyan-100",
+  "Acting Classes & Coaches": "from-orange-100 to-amber-100",
+  "Acting Coach": "from-orange-100 to-amber-100",
+  "Self Tape Support": "from-rose-100 to-pink-100",
+  "Demo Reel Creators": "from-violet-100 to-purple-100",
+  "Vocal Coaches": "from-sky-100 to-blue-100",
+};
 
 function getShortLabel(category: string): string {
   return shortLabels[category] || category;
 }
 
-function getCategoryGradient(_category: string | null | undefined): string {
-  return PLACEHOLDER_GRADIENT;
+function getCategoryGradient(category: string | null | undefined): string {
+  if (!category) return "from-slate-100 to-slate-200";
+  return categoryGradients[category] || "from-slate-100 to-slate-200";
 }
 
 export function CategoryPlaceholder({

@@ -199,17 +199,17 @@ export default function DirectoryHeroSearch({
   }, []);
 
   return (
-    <div className="surface-hero py-14 text-white md:py-20">
+    <div className="bg-[#0C1A2B] py-12 md:py-16 text-white">
       <div className="mx-auto max-w-6xl px-4">
         {/* Headline */}
-        <h1 className="heading-display mb-5 text-center text-4xl md:text-5xl lg:text-6xl">
+        <h1 className="bauhaus-heading text-3xl md:text-4xl lg:text-5xl tracking-tight text-center mb-4">
           Find acting coaches, photographers,
           <br className="hidden md:block" />
           and agents for your child.
         </h1>
 
         {/* Subline */}
-        <p className="mx-auto mb-10 max-w-3xl text-center text-lg !text-zinc-300 md:text-xl">
+        <p className="bauhaus-body text-center text-lg md:text-xl text-white/80 max-w-3xl mx-auto mb-8">
           Search by category and location to find professionals who work
           with young performers.
         </p>
@@ -224,7 +224,7 @@ export default function DirectoryHeroSearch({
             <div className="md:col-span-2">
               <label
                 htmlFor="search-query"
-                className="text-xs font-medium text-white/80 mb-1 block"
+                className="text-xs font-medium text-white/60 mb-1 block"
               >
                 Search
               </label>
@@ -234,7 +234,7 @@ export default function DirectoryHeroSearch({
                 placeholder="Acting coach, photographer, manager..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="h-11 bg-white/90 text-slate-900 placeholder:text-slate-500 border-0 rounded-lg focus:ring-2 focus:ring-brass"
+                className="h-11 bg-white/90 text-slate-900 placeholder:text-slate-500 border-0 rounded-lg focus:ring-2 focus:ring-[#c7a163]"
               />
             </div>
 
@@ -242,14 +242,14 @@ export default function DirectoryHeroSearch({
             <div>
               <label
                 htmlFor="category-select"
-                className="text-xs font-medium text-white/80 mb-1 block"
+                className="text-xs font-medium text-white/60 mb-1 block"
               >
                 Category
               </label>
               <Select value={category} onValueChange={setCategory}>
                 <SelectTrigger
                   id="category-select"
-                  className="h-11 bg-white/90 text-slate-900 border-0 rounded-lg focus:ring-2 focus:ring-brass"
+                  className="h-11 bg-white/90 text-slate-900 border-0 rounded-lg focus:ring-2 focus:ring-[#c7a163]"
                 >
                   <SelectValue placeholder="All Categories" />
                 </SelectTrigger>
@@ -275,14 +275,14 @@ export default function DirectoryHeroSearch({
             <div>
               <label
                 htmlFor="state-select"
-                className="text-xs font-medium text-white/80 mb-1 block"
+                className="text-xs font-medium text-white/60 mb-1 block"
               >
                 State
               </label>
               <Select value={state} onValueChange={setState}>
                 <SelectTrigger
                   id="state-select"
-                  className="h-11 bg-white/90 text-slate-900 border-0 rounded-lg focus:ring-2 focus:ring-brass"
+                  className="h-11 bg-white/90 text-slate-900 border-0 rounded-lg focus:ring-2 focus:ring-[#c7a163]"
                 >
                   <SelectValue placeholder="All States" />
                 </SelectTrigger>
@@ -303,7 +303,7 @@ export default function DirectoryHeroSearch({
             <div className="md:col-span-2">
               <label
                 htmlFor="city-input"
-                className="text-xs font-medium text-white/80 mb-1 block"
+                className="text-xs font-medium text-white/60 mb-1 block"
               >
                 City (optional)
               </label>
@@ -315,7 +315,7 @@ export default function DirectoryHeroSearch({
                   placeholder="e.g. Los Angeles"
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
-                  className="h-11 pl-9 bg-white/90 text-slate-900 placeholder:text-slate-500 border-0 rounded-lg focus:ring-2 focus:ring-brass"
+                  className="h-11 pl-9 bg-white/90 text-slate-900 placeholder:text-slate-500 border-0 rounded-lg focus:ring-2 focus:ring-[#c7a163]"
                 />
               </div>
             </div>
@@ -512,7 +512,7 @@ export default function DirectoryHeroSearch({
           <div className="mt-6 flex justify-center">
             <Button
               type="submit"
-              className="h-12 rounded-full border-brass bg-brass px-8 text-base font-semibold text-ink hover:border-[#d8b97f] hover:bg-[#d8b97f]"
+              className="h-12 rounded-full border-white bg-white px-8 text-base font-semibold text-zinc-900 hover:border-zinc-200 hover:bg-zinc-200"
             >
               <SearchIcon className="w-5 h-5 mr-2" />
               Show Results

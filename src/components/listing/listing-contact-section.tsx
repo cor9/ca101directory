@@ -78,7 +78,7 @@ export function ListingContactSection({
         <ul className="space-y-4 text-base text-zinc-800">
           {hasLocation && (
             <li className="flex items-start gap-3">
-              <MapPinIcon className="mt-1 h-4 w-4 text-brass-dark" />
+              <MapPinIcon className="mt-1 h-4 w-4 text-[#B8431F]" />
               <span>
                 {[listing.city, listing.state].filter(Boolean).join(", ")}
               </span>
@@ -91,11 +91,11 @@ export function ListingContactSection({
 
           {listing.phone && (
             <li className="flex items-start gap-3">
-              <PhoneIcon className="mt-1 h-4 w-4 text-brass-dark" />
+              <PhoneIcon className="mt-1 h-4 w-4 text-[#B8431F]" />
               {capabilities.canClickPhone ? (
                 <a
                   href={`tel:${listing.phone}`}
-                  className="text-zinc-900 underline-offset-2 hover:text-brass-dark hover:underline transition-colors"
+                  className="text-zinc-900 underline-offset-2 hover:text-[#B8431F] hover:underline transition-colors"
                 >
                   {listing.phone}
                 </a>
@@ -107,11 +107,11 @@ export function ListingContactSection({
 
           {listing.email && (
             <li className="flex items-start gap-3">
-              <MailIcon className="mt-1 h-4 w-4 text-brass-dark" />
+              <MailIcon className="mt-1 h-4 w-4 text-[#B8431F]" />
               {capabilities.canClickEmail ? (
                 <a
                   href={`mailto:${listing.email}`}
-                  className="text-zinc-900 underline-offset-2 hover:text-brass-dark hover:underline transition-colors"
+                  className="text-zinc-900 underline-offset-2 hover:text-[#B8431F] hover:underline transition-colors"
                 >
                   {listing.email}
                 </a>
@@ -128,13 +128,13 @@ export function ListingContactSection({
           {/* Website is a prominent button in the profile header when clickable; only repeat it here for listings where it is plain text */}
           {listing.website && !capabilities.canClickWebsite && (
             <li className="flex items-start gap-3">
-              <ExternalLinkIcon className="mt-1 h-4 w-4 text-brass-dark" />
+              <ExternalLinkIcon className="mt-1 h-4 w-4 text-[#B8431F]" />
               {capabilities.canClickWebsite ? (
                 <a
                   href={safeExternalUrl(listing.website) || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-zinc-900 underline-offset-2 hover:text-brass-dark hover:underline transition-colors"
+                  className="text-zinc-900 underline-offset-2 hover:text-[#B8431F] hover:underline transition-colors"
                 >
                   {listing.website
                     .replace(/^https?:\/\//, "")
@@ -152,7 +152,7 @@ export function ListingContactSection({
 
           {hasVirtualOption && (
             <li className="flex items-start gap-3">
-              <GlobeIcon className="mt-1 h-4 w-4 text-brass-dark" />
+              <GlobeIcon className="mt-1 h-4 w-4 text-[#B8431F]" />
               <span>Virtual services available</span>
             </li>
           )}
@@ -162,7 +162,7 @@ export function ListingContactSection({
       {showClaimCallout && (
         <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-5">
           <div className="flex items-start gap-4">
-            <ShieldIcon className="mt-0.5 h-7 w-7 shrink-0 text-brass-dark" />
+            <ShieldIcon className="mt-0.5 h-7 w-7 shrink-0 text-[#C2441F]" />
             <div className="flex-1 text-zinc-900">
               <h2 className="text-lg font-bold">Claim This Listing</h2>
               <p className="mt-1 text-sm text-zinc-700">
@@ -201,7 +201,7 @@ export function ListingContactSection({
             <div className="flex flex-wrap gap-2">
               <Link
                 href="/pricing"
-                className="inline-flex items-center rounded-md bg-ink px-4 py-2 text-sm font-semibold !text-white transition-colors hover:bg-ink-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:ring-offset-2"
+                className="inline-flex items-center rounded-md bg-[#C2441F] px-4 py-2 text-sm font-semibold !text-white transition-colors hover:bg-[#A93A19] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:ring-offset-2"
               >
                 View Pricing
               </Link>

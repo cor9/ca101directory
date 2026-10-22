@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 const CLAIM_BTN =
-  "border-zinc-900 bg-zinc-900 text-white hover:border-brass-dark hover:bg-brass-dark";
+  "border-zinc-900 bg-zinc-900 text-white hover:border-[#C2441F] hover:bg-[#C2441F]";
 
 interface ClaimButtonProps {
   listingId: string;

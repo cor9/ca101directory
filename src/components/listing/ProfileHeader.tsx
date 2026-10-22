@@ -116,7 +116,7 @@ export function ProfileHeader({
 
       {/* Identity */}
       <div className="min-w-0 flex-1 text-center md:text-left">
-        <p className="text-xs font-semibold uppercase tracking-wider text-brass-dark">
+        <p className="text-xs font-semibold uppercase tracking-wider text-[#B8431F]">
           {category}
         </p>
         <h1 className="mt-1 text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl">
@@ -143,7 +143,7 @@ export function ProfileHeader({
           {listing.featured && !isIndustryPro && (
             <span
               title="Paid promotional placement"
-              className="rounded-full bg-brass px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-zinc-900"
+              className="rounded-full bg-[#E4A72E] px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-zinc-900"
             >
               Featured
             </span>
@@ -220,7 +220,7 @@ export function ProfileHeader({
             href={bookingUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-semibold text-brass-dark underline-offset-4 hover:underline"
+            className="text-sm font-semibold text-[#B8431F] underline-offset-4 hover:underline"
           >
             {listing.custom_link_name || "Book a session"} →
           </a>

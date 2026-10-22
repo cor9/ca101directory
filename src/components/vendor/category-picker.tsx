@@ -3,13 +3,13 @@
 import {
   SECTIONS,
   editableSpecialties,
+  getPrimaryBySlug,
   normKey,
   removeStoredValue,
   sectionPrimaries,
   selectedPrimarySlugs,
   specialtyOptionsFor,
   togglePrimaryInNames,
-  getPrimaryBySlug,
   unmappedValues,
 } from "@/lib/category-taxonomy";
 import { submissionProfile } from "@/lib/submission-fields";
@@ -34,13 +34,12 @@ interface CategoryPickerProps {
    */
   singleCategory?: boolean;
   disabled?: boolean;
+  /** "dark" for the submit form, "light" for the dashboard edit form */
+  tone?: "light" | "dark";
   /** Turn a stored value (maybe a UUID) into a readable name */
   resolveName?: (value: string) => string;
   invalid?: boolean;
 }
-
-const focusRing =
-  "peer-focus-visible:ring-2 peer-focus-visible:ring-brass-dark peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-white";
 
 /**
  * Primary category + specialty tags.
@@ -59,10 +58,12 @@ export function CategoryPicker({
   onChange,
   singleCategory = false,
   disabled = false,
+  tone = "light",
   resolveName = (v) => v,
   invalid = false,
 }: CategoryPickerProps) {
   const uid = useId();
+  const dark = tone === "dark";
   const selected = selectedPrimarySlugs(categories);
   const leftovers = unmappedValues({ categories });
   const effective = editableSpecialties({ categories, specialties });
@@ -71,6 +72,19 @@ export function CategoryPicker({
   const otherTags = effective.filter((s) => !optionKeys.has(normKey(s)));
   const effectiveKeys = new Set(effective.map(normKey));
   const specialtyHeading = submissionProfile(categories).specialtyLabel;
+
+  // Neutral charcoal-and-white states (no accent colors)
+  const focusRing = dark
+    ? "peer-focus-visible:ring-2 peer-focus-visible:ring-white peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[#0E1117]"
+    : "peer-focus-visible:ring-2 peer-focus-visible:ring-zinc-900 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-white";
+  const idle = dark
+    ? "border-white/15 bg-white/5 text-text-secondary hover:border-white/40 hover:text-text-primary"
+    : "border-zinc-300 bg-white text-zinc-800 hover:border-zinc-500";
+  const on = dark
+    ? "border-white bg-white text-zinc-900"
+    : "border-zinc-900 bg-zinc-900 text-white";
+  const heading = dark ? "text-text-primary" : "text-zinc-900";
+  const sub = dark ? "text-text-secondary" : "text-zinc-600";
 
   const choose = (slug: string) => {
     if (singleCategory) {
@@ -87,10 +101,10 @@ export function CategoryPicker({
   };
 
   const toggleSpecialty = (label: string) => {
-    const on = !effectiveKeys.has(normKey(label));
+    const turnOn = !effectiveKeys.has(normKey(label));
     onChange({
       categories,
-      specialties: on
+      specialties: turnOn
         ? [...effective, label]
         : effective.filter((s) => normKey(s) !== normKey(label)),
     });
@@ -104,14 +118,16 @@ export function CategoryPicker({
         role={singleCategory ? "radiogroup" : "group"}
         aria-label="Category"
         className={cn(
-          "space-y-5 rounded-xl",
-          invalid && "ring-2 ring-red-500 ring-offset-4 ring-offset-white",
+          "space-y-5 rounded-lg",
+          invalid && "ring-2 ring-red-500 ring-offset-4 ring-offset-transparent",
         )}
       >
         {SECTIONS.map((section) => (
           <fieldset key={section.id}>
-            <legend className="eyebrow mb-3">{section.title}</legend>
-            <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+            <legend className={cn("mb-2 text-sm font-semibold", heading)}>
+              {section.title}
+            </legend>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {sectionPrimaries(section.id).map((p) => {
                 const checked = singleCategory
                   ? selected[0] === p.slug
@@ -131,11 +147,9 @@ export function CategoryPicker({
                     <label
                       htmlFor={id}
                       className={cn(
-                        "flex min-h-[3.25rem] cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 text-[15px] font-medium transition-colors",
+                        "flex min-h-[3rem] cursor-pointer items-center gap-3 rounded-lg border px-4 py-2.5 text-[15px] font-medium transition-colors",
                         focusRing,
-                        checked
-                          ? "border-ink bg-ink text-white shadow-sm"
-                          : "border-canvas-line bg-white text-ink hover:border-brass-dark hover:bg-canvas",
+                        checked ? on : idle,
                         disabled && "cursor-not-allowed opacity-60",
                       )}
                     >
@@ -143,10 +157,14 @@ export function CategoryPicker({
                         aria-hidden="true"
                         className={cn(
                           "flex h-5 w-5 shrink-0 items-center justify-center border",
-                          singleCategory ? "rounded-full" : "rounded-md",
+                          singleCategory ? "rounded-full" : "rounded",
                           checked
-                            ? "border-brass bg-brass text-ink"
-                            : "border-zinc-400 bg-white",
+                            ? dark
+                              ? "border-zinc-900 bg-zinc-900 text-white"
+                              : "border-white bg-white text-zinc-900"
+                            : dark
+                              ? "border-white/40"
+                              : "border-zinc-400",
                         )}
                       >
                         {checked && <Check className="h-3.5 w-3.5" strokeWidth={3} />}
@@ -162,7 +180,7 @@ export function CategoryPicker({
       </div>
 
       {leftovers.length > 0 && (
-        <div className="rounded-xl border border-brass/60 bg-brass-tint p-4 text-sm text-ink">
+        <div className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950">
           <p className="font-semibold">Older categories on this listing</p>
           <ul className="mt-2 space-y-1.5">
             {leftovers.map((v) => (
@@ -177,7 +195,7 @@ export function CategoryPicker({
                       specialties,
                     })
                   }
-                  className="rounded-full border border-ink/30 bg-white px-3 py-1 text-xs font-semibold text-ink hover:bg-canvas"
+                  className="rounded border border-amber-400 bg-white px-2 py-0.5 text-xs font-semibold text-amber-950 hover:bg-amber-100"
                 >
                   Remove
                 </button>
@@ -189,10 +207,10 @@ export function CategoryPicker({
 
       {(options.length > 0 || otherTags.length > 0) && (
         <fieldset>
-          <legend className="heading-display mb-1 text-xl text-ink">
+          <legend className={cn("mb-1 text-sm font-semibold", heading)}>
             {specialtyHeading}
           </legend>
-          <p className="mb-3 text-sm text-ink-soft">
+          <p className={cn("mb-3 text-sm", sub)}>
             Select the specialties you offer. You can choose more than one.
           </p>
           <div className="flex flex-wrap gap-2">
@@ -214,17 +232,11 @@ export function CategoryPicker({
                     className={cn(
                       "inline-flex cursor-pointer items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-colors",
                       focusRing,
-                      checked
-                        ? "border-brass-dark bg-brass-tint text-ink"
-                        : "border-canvas-line bg-white text-ink-2 hover:border-brass-dark",
+                      checked ? on : idle,
                     )}
                   >
                     {checked && (
-                      <Check
-                        aria-hidden="true"
-                        className="h-3.5 w-3.5 text-brass-dark"
-                        strokeWidth={3}
-                      />
+                      <Check aria-hidden="true" className="h-3.5 w-3.5" strokeWidth={3} />
                     )}
                     {label}
                   </label>

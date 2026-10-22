@@ -192,34 +192,43 @@ export default async function SubmitPage({
     }));
 
   return (
-    <div className="surface-canvas min-h-screen">
-      <header className="surface-hero">
-        <div className="mx-auto max-w-4xl px-4 pb-14 pt-12 sm:px-6">
-          <p className="eyebrow">
-            {isClaimFlow ? "Claim a listing" : "Free listing"}
-          </p>
-          <h1 className="heading-display mt-4 text-4xl text-white sm:text-5xl">
+    <div className="bg-bg-dark min-h-screen">
+      <section className="max-w-4xl mx-auto px-4 py-12">
+        {/* STEP 2: Header copy - low pressure */}
+        <header className="mb-10">
+          <h1 className="text-3xl font-semibold text-text-primary">
             {isClaimFlow ? "Claim Your Listing" : "Add Your Listing"}
           </h1>
-          <p className="mt-4 max-w-2xl text-lg leading-relaxed !text-zinc-300">
+          <p className="mt-3 text-text-secondary max-w-2xl">
             {isClaimFlow
               ? "Complete your listing details to claim this listing."
               : "Create a free listing in the Child Actor 101 Vendor Directory so families can discover your services or professional information."}
           </p>
           {existingListing && (
-            <p className="mt-5 inline-block rounded-full border border-white/20 px-4 py-1.5 text-sm font-medium text-white">
-              Claiming: {existingListing.listing_name}
-            </p>
+            <div className="mt-4 bg-card-surface border border-border-subtle rounded-lg p-4">
+              <p className="text-sm text-text-primary font-semibold">
+                <strong>Claiming:</strong> {existingListing.listing_name}
+              </p>
+            </div>
           )}
+        </header>
+        {/* STEP 3: Form container - safe place to start */}
+        <div
+          className="
+          bg-card-surface
+          border
+          border-border-subtle
+          rounded-xl
+          p-6
+          shadow-card
+        "
+        >
+          <SupabaseSubmitForm
+            categories={freeFormCategories}
+            existingListing={existingListing}
+            isClaimFlow={isClaimFlow}
+          />
         </div>
-      </header>
-
-      <section className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
-        <SupabaseSubmitForm
-          categories={freeFormCategories}
-          existingListing={existingListing}
-          isClaimFlow={isClaimFlow}
-        />
       </section>
     </div>
   );

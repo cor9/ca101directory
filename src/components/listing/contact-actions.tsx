@@ -91,10 +91,10 @@ export function ContactActions({
   const primaryClass = clsx(
     "inline-flex items-center gap-2",
     isProfile
-      ? "rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-ink-2"
+      ? "rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#E4572E]"
       : isHero
-        ? "rounded-full bg-brass px-6 py-2 text-sm font-semibold text-ink shadow hover:bg-[#d8b97f] transition-colors"
-        : "rounded-full bg-brass px-4 py-1.5 text-xs font-semibold text-ink",
+        ? "rounded-full bg-[#FF6B35] px-6 py-2 text-sm font-semibold text-white shadow hover:bg-[#E55F2F] transition-colors"
+        : "rounded-full bg-[#FF6B35] px-4 py-1.5 text-xs font-semibold text-white",
   );
 
   // Secondary CTA (outlined button)

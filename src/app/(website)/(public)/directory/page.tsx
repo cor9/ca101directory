@@ -15,7 +15,7 @@ import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import EmptyGrid from "@/components/shared/empty-grid";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
-import { PRIMARY_CATEGORIES, resolveCategoryRef } from "@/lib/category-taxonomy";
+import { resolveCategoryRef } from "@/lib/category-taxonomy";
 import { getItems } from "@/data/item-service";
 import { regionsList, stateNames } from "@/data/regions";
 import { DIRECTORY_ITEMS_PER_PAGE } from "@/lib/constants";
@@ -153,76 +153,81 @@ export default async function DirectoryPage({
     .join(" ");
 
   return (
-    <div className="flex min-h-screen flex-col bg-bg-dark">
-      {/* Search-first dark hero */}
+    <div className="flex flex-col bg-bg-dark min-h-screen">
+      {/* Search-First Hero */}
       <DirectoryHeroSearch categories={categories} />
 
-      {/* Badge legend: a warm band that hands off from dark to light */}
+      {/* Proof of Life Strip */}
       <ActivityBar />
 
-      {/* Light, editorial results zone: white listing cards sit on warm paper */}
-      <div className="surface-canvas">
-        <QuickFindBlock />
+      {/* Quick Find Shortcut Block */}
+      <QuickFindBlock />
 
-        {/* Featured professionals: only on the unfiltered directory */}
-        {!filtersActive && (
-          <Container className="py-10">
-            <p className="eyebrow">Featured</p>
-            <h2 className="heading-display mb-8 mt-3 text-3xl text-ink">
-              Featured professionals
-            </h2>
-            <HomeFeaturedListings />
-          </Container>
+      {/* Optional helper text */}
+      <Container className="py-4">
+        <p className="text-sm text-text-muted text-center">
+          Use filters to narrow by specialty and location.
+        </p>
+      </Container>
+
+      {/* Featured Vendors: only on the unfiltered directory */}
+      {!filtersActive && (
+        <Container className="py-8">
+          <HomeFeaturedListings />
+        </Container>
+      )}
+
+      {/* Listings Grid */}
+      <section id="search-results" className="mx-auto w-full max-w-[1480px] px-5 py-8 sm:px-8 lg:px-12">
+        {/* Category Tip Card - Micro-learning */}
+        {categoryName && <CategoryTipCard category={categoryName} />}
+
+        <div className="mb-6">
+          <h2 className="bauhaus-heading text-2xl text-white mb-4">
+            {heading}
+            <span className="text-white/50 text-lg font-normal ml-2">
+              ({totalCount} results)
+            </span>
+          </h2>
+
+          {/* Status Pills - Context indicators above results */}
+          <div className="mb-4">
+            <p className="text-xs text-text-muted mb-2">
+              Showing listings that are:
+            </p>
+            <StatusPills
+              verified={verified === "true"}
+              featured={false} // Featured is handled separately
+              pro={false} // Pro is handled separately
+              onlineOnly={false} // Can be added if format filter exists
+            />
+          </div>
+        </div>
+
+        {/* when no items are found */}
+        {items?.length === 0 && <EmptyGrid />}
+
+        {/* when items are found - use client component for Load More */}
+        {items && items.length > 0 && (
+          <DirectoryClient
+            initialItems={items}
+            initialTotalCount={totalCount}
+            initialTotalPages={totalPages}
+          />
         )}
 
-        {/* Listings grid */}
-        <section
-          id="search-results"
-          className="mx-auto w-full max-w-[1480px] px-5 py-10 sm:px-8 lg:px-12"
-        >
-          {categoryName && <CategoryTipCard category={categoryName} />}
+        <ResultsPagination
+          basePath="/directory"
+          currentPage={currentPage}
+          totalPages={totalPages}
+          searchParams={sp}
+        />
+      </section>
 
-          <div className="mb-8 border-t border-canvas-line pt-10">
-            <p className="eyebrow">{filtersActive ? "Results" : "The directory"}</p>
-            <h2 className="heading-display mt-3 text-3xl text-ink">
-              {heading}
-              <span className="ml-3 text-lg font-normal text-ink-soft">
-                ({totalCount} results)
-              </span>
-            </h2>
-            <div className="mt-3">
-              <StatusPills
-                verified={verified === "true"}
-                featured={false}
-                pro={false}
-                onlineOnly={false}
-              />
-            </div>
-          </div>
-
-          {items?.length === 0 && <EmptyGrid />}
-
-          {items && items.length > 0 && (
-            <DirectoryClient
-              initialItems={items}
-              initialTotalCount={totalCount}
-              initialTotalPages={totalPages}
-            />
-          )}
-
-          <ResultsPagination
-            basePath="/directory"
-            currentPage={currentPage}
-            totalPages={totalPages}
-            searchParams={sp}
-          />
-        </section>
-      </div>
-
-      {/* Navy trust band closes the page before the dark footer */}
+      {/* Why Parents Trust Us (moved below listings) */}
       <WhyParentsTrust
         totalListings={totalCount}
-        categoriesCount={PRIMARY_CATEGORIES.length}
+        categoriesCount={categories?.length}
         regionsCount={regionsList.length}
       />
     </div>

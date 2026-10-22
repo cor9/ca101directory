@@ -13,7 +13,7 @@ export default async function FeaturedListingsGrid() {
   if (featuredListings.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-text-muted">No featured listings available.</p>
+        <p className="text-ink-soft">No featured listings available.</p>
       </div>
     );
   }

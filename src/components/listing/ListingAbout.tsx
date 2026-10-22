@@ -5,7 +5,7 @@ import type { Listing } from "@/data/listings";
 import { useState } from "react";
 
 const RICH_LIGHT =
-  "text-base leading-relaxed [&_*]:!text-zinc-800 [&_a]:!text-[#B8431F] [&_p]:mb-3";
+  "text-base leading-relaxed [&_*]:!text-zinc-800 [&_a]:!text-brass-dark [&_p]:mb-3";
 
 export function ListingAbout({
   listing,

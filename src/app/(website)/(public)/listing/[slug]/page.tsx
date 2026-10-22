@@ -216,7 +216,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
             </p>
             <a
               href="/directory"
-              className="inline-flex items-center justify-center rounded-full bg-[#FF6B35] px-6 py-2 text-sm font-semibold text-white shadow hover:bg-[#E55F2F]"
+              className="inline-flex items-center justify-center rounded-full bg-brass px-6 py-2 text-sm font-semibold text-ink shadow hover:bg-[#d8b97f]"
             >
               Back to Directory
             </a>
@@ -520,9 +520,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
       return false;
     };
     const rawServices =
-      getCleanArray(listing.services_offered).length > 0
-        ? getCleanArray(listing.services_offered)
-        : getCleanArray(listing.categories);
+      // Services the owner listed. Legacy category names are NOT repeated here:
+      // the category and curated specialties are already shown in the header.
+      getCleanArray(listing.services_offered);
     const services = rawServices.filter((s) => !isAgeRange(s));
     let reviews: Awaited<ReturnType<typeof getListingReviews>> = [];
     if (reviewsEnabled) {
@@ -783,7 +783,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
           </p>
           <a
             href="/directory"
-            className="inline-flex items-center justify-center rounded-full bg-[#FF6B35] px-6 py-2 text-sm font-semibold text-white shadow hover:bg-[#E55F2F]"
+            className="inline-flex items-center justify-center rounded-full bg-brass px-6 py-2 text-sm font-semibold text-ink shadow hover:bg-[#d8b97f]"
           >
             Back to Directory
           </a>

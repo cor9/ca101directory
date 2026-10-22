@@ -60,7 +60,7 @@ export function PlanComparison({
           key={plan.name}
           className={`relative cursor-pointer transition-all hover:shadow-lg ${
             selectedPlan === plan.name
-              ? `ring-2 ring-[#FF6B35] ${getPlanColor(plan.name)}`
+              ? `ring-2 ring-brass-dark ${getPlanColor(plan.name)}`
               : getPlanColor(plan.name)
           }`}
           onClick={() => onPlanSelect(plan.name)}
@@ -76,7 +76,7 @@ export function PlanComparison({
               {getPlanIcon(plan.name)}
             </div>
             <CardTitle className="text-xl">{plan.name}</CardTitle>
-            <div className="text-3xl font-bold text-[#FF6B35]">
+            <div className="text-3xl font-bold text-brass-dark">
               ${plan.price}
               {plan.price > 0 && (
                 <span className="text-sm font-normal text-paper">/month</span>

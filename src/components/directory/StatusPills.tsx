@@ -13,10 +13,10 @@ interface StatusPillsProps {
 
 // Accent color mappings (using Tailwind CSS variables)
 const ACCENT_COLORS: Record<string, string> = {
-  verified: "#00E5FF", // accent-aqua
-  featured: "#FFD700", // accent-gold
-  pro: "#B24BF3", // accent-purple
-  onlineOnly: "#6666FF", // accent-blue
+  verified: "#76561F",
+  featured: "#76561F",
+  pro: "#76561F",
+  onlineOnly: "#76561F",
 };
 
 export function StatusPills({
@@ -78,12 +78,12 @@ export function StatusPills({
             key={pill.label}
             className={cn(
               "flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium",
-              "border transition-colors tracking-wide text-white",
+              "border transition-colors tracking-wide text-ink",
             )}
             style={{
               backgroundColor: hexToRgba(pill.accentColor, 0.12),
               borderColor: hexToRgba(pill.accentColor, 0.8),
-              color: "#FFFFFF",
+              color: "#12161D",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = hexToRgba(
@@ -98,7 +98,7 @@ export function StatusPills({
               );
             }}
           >
-            {Icon && <Icon className="h-3 w-3" style={{ color: "#FFFFFF" }} />}
+            {Icon && <Icon className="h-3 w-3" style={{ color: "#12161D" }} />}
             <span>{pill.label}</span>
           </div>
         );

@@ -196,31 +196,33 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
       return `${basePath}${q ? `?${q}` : ""}#category-results`;
     };
     const chipClass = (active: boolean) =>
-      `rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
+      `rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brass ${
         active
-          ? "border-white bg-white !text-zinc-900"
-          : "border-white/25 bg-white/5 !text-white hover:border-white/60"
+          ? "border-brass bg-brass !text-ink"
+          : "border-white/25 bg-white/5 !text-white hover:border-brass"
       }`;
 
     return (
-      <div className="flex min-h-screen flex-col bg-bg-dark">
-        {/* Heading + essential filters, then straight to the results */}
-        <section className="mx-auto w-full max-w-[1480px] px-5 pb-2 pt-10 sm:px-8 lg:px-12">
-          <nav className="mb-3 text-sm text-slate-400">
-            <Link href="/category" className="hover:text-white hover:underline">
+      <div className="flex flex-col bg-canvas-2">
+        {/* Dark editorial header: heading, filters and specialty chips */}
+        <header className="surface-hero">
+        <div className="mx-auto w-full max-w-[1480px] px-5 pb-10 pt-10 sm:px-8 lg:px-12">
+          <nav className="mb-4 text-sm !text-zinc-400">
+            <Link href="/category" className="!text-zinc-300 hover:!text-white hover:underline">
               All categories
             </Link>
             <span className="mx-2">/</span>
-            <span className="text-slate-200">{categoryName}</span>
+            <span className="text-zinc-100">{categoryName}</span>
           </nav>
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <h1 className="text-4xl font-bold tracking-tight text-white md:text-5xl">
+              <p className="eyebrow">Category</p>
+              <h1 className="heading-display mt-3 text-4xl text-white md:text-5xl">
                 {categoryName} for Kids &amp; Teens
               </h1>
-              <p className="mt-3 text-lg text-slate-300">
+              <p className="mt-4 text-lg !text-zinc-300">
                 {subtext}{" "}
-                <span className="text-slate-400">
+                <span className="!text-brass">
                   {totalCount} listed
                   {filtersActive ? " for this search" : ""}.
                 </span>
@@ -235,7 +237,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
               {specialtyFilter && (
                 <input type="hidden" name="specialty" value={specialtyFilter} />
               )}
-              <label className="flex flex-col text-xs font-semibold uppercase tracking-wide text-slate-300">
+              <label className="flex flex-col text-xs font-semibold uppercase tracking-wide text-zinc-200">
                 State
                 <select
                   name="state"
@@ -250,7 +252,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
                   ))}
                 </select>
               </label>
-              <label className="flex flex-col text-xs font-semibold uppercase tracking-wide text-slate-300">
+              <label className="flex flex-col text-xs font-semibold uppercase tracking-wide text-zinc-200">
                 City
                 <input
                   name="city"
@@ -261,7 +263,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
               </label>
               <button
                 type="submit"
-                className="h-11 rounded-md bg-[#C2441F] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#A93A19] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                className="h-11 rounded-full bg-brass px-6 text-sm font-semibold text-ink transition-colors hover:bg-[#d8b97f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 Search
               </button>
@@ -300,12 +302,14 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
               ))}
             </div>
           )}
-        </section>
+        </div>
+        </header>
 
-        {/* RESULTS FIRST */}
+        {/* RESULTS FIRST: white cards on warm paper */}
+        <div className="surface-canvas">
         <section
           id="category-results"
-          className="mx-auto w-full max-w-[1480px] px-5 py-8 sm:px-8 lg:px-12"
+          className="mx-auto w-full max-w-[1480px] px-5 py-12 sm:px-8 lg:px-12"
         >
           {items?.length === 0 && <EmptyGrid />}
 
@@ -326,21 +330,23 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
             anchor="category-results"
           />
         </section>
+        </div>
 
         <ActivityBar />
 
         {/* Educational / SEO content: below the results, collapsed by default
             (still in the page HTML). */}
-        <section className="mx-auto w-full max-w-[1480px] px-5 py-10 sm:px-8 lg:px-12">
-          <details className="group rounded-2xl border border-white/10 bg-white/[0.03]">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-lg font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E4572E]">
+        <div className="surface-canvas-2">
+        <section className="mx-auto w-full max-w-[1480px] px-5 py-12 sm:px-8 lg:px-12">
+          <details className="group rounded-2xl border border-canvas-line bg-white">
+            <summary className="heading-display flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-xl text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brass-dark">
               <span>
                 Guide: why you need {categoryName.toLowerCase()} and what to look
                 for
               </span>
               <span
                 aria-hidden="true"
-                className="text-2xl text-slate-300 transition-transform group-open:rotate-45"
+                className="text-2xl text-brass-dark transition-transform group-open:rotate-45"
               >
                 +
               </span>
@@ -357,6 +363,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
             </div>
           </details>
         </section>
+        </div>
       </div>
     );
   } catch (error) {

@@ -10,7 +10,7 @@ import { Logo } from "../logo";
 
 export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
   return (
-    <footer className={cn("border-t border-secondary-denim/20", className)}>
+    <footer className={cn("border-t border-brass/30 bg-[#0A0D12] text-paper", className)}>
       <Container className="grid grid-cols-2 gap-8 py-12 md:grid-cols-6">
         <div className="flex flex-col items-start col-span-full md:col-span-2">
           <div className="space-y-4">
@@ -18,17 +18,17 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
               <Logo showText={false} />
             </div>
 
-            <p className="bauhaus-body text-paper text-lg p4-4 md:pr-12">
+            <p className="heading-display text-xl !text-paper md:pr-12">
               {siteConfig.tagline}
             </p>
 
-            <p className="bauhaus-body text-paper text-base">
+            <p className="text-paper text-base">
               A service of{" "}
               <Link
                 href="https://childactor101.com"
                 target="_blank"
                 rel="noreferrer"
-                className="text-bauhaus-blue hover:text-bauhaus-mustard transition-colors"
+                className="!text-brass hover:!text-white transition-colors"
               >
                 Child Actor 101
               </Link>
@@ -41,7 +41,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                   target="_blank"
                   rel="noreferrer"
                   aria-label="GitHub"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-md text-paper hover:bg-secondary-denim/20 hover:text-bauhaus-blue transition-colors"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-md text-paper hover:bg-white/10 hover:text-brass transition-colors"
                 >
                   <Icons.github className="size-4" aria-hidden="true" />
                 </Link>
@@ -52,7 +52,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Twitter"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-md text-paper hover:bg-secondary-denim/20 hover:text-bauhaus-blue transition-colors"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-md text-paper hover:bg-white/10 hover:text-brass transition-colors"
                 >
                   <Icons.twitter className="size-4" aria-hidden="true" />
                 </Link>
@@ -63,7 +63,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                   target="_blank"
                   rel="noreferrer"
                   aria-label="YouTube"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-md text-paper hover:bg-secondary-denim/20 hover:text-bauhaus-blue transition-colors"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-md text-paper hover:bg-white/10 hover:text-brass transition-colors"
                 >
                   <Icons.youtube className="size-4" aria-hidden="true" />
                 </Link>
@@ -74,7 +74,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Email"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-md text-paper hover:bg-secondary-denim/20 hover:text-bauhaus-blue transition-colors"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-md text-paper hover:bg-white/10 hover:text-brass transition-colors"
                 >
                   <Icons.email className="size-4" aria-hidden="true" />
                 </Link>
@@ -88,7 +88,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
             key={section.title}
             className="col-span-1 md:col-span-1 items-start"
           >
-            <span className="bauhaus-heading text-base font-semibold uppercase text-paper">
+            <span className="text-xs font-semibold uppercase tracking-[0.16em] text-brass">
               {section.title}
             </span>
             <ul className="mt-4 list-inside space-y-3">
@@ -99,7 +99,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                       <Link
                         href={link.href}
                         target={link.external ? "_blank" : undefined}
-                        className="bauhaus-body text-base text-paper/80 hover:text-bauhaus-blue transition-colors"
+                        className="text-base text-paper/80 hover:text-brass transition-colors"
                       >
                         {link.title}
                       </Link>
@@ -111,9 +111,9 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
         ))}
       </Container>
 
-      <div className="border-t border-secondary-denim/20 py-4">
+      <div className="border-t border-white/10 py-4">
         <Container className="flex items-center justify-between">
-          <span className="bauhaus-body text-paper/70 text-base">
+          <span className="text-paper/70 text-base">
             Copyright &copy; {new Date().getFullYear()} All Rights Reserved.
           </span>
 

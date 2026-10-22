@@ -161,3 +161,123 @@
     margin-bottom: 8px;
   }
 }
+
+/* ------------------------------------------------------------------------
+   Editorial design system (public site)
+   Charcoal / navy frame + warm-white content + ONE antique-brass accent.
+   ------------------------------------------------------------------------ */
+@layer components {
+  /* Light, warm content surface. Links without their own text color inherit
+     (the global dark-mode link color would be unreadable here). */
+  .surface-canvas {
+    background-color: theme(colors.canvas.DEFAULT);
+    color: theme(colors.ink.DEFAULT);
+  }
+  .surface-canvas-2 {
+    background-color: theme(colors.canvas.2);
+    color: theme(colors.ink.DEFAULT);
+  }
+  :where(.surface-canvas, .surface-canvas-2) a:not([class*="text-"]) {
+    color: inherit;
+  }
+  :where(.surface-canvas, .surface-canvas-2) p a:not([class*="text-"]) {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  :where(.surface-canvas, .surface-canvas-2) p {
+    color: theme(colors.ink.soft);
+  }
+
+  /* Dark editorial band: navy-to-charcoal with a faint brass glow */
+  .surface-hero {
+    color: #f5f5f5;
+    background:
+      linear-gradient(180deg, #0e1117 0, rgba(14, 17, 23, 0) 160px),
+      radial-gradient(900px 420px at 88% 12%, rgba(201, 166, 107, 0.12), transparent 72%),
+      linear-gradient(180deg, #0e1117 0%, theme(colors.navy.DEFAULT) 100%);
+  }
+  .surface-navy {
+    color: #f5f5f5;
+    background: linear-gradient(135deg, theme(colors.navy.2), theme(colors.navy.DEFAULT));
+  }
+
+  .heading-display {
+    font-family: var(--font-source-serif), Georgia, "Times New Roman", serif;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.12;
+  }
+
+  /* Small caps label with a short brass rule */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: theme(colors.brass.dark);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 1.75rem;
+    height: 2px;
+    background: currentColor;
+    opacity: 0.7;
+  }
+  .surface-hero .eyebrow,
+  .surface-navy .eyebrow,
+  .eyebrow-on-dark {
+    color: theme(colors.brass.DEFAULT);
+  }
+
+  /* Buttons: one primary per surface */
+  .btn-brass {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    background: theme(colors.brass.DEFAULT);
+    color: theme(colors.ink.DEFAULT);
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: background-color 0.15s ease, transform 0.15s ease;
+  }
+  .btn-brass:hover {
+    background: #d8b97f;
+  }
+  .btn-ink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    background: theme(colors.ink.DEFAULT);
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: background-color 0.15s ease;
+  }
+  .btn-ink:hover {
+    background: theme(colors.ink.2);
+  }
+  a.btn-brass,
+  a.btn-ink {
+    text-decoration: none;
+  }
+  a.btn-brass {
+    color: theme(colors.ink.DEFAULT);
+  }
+  a.btn-ink {
+    color: #fff;
+  }
+
+  .focus-ring {
+    outline: none;
+  }
+  .focus-ring:focus-visible {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px theme(colors.brass.dark);
+  }
+}

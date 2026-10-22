@@ -39,12 +39,14 @@ const ICONS: Record<string, LucideIcon> = {
   "set-teachers": School,
 };
 
-const focusRing =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0E1117]";
-
-function Count({ n }: { n: number }) {
+function Count({ n, dark = false }: { n: number; dark?: boolean }) {
   return (
-    <span className="shrink-0 tabular-nums text-sm font-medium text-zinc-300">
+    <span
+      className={cn(
+        "shrink-0 tabular-nums text-sm font-semibold",
+        dark ? "text-brass" : "text-brass-dark",
+      )}
+    >
       {n.toLocaleString()}
     </span>
   );
@@ -56,20 +58,17 @@ function FeatureCard({ c, count }: { c: PrimaryCategory; count: number }) {
   return (
     <Link
       href={`/category/${c.slug}`}
-      className={cn(
-        "group flex items-start gap-5 rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.08] to-white/[0.03] p-6 transition hover:border-white/40 hover:from-white/[0.11]",
-        focusRing,
-      )}
+      className="group flex items-start gap-5 rounded-2xl border border-canvas-line bg-white p-6 !text-ink shadow-[0_1px_2px_rgba(18,22,29,0.04)] transition hover:-translate-y-0.5 hover:border-brass-dark hover:shadow-[0_18px_34px_-20px_rgba(18,22,29,0.35)] focus-ring"
     >
-      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white text-zinc-900">
+      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-ink text-brass">
         <Icon className="h-6 w-6" aria-hidden="true" />
       </span>
       <span className="min-w-0 flex-1">
         <span className="flex items-baseline justify-between gap-3">
-          <span className="text-xl font-bold text-white">{c.name}</span>
+          <span className="heading-display text-2xl">{c.name}</span>
           <Count n={count} />
         </span>
-        <span className="mt-1 block text-[15px] leading-snug text-zinc-300">
+        <span className="mt-1.5 block text-[15px] leading-snug !text-ink-soft">
           {c.blurb}
         </span>
       </span>
@@ -82,31 +81,40 @@ function RowCard({
   c,
   count,
   note,
+  dark = false,
 }: {
   c: PrimaryCategory;
   count: number;
   note?: boolean;
+  dark?: boolean;
 }) {
   const Icon = ICONS[c.slug];
   return (
     <Link
       href={`/category/${c.slug}`}
       className={cn(
-        "group flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3.5 transition hover:border-white/40 hover:bg-white/[0.08]",
-        focusRing,
+        "group flex items-start gap-3 rounded-xl border px-4 py-3.5 transition focus-ring",
+        dark
+          ? "border-white/15 bg-white/[0.06] !text-white hover:border-brass hover:bg-white/10"
+          : "border-canvas-line bg-white !text-ink hover:border-brass-dark hover:shadow-[0_10px_22px_-16px_rgba(18,22,29,0.35)]",
       )}
     >
       <Icon
-        className="mt-0.5 h-5 w-5 shrink-0 text-zinc-300 transition-colors group-hover:text-white"
+        className={cn("mt-0.5 h-5 w-5 shrink-0", dark ? "text-brass" : "text-brass-dark")}
         aria-hidden="true"
       />
       <span className="min-w-0 flex-1">
         <span className="flex items-baseline justify-between gap-3">
-          <span className="font-semibold text-white">{c.name}</span>
-          <Count n={count} />
+          <span className="font-semibold">{c.name}</span>
+          <Count n={count} dark={dark} />
         </span>
         {note && (
-          <span className="mt-0.5 block text-sm leading-snug text-zinc-400">
+          <span
+            className={cn(
+              "mt-0.5 block text-sm leading-snug",
+              dark ? "!text-zinc-300" : "!text-ink-soft",
+            )}
+          >
             {c.blurb}
           </span>
         )}
@@ -119,28 +127,41 @@ function SectionHeader({
   title,
   description,
   eyebrow,
+  dark = false,
 }: {
   title: string;
   description: string;
-  eyebrow?: string;
+  eyebrow: string;
+  dark?: boolean;
 }) {
   return (
-    <div className="mb-4">
-      {eyebrow && (
-        <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-zinc-400">
-          {eyebrow}
-        </p>
-      )}
-      <h2 className="text-2xl font-bold text-white">{title}</h2>
-      <p className="mt-1 max-w-3xl text-[15px] text-zinc-300">{description}</p>
+    <div className="mb-6">
+      <p className="eyebrow">{eyebrow}</p>
+      <h2
+        className={cn(
+          "heading-display mt-3 text-3xl",
+          dark ? "text-white" : "text-ink",
+        )}
+      >
+        {title}
+      </h2>
+      <p
+        className={cn(
+          "mt-2 max-w-3xl text-[15px]",
+          dark ? "!text-zinc-300" : "!text-ink-soft",
+        )}
+      >
+        {description}
+      </p>
     </div>
   );
 }
 
 /**
- * /category discovery: three clearly different sections so a parent can tell
- * at a glance whether they are shopping for a service, researching talent
- * representation, or finding industry / on-set professionals.
+ * /category discovery: dark editorial header, then three clearly different
+ * bands so a parent can tell at a glance whether they are shopping for a
+ * service (warm white), researching representation (navy) or finding on-set
+ * professionals (tinted).
  */
 export function CategoryIndexView({ counts }: { counts: Record<string, number> }) {
   const n = (slug: string) => counts[slug] ?? 0;
@@ -153,22 +174,26 @@ export function CategoryIndexView({ counts }: { counts: Record<string, number> }
   );
 
   return (
-    <div className="min-h-screen bg-bg-dark">
-      <section className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8">
-        <header className="mb-10 max-w-3xl">
-          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+    <div>
+      <header className="surface-hero">
+        <div className="mx-auto w-full max-w-6xl px-5 pb-14 pt-12 sm:px-8 md:pt-16">
+          <p className="eyebrow">Categories</p>
+          <h1 className="heading-display mt-4 text-4xl text-white sm:text-5xl">
             Browse the Vendor Directory
           </h1>
-          <p className="mt-3 text-lg text-zinc-300">
+          <p className="mt-4 max-w-2xl text-lg !text-zinc-300">
             Looking for a service, talent representation, or industry and
             on-set professionals? Start here.
           </p>
-        </header>
+        </div>
+      </header>
 
-        {/* A. Services & Training */}
-        <section aria-labelledby="sec-services" className="mb-12">
+      {/* A. Services & Training */}
+      <section aria-labelledby="sec-services" className="surface-canvas">
+        <div className="mx-auto w-full max-w-6xl px-5 py-14 sm:px-8">
           <div id="sec-services">
             <SectionHeader
+              eyebrow="Services"
               title={services.title}
               description={services.description}
             />
@@ -183,35 +208,38 @@ export function CategoryIndexView({ counts }: { counts: Record<string, number> }
               <RowCard key={c.slug} c={c} count={n(c.slug)} />
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* B. Talent Representation: visibly separate from purchasable services */}
-        <section
-          aria-labelledby="sec-rep"
-          className="mb-12 rounded-2xl border border-white/20 bg-white/[0.05] p-5 sm:p-7"
-        >
+      {/* B. Talent Representation: visibly separate from purchasable services */}
+      <section aria-labelledby="sec-rep" className="surface-navy">
+        <div className="mx-auto w-full max-w-6xl px-5 py-14 sm:px-8">
           <div id="sec-rep">
             <SectionHeader
-              eyebrow="Find"
+              dark
+              eyebrow="Representation"
               title={representation.title}
               description={representation.description}
             />
           </div>
           <div className="grid gap-3 sm:grid-cols-3">
             {sectionPrimaries("representation").map((c) => (
-              <RowCard key={c.slug} c={c} count={n(c.slug)} note />
+              <RowCard key={c.slug} c={c} count={n(c.slug)} note dark />
             ))}
           </div>
-          <p className="mt-4 text-sm text-zinc-400">
+          <p className="mt-5 text-sm !text-zinc-400">
             Policies for contacting agencies and managers vary. Check each
             company’s own website.
           </p>
-        </section>
+        </div>
+      </section>
 
-        {/* C. Industry & On-Set Resources */}
-        <section aria-labelledby="sec-res">
+      {/* C. Industry & On-Set Resources */}
+      <section aria-labelledby="sec-res" className="surface-canvas-2">
+        <div className="mx-auto w-full max-w-6xl px-5 py-14 sm:px-8">
           <div id="sec-res">
             <SectionHeader
+              eyebrow="Resources"
               title={resources.title}
               description={resources.description}
             />
@@ -221,25 +249,24 @@ export function CategoryIndexView({ counts }: { counts: Record<string, number> }
               <RowCard key={c.slug} c={c} count={n(c.slug)} note />
             ))}
           </div>
-        </section>
-
-        <p className="mt-12 text-sm text-zinc-400">
-          Can’t find it here? Every listing is also searchable in the{" "}
-          <Link
-            href="/directory"
-            className="font-semibold !text-white underline underline-offset-4 hover:no-underline"
-          >
-            full directory
-          </Link>
-          , or you can{" "}
-          <Link
-            href="/suggest-vendor"
-            className="font-semibold !text-white underline underline-offset-4 hover:no-underline"
-          >
-            suggest a vendor
-          </Link>
-          .
-        </p>
+          <p className="mt-10 text-sm !text-ink-soft">
+            Can’t find it here? Every listing is also searchable in the{" "}
+            <Link
+              href="/directory"
+              className="font-semibold !text-brass-dark underline underline-offset-4"
+            >
+              full directory
+            </Link>
+            , or you can{" "}
+            <Link
+              href="/suggest-vendor"
+              className="font-semibold !text-brass-dark underline underline-offset-4"
+            >
+              suggest a vendor
+            </Link>
+            .
+          </p>
+        </div>
       </section>
     </div>
   );

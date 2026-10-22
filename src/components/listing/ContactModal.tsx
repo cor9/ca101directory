@@ -157,7 +157,7 @@ export function ContactModal({
             />
           )}
           <div className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#B8431F]">
+            <p className="text-xs font-semibold uppercase tracking-wider text-brass-dark">
               Contact
             </p>
             <h2
@@ -179,7 +179,7 @@ export function ContactModal({
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={onAction}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#C2441F] px-5 py-4 text-base font-bold !text-white transition-colors hover:bg-[#A93A19] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:ring-offset-2"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-ink px-5 py-4 text-base font-bold !text-white transition-colors hover:bg-ink-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:ring-offset-2"
                 >
                   <CalendarCheck className="h-5 w-5" aria-hidden="true" />
                   Book a Session
@@ -195,7 +195,7 @@ export function ContactModal({
                   className={rowClass}
                 >
                   <Mail
-                    className="h-5 w-5 shrink-0 text-[#B8431F]"
+                    className="h-5 w-5 shrink-0 text-brass-dark"
                     aria-hidden="true"
                   />
                   <span className="min-w-0">
@@ -229,7 +229,7 @@ export function ContactModal({
                   className={rowClass}
                 >
                   <Phone
-                    className="h-5 w-5 shrink-0 text-[#B8431F]"
+                    className="h-5 w-5 shrink-0 text-brass-dark"
                     aria-hidden="true"
                   />
                   <span className="min-w-0">
@@ -250,7 +250,7 @@ export function ContactModal({
                   className={rowClass}
                 >
                   <Globe
-                    className="h-5 w-5 shrink-0 text-[#B8431F]"
+                    className="h-5 w-5 shrink-0 text-brass-dark"
                     aria-hidden="true"
                   />
                   <span className="min-w-0">

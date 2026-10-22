@@ -6,7 +6,7 @@ import { constructMetadata } from "@/lib/metadata";
 import Link from "next/link";
 
 export const metadata = constructMetadata({
-  title: "Pricing Plans - List Your Business | Child Actor 101 Vendor Directory",
+  title: "Pricing Plans - Add Your Listing | Child Actor 101 Vendor Directory",
   description:
     "Choose between a Free Listing or a Pro Listing for $399/year. Get real visibility in the Child Actor 101 Vendor Directory with simple annual pricing.",
   canonicalUrl: `${siteConfig.url}/pricing`,
@@ -47,27 +47,28 @@ export default async function PricingPage() {
     : "/submit";
 
   return (
-    <div className="min-h-screen bg-bg-dark">
-      <section className="mx-auto max-w-5xl px-4 py-12 md:py-16">
-        <header className="mx-auto mb-12 max-w-3xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent-teal">
-            Pricing
-          </p>
-          <h1 className="mt-3 text-3xl font-semibold text-text-primary md:text-5xl">
+    <div className="bg-canvas-2">
+      <header className="surface-hero">
+        <div className="mx-auto max-w-4xl px-4 pb-24 pt-14 text-center md:pb-28 md:pt-20">
+          <p className="eyebrow">Pricing</p>
+          <h1 className="heading-display mt-4 text-4xl text-white md:text-6xl">
             Free to start. Pro when you want more reach.
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-base text-text-secondary md:text-lg">
-            List your business where parents are actively searching for trusted
+          <p className="mx-auto mt-5 max-w-2xl text-lg !text-zinc-300">
+            List your services where parents are actively searching for
             child-acting professionals. Start with a Free Listing or go straight
             to Pro for stronger visibility.
           </p>
-        </header>
+        </div>
+      </header>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          <section className="rounded-2xl border border-border-subtle bg-white p-6 shadow-card md:p-8">
+      <div className="surface-canvas flow-root">
+      <section className="mx-auto max-w-5xl px-4 pb-16 md:pb-20">
+        <div className="-mt-14 grid grid-cols-1 gap-8 md:grid-cols-2">
+          <section className="rounded-2xl border border-canvas-line bg-white p-6 shadow-[0_24px_48px_-28px_rgba(18,22,29,0.45)] md:p-8">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-semibold text-zinc-900">
+                <h2 className="heading-display text-3xl text-zinc-900">
                   Free Listing
                 </h2>
                 <p className="mt-2 text-sm text-zinc-700">
@@ -87,7 +88,7 @@ export default async function PricingPage() {
                   key={feature}
                   className="flex gap-3 text-sm text-zinc-700"
                 >
-                  <span className="mt-0.5 text-emerald-600">✓</span>
+                  <span className="mt-0.5 text-brass-dark">✓</span>
                   <span>{feature}</span>
                 </li>
               ))}
@@ -95,19 +96,19 @@ export default async function PricingPage() {
 
             <Link
               href="/submit"
-              className="mt-8 inline-flex w-full items-center justify-center rounded-md border border-zinc-300 bg-zinc-100 px-4 py-3 text-sm font-semibold text-zinc-900 transition-colors hover:border-accent-blue"
+              className="mt-8 inline-flex w-full items-center justify-center rounded-full border border-ink/30 bg-white px-4 py-3 text-sm font-semibold text-zinc-900 transition-colors hover:border-brass-dark"
             >
               Start Free Listing
             </Link>
           </section>
 
-          <section className="relative rounded-2xl border border-accent-blue/40 bg-white p-6 shadow-card md:p-8">
+          <section className="relative rounded-2xl border-2 border-brass bg-white p-6 shadow-[0_24px_48px_-28px_rgba(18,22,29,0.45)] md:p-8">
             <div className="absolute right-6 top-6 rounded-full bg-zinc-900 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-white">
               Pro
             </div>
 
             <div className="pr-16">
-              <h2 className="text-2xl font-semibold text-zinc-900">
+              <h2 className="heading-display text-3xl text-zinc-900">
                 Pro Listing
               </h2>
               <p className="mt-2 text-sm text-zinc-700">
@@ -130,7 +131,7 @@ export default async function PricingPage() {
                   key={feature}
                   className="flex gap-3 text-sm text-zinc-700"
                 >
-                  <span className="mt-0.5 text-[#E4572E]">✓</span>
+                  <span className="mt-0.5 text-brass-dark">✓</span>
                   <span>{feature}</span>
                 </li>
               ))}
@@ -138,7 +139,7 @@ export default async function PricingPage() {
 
             <Link
               href={proHref}
-              className="mt-8 inline-flex w-full items-center justify-center rounded-md bg-zinc-900 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#E4572E]"
+              className="mt-8 inline-flex w-full items-center justify-center rounded-full bg-ink px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-ink-2"
             >
               {existingListingId
                 ? "Checkout Pro Listing"
@@ -147,20 +148,23 @@ export default async function PricingPage() {
           </section>
         </div>
 
-        <p className="mt-10 text-center text-sm text-text-muted">
+        <p className="mt-10 text-center text-sm text-ink-soft">
           Cancel anytime. No contracts. Listings reviewed for quality.
         </p>
 
-        <section className="mt-16">
+      </section>
+      </div>
+
+      <section className="surface-canvas-2">
+        <div className="mx-auto max-w-4xl px-4 py-16">
           <div className="mb-8 text-center">
-            <h2 className="text-2xl font-semibold text-text-primary">
-              Frequently Asked Questions
+            <p className="eyebrow">Questions</p>
+            <h2 className="heading-display mt-3 text-3xl text-ink">
+              Frequently asked questions
             </h2>
           </div>
-          <div className="mx-auto max-w-4xl">
-            <PricingFaq />
-          </div>
-        </section>
+          <PricingFaq />
+        </div>
       </section>
     </div>
   );

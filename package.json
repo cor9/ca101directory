@@ -27,6 +27,7 @@
     "format": "biome format --write .",
     "typegen": "sanity schema extract && sanity typegen generate",
     "email": "email dev --dir emails --port 3333",
+    "test:checkout-session": "tsx scripts/test-checkout-session.ts",
     "test:commission": "tsx scripts/test-commission.ts",
     "test:vendor-authorization": "tsx scripts/test-vendor-authorization.ts",
     "test:webhook-and-ownership": "tsx scripts/test-webhook-and-ownership.ts",

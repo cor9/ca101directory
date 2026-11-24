@@ -146,7 +146,7 @@ export default function PlanSelectionPage() {
             type="button"
             onClick={handleUpgradeToPro}
             disabled={isLoading}
-            className="inline-block w-full bg-primary hover:opacity-90 disabled:opacity-50 text-primary-foreground font-bold py-3 px-6 rounded-lg transition-colors"
+            className="inline-block w-full bg-zinc-900 hover:bg-zinc-800 disabled:opacity-50 text-white font-bold py-3 px-6 rounded-lg transition-colors"
           >
             {isLoading ? "Redirecting to checkout..." : "Upgrade to Pro →"}
           </button>

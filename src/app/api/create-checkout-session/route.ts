@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { createProCheckoutSession } from "@/lib/billing/checkout-session";
 import { canPurchaseProForListing } from "@/lib/listings/listing-ownership";
 import { createServerClient } from "@/lib/supabase";
 import { verifyClaimToken } from "@/lib/tokens";
@@ -150,24 +151,17 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const checkoutSession = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      ...(customerId ? { customer: customerId } : {}),
-      ...(session.user.email ? { customer_email: session.user.email } : {}),
-      line_items: [{ price: PRO_ANNUAL_PRICE_ID, quantity: 1 }],
-      mode: "subscription",
-      allow_promotion_codes: true,
-      success_url: successUrl,
-      cancel_url: cancelUrl,
-      client_reference_id: listingId,
-      metadata: {
-        vendor_id: session.user.id,
-        listing_id: listingId,
-        plan: "pro",
-        ...(flow ? { flow } : {}),
-        ...(token ? { claim_token: token } : {}),
-        ...(repCode ? { rep_code: repCode } : {}),
-      },
+    const checkoutSession = await createProCheckoutSession(stripe, {
+      priceId: PRO_ANNUAL_PRICE_ID,
+      customerId,
+      email: session.user.email,
+      successUrl,
+      cancelUrl,
+      listingId,
+      vendorId: session.user.id,
+      flow,
+      token,
+      repCode,
     });
 
     return NextResponse.json({ url: checkoutSession.url });
